@@ -1,0 +1,4 @@
+{
+    "smsurl": "http://41.72.203.166/sms_api_staging/api/sendBulkSms",
+    "subsnme":"eduweb"
+}

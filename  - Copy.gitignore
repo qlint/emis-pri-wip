@@ -1,0 +1,8 @@
+api/vendor/*
+api/public/web.config
+src/assets/schools/*
+src/assets/students/*
+src/assets/posts/*
+.sass-cache
+node_modules
+package.json

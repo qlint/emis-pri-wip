@@ -1,4 +1,4 @@
-<form name="examForm" class="form-horizontal modalForm" method="post" novalidate ng-submit="save(examForm)">		
+<form name="examForm" class="form-horizontal modalForm" method="post" novalidate ng-submit="save(examForm)">
 	<div class="modal-header dialog-header-form">
 				<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 				<h4 class="modal-title"><span class="glyphicon glyphicon-plus"></span> Add Exam Marks</h4>
@@ -6,66 +6,73 @@
 			<div class="modal-body clearfix">
 
 				<!-- search form -->
-				<div class="modalDataFilter clearfix">	
+				<div class="modalDataFilter clearfix">
 					<!-- class select -->
 					<div class="form-group">
-						<label for="class">Class</label>	
+						<label for="class">Class</label>
 						<select name="class_id" class="form-control" ng-options="class.class_name for class in classes track by class.class_id" ng-model="filters.class" required>
 							<option value="">--select class--</option>
-						</select>	
+						</select>
 						<p ng-show="examForm.class_id.$invalid && (examForm.class_id.$touched || examForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> Class is required.</p>
-					</div>		
+					</div>
 
 					<!-- term select -->
 					<div class="form-group">
-						<label for="term">Term</label>	
+						<label for="term">Term</label>
 						<select name="term_id" class="form-control" ng-options="item.term_id as item.term_year_name for item in terms" ng-model="filters.term_id" required>
 							<option value="">--select term--</option>
-						</select>	
+						</select>
 						<p ng-show="examForm.term_id.$invalid && (examForm.term_id.$touched || examForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> Term is required.</p>
-					</div>	
-					
+					</div>
+
 					<!-- exam select -->
 					<div class="form-group">
-						<label for="exam_type">Exam</label>	
+						<label for="exam_type">Exam</label>
 						<select name="exam_type" class="form-control" ng-options="exam.exam_type_id as exam.exam_type for exam in examTypes" ng-model="filters.exam_type_id" required>
-							<option value="">All Exams</option>				
+							<option value="">All Exams</option>
 						</select>
 						<p ng-show="examForm.exam_type.$invalid && (examForm.exam_type.$touched || examForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> Exam Type is required.</p>
-					</div>	
-					
+					</div>
+
 					<!-- search btn -->
 					<div class="form-group submit-btn">
 						<input type="button" class="btn btn-sm btn-info" ng-click="getStudentExams(examForm)" value="Load" />
 						<span ng-show="loading" class="fa fa-spinner fa-pulse"></span>
-					</div>					
+					</div>
 				</div>
 				<!-- // end search form -->
-				
+
 				<p ng-show="marksNotFound" class="error alert alert-danger">
 					{{errMsg}}
 				</p>
-				
-				<table ng-show="!marksNotFound" id="resultsTable2" class="display dataTable" cellspacing="0" width="100%">
-					<thead>
-						<tr>
-							<th>Student</th>
-							<th class="center" ng-repeat="col in subjects">{{col.subject_name}}</th>
-						</tr>
-					</thead>	
-					<tbody>
-						<tr ng-repeat="item in examMarks track by $index">
-							<td id="{{item.student_id}}">{{item.student_name}}</td>
-							<td class="center td-form-control-add-on" ng-repeat="col in subjects">
-								<input type="text" class="form-control" ng-model="item.marks[col.subject_name].mark" numeric-only ng-change="calculateParentSubject(item.marks,{{item.marks[col.subject_name]}})" ng-model-options="{ debounce: 500 }" ng-disabled="item.marks[col.subject_name].is_parent" />
-								<div class="input-group-addon">/{{item.marks[col.subject_name].grade_weight}}</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div>
+						<table ng-show="!marksNotFound" id="resultsTable2" class="display dataTable tableSection" cellspacing="0" width="100%" media="print">
+							<thead>
+								<tr>
+									<th class="text">Student</th>
+									<th class="center text moremargin" ng-repeat="col in subjects">{{col.subject_name}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in examMarks track by $index">
+									<td id="{{item.student_id}}">{{item.student_name}}</td>
+									<td class="center td-form-control-add-on" ng-repeat="col in subjects">
+										<input type="text" class="form-control" ng-model="item.marks[col.subject_name].mark" numeric-only ng-change="calculateParentSubject(item.marks,{{item.marks[col.subject_name]}})" ng-model-options="{ debounce: 500 }" ng-disabled="item.marks[col.subject_name].is_parent" />
+										<div class="input-group-addon">/{{item.marks[col.subject_name].grade_weight}}</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+				</div>
 			</div>
 			<div class="modal-footer">
+				<button type="button" class="btn btn-link" onclick="printThis()">Print</button>
 				<button type="button" class="btn btn-link" ng-click="cancel()">Cancel</button>
 				<button type="submit" class="btn btn-primary">Save</button>
 			</div>
+			<script type="text/javascript">
+				function printThis(){
+					window.print();
+				}
+			</script>
 </form>

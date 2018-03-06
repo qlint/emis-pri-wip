@@ -1,0 +1,155 @@
+<!doctype html>
+<html ng-app="eduwebApp" ng-strict-di>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Attachments</title>
+		<link rel="shortcut icon" href="assets/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="assets/css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/component.css" />
+		<script src="assets/js/modernizr.custom.js"></script>
+		<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+	  <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+		<script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+		<script type="text/javascript" src="components/ui-grid/ui-grid.js"></script>
+	</head>
+	<body>
+		<div class="container" id="page-wrap" adjust-for-small-screen>
+
+			<header class="clearfix">
+				<span>{{currentUser.settings['School Name'] || 'Eduweb'}} <span class="bp-icon bp-icon-about" data-content="These are your attachments for this current message only. These files will be stored on the cloud for a week's duration only. Be sure to save critical attachments."></span></span>
+				<h1 id="theparent"></h1>
+				<nav>
+					<a href="javascript:window.open('','_self').close();" class="bp-icon bp-icon-prev" data-info="Back To Message"><span>Back</span></a>
+					<a href="#" class="bp-icon bp-icon-archive" data-info="Download Everything"><span>Download Everything</span></a>
+				</nav>
+			</header>
+					<div id="grid-gallery" class="grid-gallery">
+						<section class="grid-wrap">
+							<ul class="grid" id="insert1">
+								<li class="grid-sizer"></li><!-- for Masonry column width -->
+								<!-- <li>
+									<figure>
+										<img src="assets/img/thumb/1.png" alt="img01"/>
+										<figcaption><h3>Letterpress asymmetrical</h3></figcaption>
+									</figure>
+								</li> -->
+							</ul>
+						</section><!-- // grid-wrap -->
+						<section class="slideshow">
+							<ul id="insert2">
+								<!-- <li>
+									<figure>
+										<figcaption>
+											<h3>Letterpress asymmetrical</h3>
+										</figcaption>
+										<img src="assets/img/large/1.png" alt="img01"/>
+									</figure>
+								</li> -->
+							</ul>
+							<nav>
+								<span class="icon nav-prev"></span>
+								<span class="icon nav-next"></span>
+								<span class="icon nav-close"></span>
+							</nav>
+							<div class="info-keys icon">Navigate with arrow keys</div>
+						</section><!-- // slideshow -->
+					</div><!-- // grid-gallery -->
+		</div>
+		<script src="assets/js/imagesloaded.pkgd.min.js"></script>
+		<script src="assets/js/masonry.pkgd.min.js"></script>
+		<script src="assets/js/classie.js"></script>
+		<script src="assets/js/cbpGridGallery.js"></script>
+		<script>
+			new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
+		</script>
+		<script type="text/javascript">
+			var prntName = localStorage.getItem("theParentName");
+			var attList = localStorage.getItem("attachmentsList");
+			console.log(prntName);
+			console.log(attList);
+			document.getElementById('theparent').innerHTML = prntName +"'s Attachments";
+
+			var names = attList.split(',');
+			names.forEach(function(name){
+				var liElement = document.createElement('li');
+				document.getElementById('insert1').appendChild(liElement);
+				var figElement = document.createElement('figure');
+				liElement.appendChild(figElement);
+				var imgElement = document.createElement('img');
+				figElement.appendChild(imgElement);
+				imgElement.src = "assets/posts/"+name;
+				imgElement.className = "defaultImgs";
+				var figcaptionElement = document.createElement('figcaption');
+				figElement.appendChild(figcaptionElement);
+				var h3Element = document.createElement('h3');
+				figcaptionElement.appendChild(h3Element);
+				var anchorElement = document.createElement('a');
+				h3Element.appendChild(anchorElement);
+				anchorElement.innerHTML = name.slice(14,-4);
+				anchorElement.href = "assets/posts/"+name;
+				anchorElement.target="_blank";
+				var liElement2 = document.createElement('li');
+				document.getElementById('insert2').appendChild(liElement2);
+				var figElement2 = document.createElement('figure');
+				liElement2.appendChild(figElement2);
+				var figcaptionElement2 = document.createElement('figcaption');
+				figElement2.appendChild(figcaptionElement2);
+				var h3Element2 = document.createElement('h3');
+				figcaptionElement2.appendChild(h3Element2);
+				h3Element2.innerHTML = name.slice(14,-4);
+				var imgElement2 = document.createElement('img');
+				figElement2.appendChild(imgElement2);
+				imgElement2.src = "assets/posts/"+name;
+
+				// var extensions = name.split('.').pop();
+				// console.log(extensions);
+				// if (extensions == 'jpg' || 'JPG' || 'png' || 'PNG' || 'gif' || 'GIF' || 'jpeg' || 'JPEG') {
+				//     imgElement.src = "assets/posts/"+name;
+				// }
+				// else if (extensions == 'mp4' || 'MP4' || 'wmv' || 'WMV' || 'avi' || 'AVI' || 'mov' || 'MOV') {
+				//     imgElement.src = "assets/img/video2.png";
+				// } else if (extensions == 'pdf') {
+				//     imgElement.src = "assets/img/pdf-icon2.png";
+				// } else if (extensions = 'xls' || 'XLS' || 'xlsx' || 'XLSX' || 'csv' || 'CSV') {
+				//     imgElement.src == "assets/img/xls.png";
+				// }
+				if (name.split('.').pop() == 'mp4') imgElement.src = "assets/img/video2.png";
+				if (name.split('.').pop() == 'pdf') imgElement.src = "assets/img/pdf-icon2.png";
+				if (name.split('.').pop() == 'xls') imgElement.src = "assets/img/xls.png";
+
+			});
+
+		</script>
+		<script type="text/javascript" src="min/dependencies.min.js"></script>
+		<script type="text/javascript" src="components/datatables.js"></script>
+		<script type="text/javascript" src="components/trix.js"></script>
+		<script type="text/javascript" src="components/angular-trix.min.js"></script>
+		<!--script type="text/javascript" src="min/app.min.js"></script>-->
+
+		<script type="text/javascript" src="app/app.js"></script>
+		<script type="text/javascript" src="app/routing.js"></script>
+
+		<!--FACTORY -->
+		<script type="text/javascript" src="services/authInterceptor.js"></script>
+
+		<!--DIRECTIVES-->
+		<script type="text/javascript" src="app/directive.js"></script>
+
+		<!--CONTROLLERS -->
+		<script type="text/javascript" src="app/globalFunctions.js"></script>
+		<script type="text/javascript" src="app/landingCtrl.js"></script>
+		<script type="text/javascript" src="app/communications/listPostsCtrl.js"></script>
+		<script type="text/javascript" src="app/communications/postFormCtrl.js"></script>
+		<script type="text/javascript" src="app/communications/previewPostCtrl.js"></script>
+		<script type="text/javascript" src="app/communications/listEmailsCtrl.js?v=2"></script>
+		<script type="text/javascript" src="app/login.js"></script>
+
+		<!--SERVICES -->
+		<script type="text/javascript" src="services/auth.js"></script>
+		<script type="text/javascript" src="services/session.js"></script>
+		<script type="text/javascript" src="services/AjaxServices.js"></script>
+		<script type="text/javascript" src="services/apiServices.js"></script>
+	</body>
+</html>

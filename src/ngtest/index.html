@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Angular Tests</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+    <div ng-app="myApp" ng-controller="myCtrl as main">
+      <div>
+        <p>change this dropdown to update all the dropdown in one go</p>
+        <div dropdown="ratings" ng-model="myrating" ng-change="main.myratingChanged(myrating)" ng-init="myrating=''"></div>
+      </div>
+      <hr>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="record in main.data">
+            <td>{{record.name}}</td>
+            <td>
+              <div dropdown="ratings" ng-model="record.rating"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+	</body>
+</html>

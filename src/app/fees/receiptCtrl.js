@@ -7,43 +7,48 @@ function($scope, $rootScope, $uibModalInstance, apiService, data){
 	$scope.payment = data.payment;
 	$scope.student = data.student;
 	$scope.feeItems = data.feeItems;
-	
-	
+
+
 	var initializeController = function()
 	{
 		apiService.getStudentBalance($scope.student.student_id, function(response,status)
 		{
 			$scope.loading = false;
 			var result = angular.fromJson(response);
-			
+
 			if( result.response == 'success' && result.nodata === undefined )
 			{
 				$scope.feeSummary = angular.copy(result.data.fee_summary);
 			}
-			
+
 			apiService.getPaymentDetails($scope.payment.payment_id, loadPaymentDetails, apiError);
 		}, apiError);
-		
-		
+
+
 	}
 	setTimeout(initializeController,1);
-	
+
 	$scope.cancel = function()
 	{
-		$uibModalInstance.dismiss('canceled');  
+		$uibModalInstance.dismiss('canceled');
 	}; // end cancel
-	
+
 	var loadPaymentDetails = function(response, status)
 	{
 		var result = angular.fromJson(response);
-			
+
 		if( result.response == 'success')
 		{
 			var results = ( result.nodata ? {} : result.data );
-			
+
 			$scope.paymentDetails = results.paymentItems;
+			$scope.payment.slip_cheque_no = results.payment.slip_cheque_no;
+			$scope.payment.payment_method = results.payment.payment_method;
+			console.log(results.payment);
+			console.log($scope.payment.payment_method);
+
 			var invoiceItems = results.invoice;
-			
+
 			if( invoiceItems.length > 0 )
 			{
 				var termName = invoiceItems[0].term_name;
@@ -59,8 +64,8 @@ function($scope, $rootScope, $uibModalInstance, apiService, data){
 				$scope.balanceDue = $scope.payment.amount - invoiceTotal;
 				*/
 			}
-			
-			
+
+
 			$scope.paymentItems = [];
 			if( $scope.paymentDetails.length > 0 )
 			{
@@ -91,12 +96,12 @@ function($scope, $rootScope, $uibModalInstance, apiService, data){
 					cts: amt[1]
 				});
 			}
-			
+
 			// is there a credit
 			if( $scope.feeSummary )
 			{
 				$scope.balanceDue = $scope.feeSummary.balance;
-				
+
 				if( parseFloat($scope.feeSummary.total_credit) > 0 )
 				{
 					$scope.hasCredit = true;
@@ -112,7 +117,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, data){
 			$scope.errMsg = result.data;
 		}
 	}
-	
+
 	$scope.print = function()
 	{
 		var criteria = {
@@ -132,17 +137,17 @@ function($scope, $rootScope, $uibModalInstance, apiService, data){
 		}
 
 		var domain = window.location.host;
-		var newWindowRef = window.open('http://' + domain + '/#/fees/receipt/print');
+		var newWindowRef = window.open('http://localhost:8008/highschool/#/fees/receipt/print');
 		newWindowRef.printCriteria = criteria;
 	}
-	
-	var apiError = function (response, status) 
+
+	var apiError = function (response, status)
 	{
 		var result = angular.fromJson( response );
 		$scope.error = true;
 		$scope.errMsg = result.data;
 	}
-	
-	
-	
+
+
+
 } ]);

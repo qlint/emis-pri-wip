@@ -3,22 +3,29 @@
 <head>
 
 <title>Eduweb MIS</title>
-	
+
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 
 	<!-- Dependencies CSS -->
-    <link type="text/css" href="min/css/dependencies.min.css" rel="stylesheet">	
+    <link type="text/css" href="min/css/dependencies.min.css" rel="stylesheet">
 	<link type="text/css" href="components/ui-grid/ui-grid.min.css" rel="stylesheet">
-	<link type="text/css" href="components/css/trix.css" rel="stylesheet">	
+	<link type="text/css" href="components/css/trix.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/template.css" rel="stylesheet">
-	
+
 	<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
 	<script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 	<script type="text/javascript" src="components/ui-grid/ui-grid.js"></script>
-	
+	<script src="components/angular-file-upload2.min.js"></script>
+  <script src="app/communications/upload-controllers.js"></script>
+	<script src="components/upload-directives.js"></script>
+	<script type="text/javascript" src="http://www.chartjs.org/assets/Chart.js"></script>
+	<script type="text/javascript" src="components/Chart.min.js"></script>
+	<script type="text/javascript" src="components/html2canvas.min.js"></script>
+
+
 </head>
 <body class="{{activeSection}} {{activeSubSection}} {{activeSubSubSection}}" ng-class="{printing: isPrinting, printModal: isPrintModal, printReceipt: isPrintReceipt, mobile: isSmallScreen}" ng-controller="ParentController" ng-cloak>
 
@@ -32,138 +39,137 @@
 				<button ng-show="loggedIn" type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="mainnav" data-target="#navigation" ng-click="menuOn=!menuOn">
 					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				
+
 				<div class="navbar-brand">
-					<img src="{{ (currentUser.settings.logo !== undefined ?'assets/schools/' + currentUser.settings.logo : '/assets/eduweb-logo-lg.png' )}}" title="{{currentUser.settings['School Name'] || 'Eduweb'}}" class="brand" /> 
-					<span>{{currentUser.settings['School Name'] || 'Eduweb MIS Login'}}</span>					
+					<img src="{{ (currentUser.settings.logo !== undefined ?'assets/schools/' + currentUser.settings.logo : '/assets/eduweb-logo-lg.png' )}}" title="{{currentUser.settings['School Name'] || 'Eduweb'}}" class="brand" />
+					<span>{{currentUser.settings['School Name'] || 'Eduweb MIS Login'}}</span>
 				</div>
 				<div ng-show="loggedIn">
 					<div class="navbar-right collapse navbar-collapse" id="navtopright">
 						<div class="poweredby-branding pull-right">
 							<p>Powered by</p>
-							<img src="/assets/eduweb-logo-sm.png" title="Eduweb" class="brand2" /> 
+							<img src="/assets/eduweb-logo-sm.png" title="Eduweb" class="brand2" />
 						</div>
 						<div class="user-nav pull-right">
 							<div id="welcome-msg">Welcome {{ currentUser.first_name + ' ' + (currentUser.middle_name || '')  + ' ' + currentUser.last_name }}</div>
-							
+
 							<ul class="nav navbar-nav">
 								<li ng-show="manageUsers">
-									<a ui-sref="users">Manage Users</a>					
+									<a ui-sref="users">Manage Users</a>
 								</li>
 								<li>
-									<a ng-click="updatePassword()">Change Password</a>					
+									<a ng-click="updatePassword()">Change Password</a>
 								</li>
 								<li>
-									<a ng-click="logout()">Log Out</a>					
+									<a ng-click="logout()">Log Out</a>
 								</li>
 							</ul>
-													
-						</div>						
+
+						</div>
 					</div>
 				</div>
 
-				
-				<!-- Collect the nav links, forms, and other content for toggling -->	
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div ng-show="loggedIn && !isSmallScreen">
 					<div class="mainNav collapse navbar-collapse">
 						<ul class="nav navbar-nav">
 							<li ng-class="{active: item.section == activeSection}" ng-repeat="item in navItems">
-								<a ui-sref="{{item.id}}">{{item.label}}</a>					
-							</li>							
+								<a ui-sref="{{item.id}}">{{item.label}}</a>
+							</li>
 							<li ng-if="isSmallScreen" ng-show="manageUsers" ng-class="{active: item.section == activeSection}">
-								<a ui-sref="users">Manage Users</a>					
+								<a ui-sref="users">Manage Users</a>
 							</li>
 							<li ng-if="isSmallScreen" class="indent" ng-class="{active: item.section == activeSection}">
-								<a ng-click="updatePassword()">Change Password</a>					
+								<a ng-click="updatePassword()">Change Password</a>
 							</li>
 							<li ng-if="isSmallScreen" class="indent">
-								<a ng-click="logout()">Log Out</a>					
+								<a ng-click="logout()">Log Out</a>
 							</li>
 						</ul>
-						
+
 					</div>
 				</div>
-				
-				<!-- /.navbar-collapse -->	
-					
+
+				<!-- /.navbar-collapse -->
+
 			</div>
-				
+
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
-	
-	<!-- /.navbar-collapse -->	
+
+	<!-- /.navbar-collapse -->
     <div id="mainContainer" class="container-fluid">
         <div id="body" class="full-height">
 			<div ui-view class="full-height" ng-cloak></div>
 		</div><!-- /.body-->
       </div><!-- /.mainContainer-->
 	</div><!-- /.page-wrap-->
-	
-	
+
 	<script type="text/javascript" src="min/dependencies.min.js"></script>
 	<script type="text/javascript" src="components/datatables.js"></script>
-	<script type="text/javascript" src="components/trix.js"></script>	
-	<script type="text/javascript" src="components/angular-trix.min.js"></script>	
+	<script type="text/javascript" src="components/trix.js"></script>
+	<script type="text/javascript" src="components/angular-trix.min.js"></script>
 	<!--script type="text/javascript" src="min/app.min.js"></script>-->
-	
+
 	<script type="text/javascript" src="app/app.js"></script>
-	<script type="text/javascript" src="app/routing.js"></script>	
+	<script type="text/javascript" src="app/routing.js"></script>
 
 	<!--FACTORY -->
 	<script type="text/javascript" src="services/authInterceptor.js"></script>
-	
+
 	<!--DIRECTIVES-->
 	<script type="text/javascript" src="app/directive.js"></script>
 
-	<!--CONTROLLERS -->	
+	<!--CONTROLLERS -->
 	<script type="text/javascript" src="app/globalFunctions.js"></script>
 	<script type="text/javascript" src="app/parentController.js"></script>
 	<script type="text/javascript" src="app/landingCtrl.js"></script>
 	<script type="text/javascript" src="app/dashboardCtrl.js"></script>
-	<script type="text/javascript" src="app/students/listStudentsCtrl.js"></script>	
-	<script type="text/javascript" src="app/students/addStudentCtrl.js"></script>	
-	<script type="text/javascript" src="app/students/viewStudentCtrl.js"></script>	
-	<script type="text/javascript" src="app/students/promoteStudentsCtrl.js"></script>	
-	<script type="text/javascript" src="app/staff/listStaffCtrl.js"></script>	
-	<script type="text/javascript" src="app/staff/addEmployeeCtrl.js"></script>	
+	<script type="text/javascript" src="app/students/listStudentsCtrl.js"></script>
+	<script type="text/javascript" src="app/students/addStudentCtrl.js"></script>
+	<script type="text/javascript" src="app/students/viewStudentCtrl.js"></script>
+	<script type="text/javascript" src="app/students/promoteStudentsCtrl.js"></script>
+	<script type="text/javascript" src="app/staff/listStaffCtrl.js"></script>
+	<script type="text/javascript" src="app/staff/addEmployeeCtrl.js"></script>
 	<script type="text/javascript" src="app/staff/viewEmployeeCtrl.js"></script>
-	<script type="text/javascript" src="app/fees/paymentFormCtrl.js"></script>	
-	<script type="text/javascript" src="app/fees/feesDashboardCtrl.js"></script>	
-	<script type="text/javascript" src="app/fees/openingBalancesCtrl.js"></script>	
-	<script type="text/javascript" src="app/fees/invoicesCtrl.js"></script>	
-	<script type="text/javascript" src="app/fees/invoiceCtrl.js"></script>	
+	<script type="text/javascript" src="app/fees/paymentFormCtrl.js"></script>
+	<script type="text/javascript" src="app/fees/feesDashboardCtrl.js"></script>
+	<script type="text/javascript" src="app/fees/openingBalancesCtrl.js"></script>
+	<script type="text/javascript" src="app/fees/invoicesCtrl.js"></script>
+	<script type="text/javascript" src="app/fees/invoiceCtrl.js"></script>
 	<script type="text/javascript" src="app/fees/printInvoiceCtrl.js"></script>
-	<script type="text/javascript" src="app/fees/invoiceFormCtrl.js"></script>	
+	<script type="text/javascript" src="app/fees/invoiceFormCtrl.js"></script>
 	<script type="text/javascript" src="app/fees/invoiceWizardCtrl.js"></script>
-	<script type="text/javascript" src="app/fees/invoiceDetailsCtrl.js"></script>	
-	<script type="text/javascript" src="app/fees/paymentsReceivedCtrl.js"></script>	
-	<script type="text/javascript" src="app/fees/paymentDetailsCtrl.js"></script>	
-	<script type="text/javascript" src="app/fees/feeStructureCtrl.js"></script>	
-	<script type="text/javascript" src="app/fees/feeItemFormCtrl.js"></script>	
+	<script type="text/javascript" src="app/fees/invoiceDetailsCtrl.js"></script>
+	<script type="text/javascript" src="app/fees/paymentsReceivedCtrl.js"></script>
+	<script type="text/javascript" src="app/fees/paymentDetailsCtrl.js"></script>
+	<script type="text/javascript" src="app/fees/feeStructureCtrl.js"></script>
+	<script type="text/javascript" src="app/fees/feeItemFormCtrl.js"></script>
 	<script type="text/javascript" src="app/fees/receiptCtrl.js"></script>
 	<script type="text/javascript" src="app/fees/printReceiptCtrl.js"></script>
 	<script type="text/javascript" src="app/fees/printStatementCtrl.js"></script>
-	<script type="text/javascript" src="app/school/departmentsCtrl.js"></script>	
-	<script type="text/javascript" src="app/school/departmentFormCtrl.js"></script>	
-	<script type="text/javascript" src="app/school/gradingCtrl.js"></script>	
-	<script type="text/javascript" src="app/school/datesCtrl.js"></script>	
-	<script type="text/javascript" src="app/school/datesFormCtrl.js"></script>	
-	<script type="text/javascript" src="app/school/subjectsCtrl.js"></script>	
+	<script type="text/javascript" src="app/school/departmentsCtrl.js"></script>
+	<script type="text/javascript" src="app/school/departmentFormCtrl.js"></script>
+	<script type="text/javascript" src="app/school/gradingCtrl.js"></script>
+	<script type="text/javascript" src="app/school/datesCtrl.js"></script>
+	<script type="text/javascript" src="app/school/datesFormCtrl.js"></script>
+	<script type="text/javascript" src="app/school/subjectsCtrl.js"></script>
 	<script type="text/javascript" src="app/school/subjectFormCtrl.js"></script>
-	<script type="text/javascript" src="app/school/classesCtrl.js"></script>	
+	<script type="text/javascript" src="app/school/classesCtrl.js"></script>
 	<script type="text/javascript" src="app/school/classFormCtrl.js"></script>
 	<script type="text/javascript" src="app/school/schoolSettingsCtrl.js"></script>
 	<script type="text/javascript" src="app/school/gradingFormCtrl.js"></script>
 	<script type="text/javascript" src="app/exams/listExamsCtrl.js"></script>
-	<script type="text/javascript" src="app/exams/addExamMarksCtrl.js"></script>	
-	<script type="text/javascript" src="app/exams/examTypesCtrl.js"></script>	
-	<script type="text/javascript" src="app/exams/reportCardCtrl.js"></script>	
-	<script type="text/javascript" src="app/exams/printReportCardCtrl.js"></script>	
-	<script type="text/javascript" src="app/exams/listReportCardsCtrl.js"></script>	
+	<script type="text/javascript" src="app/exams/addExamMarksCtrl.js"></script>
+	<script type="text/javascript" src="app/exams/examTypesCtrl.js"></script>
+	<script type="text/javascript" src="app/exams/reportCardCtrl.js?v=5"></script>
+	<script type="text/javascript" src="app/exams/printReportCardCtrl.js"></script>
+	<script type="text/javascript" src="app/exams/listReportCardsCtrl.js"></script>
 	<script type="text/javascript" src="app/exams/classAnalysisReportCtrl.js"></script>
-	<script type="text/javascript" src="app/exams/printClassAnalysisCtrl.js"></script>	
-	<script type="text/javascript" src="app/users/listUsersCtrl.js"></script>	
+	<script type="text/javascript" src="app/exams/printClassAnalysisCtrl.js"></script>
+	<script type="text/javascript" src="app/users/listUsersCtrl.js"></script>
 	<script type="text/javascript" src="app/users/userFormCtrl.js"></script>
 	<script type="text/javascript" src="app/communications/listPostsCtrl.js"></script>
 	<script type="text/javascript" src="app/communications/listHomeworkCtrl.js"></script>
@@ -171,15 +177,15 @@
 	<script type="text/javascript" src="app/communications/previewPostCtrl.js"></script>
 	<script type="text/javascript" src="app/communications/listEmailsCtrl.js"></script>
 	<script type="text/javascript" src="app/login.js"></script>
-	
+
 	<!--SERVICES -->
 	<script type="text/javascript" src="services/auth.js"></script>
 	<script type="text/javascript" src="services/session.js"></script>
 	<script type="text/javascript" src="services/AjaxServices.js"></script>
 	<script type="text/javascript" src="services/apiServices.js"></script>
 
-	
-	
-	
+
+
+
 </body>
 </html>

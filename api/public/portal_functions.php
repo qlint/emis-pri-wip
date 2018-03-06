@@ -21,11 +21,11 @@ $app->post('/parentLogin', function () use($app) {
     $result = $sth->fetch(PDO::FETCH_OBJ);
 
     if($result) {
-      
+
       // get the parents' students and add to result
-      $sth1 = $db->prepare("SELECT student_id, subdomain, dbusername, dbpassword 
-                            FROM parent_students 
-                            WHERE parent_id = :parentId 
+      $sth1 = $db->prepare("SELECT student_id, subdomain, dbusername, dbpassword
+                            FROM parent_students
+                            WHERE parent_id = :parentId
                             ORDER BY subdomain");
       $sth1->execute(array(':parentId' => $result->parent_id));
       $students = $sth1->fetchAll(PDO::FETCH_OBJ);
@@ -52,7 +52,7 @@ $app->post('/parentLogin', function () use($app) {
                     WHERE student_id = :studentId");
         $sth3->execute(array(':studentId' => $student->student_id));
         $details = $sth3->fetch(PDO::FETCH_OBJ);
-        
+
         if( $details ) {
           $details->school = $student->subdomain;
 
@@ -94,7 +94,6 @@ $app->post('/parentLogin', function () use($app) {
                   WHERE communications.student_id = any(:studentIds) OR communications.student_id is null
                   AND communications.post_status_id = 1
                   AND (communications.class_id = any(select current_class from app.students where student_id = any(:studentIds)) OR communications.class_id is null)
-                  AND date_part('year',communications.creation_date) = date_part('year',now())
                   ORDER BY creation_date desc");
 
         $studentsArray = "{" . implode(',',$students) . "}";
@@ -178,7 +177,7 @@ $app->post('/updateDeviceUserId', function () use($app) {
     $sth->execute( array(':parentId' => $parentId, ':deviceUserId' => $deviceUserId) );
 
     $db = null;
-    
+
     $app->response->setStatus(200);
     $app->response()->headers->set('Content-Type', 'application/json');
     echo json_encode(array("response" => "success", "code" => 1));
@@ -225,7 +224,7 @@ $app->get('/getParentStudents/:parent_id', function ($parentId){
                   WHERE student_id = :studentId");
       $sth3->execute(array(':studentId' => $student->student_id));
       $details = $sth3->fetch(PDO::FETCH_OBJ);
-      if($details){      
+      if($details){
         $details->school = $student->subdomain;
 
         if( $details->student_id !== null )
@@ -266,7 +265,6 @@ $app->get('/getParentStudents/:parent_id', function ($parentId){
                 WHERE (communications.student_id = any(:studentIds) OR communications.student_id is null)
                 AND communications.post_status_id = 1
                 AND (communications.class_id = any(select current_class from app.students where student_id = any(:studentIds)) OR communications.class_id is null)
-                AND date_part('year',communications.creation_date) = date_part('year',now())
                 ORDER BY creation_date desc");
 
       $studentsArray = "{" . implode(',',$students) . "}";
@@ -442,7 +440,7 @@ $app->get('/getBlog/:school/:student_id(/:pageNumber)', function ($school, $stud
 
       $count = $sth1->fetch(PDO::FETCH_OBJ);
       $posts = $sth2->fetchAll(PDO::FETCH_OBJ);
-      
+
       $pagination = new stdClass();
       $pagination->page = $pageNumber;
       $pagination->perPage = $limit;
@@ -697,7 +695,6 @@ $app->get('/getStudentBalancePortal/:school/:studentId', function ($school, $stu
                                     coalesce((select sum(payment_inv_items.amount) from app.payments inner join app.payment_inv_items on payments.payment_id = payment_inv_items.payment_id where student_id = :studentID),0) as total_paid
                                   FROM app.invoices
                                   WHERE student_id = :studentID
-                                  --AND date_part('year', due_date) = date_part('year',now())
                                   AND canceled = false
                                 )q");
       $balanceQry->execute( array(':studentID' => $studentId));

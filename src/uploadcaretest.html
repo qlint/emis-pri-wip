@@ -1,0 +1,19 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <script type="text/javascript">
+    UPLOADCARE_LOCAL = "en";
+    UPLOADCARE_LIVE = false;
+    UPLOADCARE_PUBLIC_KEY = "65c9446d571bcf65debe";
+  </script>
+</head>
+
+<body>
+  <form action="store.php" method="post">
+    <input type="hidden" role="uploadcare-uploader" name="content" data-public-key="65c9446d571bcf65debe" data-multiple="true" data-images-only />
+    <input type="submit" value="save" />
+    <script charset="utf-8" src="components/uploadcare.full.min.js"></script>
+  </form>
+</body>
+</html>

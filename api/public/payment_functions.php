@@ -910,7 +910,7 @@ $app->delete('/deletePayment/:payment_id', function ($paymentId){
     $db->beginTransaction();
     $removePaymentItems->execute( array(':paymentId' => $paymentId) );
     $removeCredit->execute( array(':paymentId' => $paymentId) );
-    $removePayment->execute( array(':paymentId' => $paymentId) );    
+    $removePayment->execute( array(':paymentId' => $paymentId) );
     $removeReplacment->execute( array(':paymentId' => $paymentId) );
     $db->commit();
 

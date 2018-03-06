@@ -1,0 +1,81 @@
+<form name="postForm" class="form-horizontal modalForm" method="post" novalidate >
+	<div class="modal-header dialog-header-form">
+				<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">Preview Post for {{post.blog_name}}</h4>
+			</div>
+			<div class="modal-body blog clearfix">
+
+				<div ng-show="error" class="alert alert-danger">
+					{{errMsg}}
+				</div>
+
+				<div ng-if="type=='post'">
+					<h2>{{post.title}}</h2>
+					<img ng-if="post.feature_image" src="assets/posts/{{post.feature_image}}" class="feature-img post" />
+					<div ng-bind-html="post.body"></div>
+				</div>
+
+				<div ng-if="type=='homework'">
+
+					<p class="strong highlight">{{post.title}}</p>
+					<p class="meta"><b>Subject:</b> {{post.subject_name}}</p>
+					<p class="meta"><b>Assigned:</b> {{post.assigned_date}}</p>
+					<p class="meta" ng-show="item.due_date!==null"><b>Due:</b> {{post.due_date}}</p>
+					<p  ng-show="post.attachment!==null">
+						<b>Attachment:</b>
+						<a target="_new" href="assets/posts/{{post.attachment}}">
+							<i class="fa fa-file-text icon-lg"></i>
+						</a>
+					</p>
+					<p ng-bind-html="post.body"></p>
+				</div>
+
+				<div ng-if="type=='communication'">
+
+					<div ng-show="post.send_method=='email'">
+						<p class="strong highlight">Email Message</p>
+						<p class="meta"><b>Type:</b> {{post.details.com_type}}</p>
+						<p class="meta"><b>Send To:</b>
+							<span ng-if="post.details.audience != 'Class Specific' || post.details.audience != 'Parent'">{{post.details.audience}}</span>
+							<span ng-if="post.details.class_name!==undefined">{{post.details.class_name}}</span>
+							<span ng-if="post.details.parent_full_name!==undefined">{{post.details.parent_full_name}}</span>
+						</p>
+						<p class="meta"><b>Sent From:</b> {{post.details.posted_by}}</p>
+						<p class="meta"><b>Reply To:</b> {{post.reply_to}}</p>
+						<p class="meta"><b>Subject:</b> {{post.title}}</p>
+						<p ng-bind-html="post.body"></p>
+						<p  ng-show="post.attachment!==null">
+							<b>Attachment:</b>
+								<a target="_new" ng-repeat='item in attachments' href="msgattachments.html">
+									<i class="fa fa-file-text icon-lg"></i>
+								</a>
+						</p>
+					</div>
+					<!-- <div class="attachment_icons_parent" ng-repeat='item in attachments'>
+						<a class="attachment_icons" target="_new" href="assets/posts/{{item}}">
+							<i class="fa fa-file-text icon-lg"></i>
+						</a>
+					</div> -->
+
+
+					<div ng-show="post.send_method=='sms'">
+						<p class="strong highlight">SMS Message</p>
+						<p class="meta"><b>Type:</b> {{post.com_type}}</p>
+						<p class="meta"><b>Send To:</b> {{post.audience}} {{post.class_name}} {{post.parent_full_name}}</p>
+						<p class="meta"><b>Sent From:</b> {{post.posted_by}}</p>
+						<p class="meta"><b>Message:</b> {{post.title}}</p>
+					</div>
+				</div>
+
+				<div class="blog-meta">
+					<p><b>Status</b>: {{post.post_status}}</p>
+					<p><b>Created</b>: {{post.creation_date}}</p>
+					<p><b>Created By</b>: {{post.posted_by}}</p>
+					<p ng-show="type=='communication'"><b>Sent</b>: {{post.sent_date || 'Pending'}}</p>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" ng-click="cancel()">Close</button>
+			</div>
+</form>

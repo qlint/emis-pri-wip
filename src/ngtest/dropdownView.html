@@ -1,0 +1,9 @@
+<div class="dropdown" ng-click="open=!open" ng-class="{open:open}">
+  <div ng-repeat="rating in list" style="top: {{($index + 1) * height}}px; -webkit-transition-delay: {{(list.length - $index) * 0.03}}s; z-index: {{list.length - $index}}" ng-hide="!open" ng-click="update(rating)" ng-class="{selected:selected===rating}">
+    <span>This {{rating}}</span>
+  </div>
+  <span class="title" style="top: 0px; z-index: {{list.length + 1}}">
+  <span>That {{selected}}</span>
+  </span>
+  <span class="clickscreen" ng-hide="!open">&nbsp;</span>
+</div>

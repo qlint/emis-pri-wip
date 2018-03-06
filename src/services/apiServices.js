@@ -2,11 +2,17 @@ angular.module('eduwebApp').service('apiService', [ '$rootScope', 'ajaxService',
 
 	var domain = window.location.host;
 	var path = ( domain.indexOf('dev.eduweb.co.ke') > -1 ? 'http://devapi.eduweb.co.ke' : (domain.indexOf('eduweb.co.ke') > -1	? 'http://api.eduweb.co.ke': 'http://api.eduweb.localhost'));
+	path = 'http://localhost/api_eduweb';
 
 	/*********** class categories ***********/
 	this.getClassCats = function (param, successFunction, errorFunction, params) {
 		if( param === undefined ) ajaxService.AjaxGet(path + "/getClassCats", successFunction, errorFunction, params);
 		else ajaxService.AjaxGet(path + "/getClassCats/" + param, successFunction, errorFunction, params);
+	};
+
+	this.getStreamPosition = function (param, successFunction, errorFunction, params) {
+		if( param === undefined ) ajaxService.AjaxGet(path + "/getStreamPosition", successFunction, errorFunction, params);
+		else ajaxService.AjaxGet(path + "/getStreamPosition/" + param, successFunction, errorFunction, params);
 	};
 
 	this.getClassCatsSummary = function (request, successFunction, errorFunction, params) {
@@ -174,6 +180,10 @@ angular.module('eduwebApp').service('apiService', [ '$rootScope', 'ajaxService',
 	/*********** fee items ***********/
 	this.getFeeItems = function (param, successFunction, errorFunction) {
 		ajaxService.AjaxGet(path + "/getFeeItems/" + param, successFunction, errorFunction);
+	};
+
+	this.getActivitiesList = function (request, successFunction, errorFunction) {
+		ajaxService.AjaxGetWithData(request, path + "/getActivitiesList", successFunction, errorFunction);
 	};
 
 	this.getTansportRoutes = function (request, successFunction, errorFunction) {
@@ -494,7 +504,7 @@ angular.module('eduwebApp').service('apiService', [ '$rootScope', 'ajaxService',
 	this.adminDeleteStudent = function (param, successFunction, errorFunction, params) {
 		ajaxService.AjaxDelete(path + "/adminDeleteStudent/" + param, successFunction, errorFunction, params);
 	};
-  
+
   this.promoteStudents = function (request, successFunction, errorFunction, params) {
 		ajaxService.AjaxPut(request, path + "/promoteStudents", successFunction, errorFunction, params);
 	};
@@ -532,7 +542,7 @@ angular.module('eduwebApp').service('apiService', [ '$rootScope', 'ajaxService',
 	this.updatePayment = function (request, successFunction, errorFunction, params) {
 		ajaxService.AjaxPut(request, path + "/updatePayment", successFunction, errorFunction, params);
 	};
-  
+
 	this.applyCredit = function (request, successFunction, errorFunction, params) {
 		ajaxService.AjaxPut(request, path + "/applyCredit", successFunction, errorFunction, params);
 	};
@@ -692,4 +702,3 @@ angular.module('eduwebApp').service('apiService', [ '$rootScope', 'ajaxService',
 
 	return this;
 }]);
-

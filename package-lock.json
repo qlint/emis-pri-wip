@@ -1,0 +1,50 @@
+{
+  "name": "eduweb",
+  "version": "0.0.0",
+  "lockfileVersion": 1,
+  "requires": true,
+  "dependencies": {
+    "blueimp-canvas-to-blob": {
+      "version": "3.5.0",
+      "resolved": "https://registry.npmjs.org/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.5.0.tgz",
+      "integrity": "sha1-VnmsMvaig1gh8MOtZhcZ/4WpI2s=",
+      "optional": true
+    },
+    "blueimp-file-upload": {
+      "version": "9.19.2",
+      "resolved": "https://registry.npmjs.org/blueimp-file-upload/-/blueimp-file-upload-9.19.2.tgz",
+      "integrity": "sha512-9aSrtID2CBRZIGgU/VfFBMWsQPQvHTBaPbhpV1P00tYkMa7GiK/ocDf/m8b7e9vt69Lx9gVItOtfz/KAGqgZxQ==",
+      "requires": {
+        "blueimp-canvas-to-blob": "3.5.0",
+        "blueimp-load-image": "2.12.2",
+        "blueimp-tmpl": "3.6.0"
+      }
+    },
+    "blueimp-load-image": {
+      "version": "2.12.2",
+      "resolved": "https://registry.npmjs.org/blueimp-load-image/-/blueimp-load-image-2.12.2.tgz",
+      "integrity": "sha1-ahdZiquFjU+/AVQ+BjEUG1EFfIc=",
+      "optional": true
+    },
+    "blueimp-tmpl": {
+      "version": "3.6.0",
+      "resolved": "https://registry.npmjs.org/blueimp-tmpl/-/blueimp-tmpl-3.6.0.tgz",
+      "integrity": "sha1-pJEJddBC4rwDunfw5i0E8VSKUkw=",
+      "optional": true
+    },
+    "cloudinary-jquery-file-upload": {
+      "version": "2.4.0",
+      "resolved": "https://registry.npmjs.org/cloudinary-jquery-file-upload/-/cloudinary-jquery-file-upload-2.4.0.tgz",
+      "integrity": "sha512-1WgmdHh1/vZfxC+a+e9ffIq/o0y4KquCNRuISk0Z7LWeTDEl8IJc/iLO+DSamyTODXRc7TJWmV2r9Os/hWWIbw==",
+      "requires": {
+        "blueimp-file-upload": "9.19.2",
+        "jquery": "2.2.4"
+      }
+    },
+    "jquery": {
+      "version": "2.2.4",
+      "resolved": "https://registry.npmjs.org/jquery/-/jquery-2.2.4.tgz",
+      "integrity": "sha1-LInWiJterFIqfuoywUUhVZxsvwI="
+    }
+  }
+}

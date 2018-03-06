@@ -7,24 +7,24 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 
 	$scope.alert = {};
 
-	var initializeController = function () 
+	var initializeController = function ()
 	{
 		//var deptCats = $rootScope.currentUser.settings['Department Categories'];
 		//$scope.deptCats = deptCats.split(',');
-		
+
 		$scope.schoolTypes = ['Private School','Public School'];
 		$scope.curriculums = ['8-4-4'];
 		$scope.currencies = ['Ksh'];
 		$scope.schoolLevels = ['Primary','Secondary'];
-		
-		
+
+
 		if( $rootScope.currentUser.settings['School Name'] === undefined ) $scope.initialSetup = true;
 
 		setSettings();
-		
+
 	}
 	$timeout(initializeController,1);
-	
+
 	var getSettings = function()
 	{
 		// update the users settings
@@ -32,18 +32,18 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 			var result = angular.fromJson( response );
 			if( result.response == 'success' )
 			{
-				var settings = result.data.reduce(function ( total, current ) { 
+				var settings = result.data.reduce(function ( total, current ) {
 					total[ current.name ] = current.value;
 					return total;
 				}, {});
-				
+
 				$rootScope.$emit('setSettings', settings);
 				setSettings();
-			}		
-			
+			}
+
 		},apiError);
 	}
-	
+
 	var setSettings = function()
 	{
 		$scope.settings	= {
@@ -63,24 +63,24 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 		}
 
 	}
-	
+
 	$scope.$watch('uploader.queue[0]', function(newVal, oldVal){
 		// need to watch the uploaded and manually set form to dirty if changed
 		if( newVal === undefined) return;
 		$scope.schoolForm.$setDirty();
 	});
-	
+
 	$scope.$watch('uploader2.queue[0]', function(newVal, oldVal){
 		// need to watch the uploaded and manually set form to dirty if changed
 		if( newVal === undefined) return;
 		$scope.schoolForm.$setDirty();
 	});
-	
+
 	$scope.save = function(theForm)
 	{
 		$scope.error = false;
 		$scope.errMsg = '';
-		
+
 		if( !theForm.$invalid )
 		{
 			// do logo upload
@@ -95,10 +95,10 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 				uploader2.queue[0].file.name = moment() + '_' + uploader2.queue[0].file.name;
 				uploader2.uploadAll();
 			}
-			
+
 			var settings = [];
 			angular.forEach( $scope.settings, function(item,key){
-				
+
 				if( uploader.queue[0] !== undefined && key == 'logo' )
 				{
 					settings.push({
@@ -124,7 +124,7 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 					})
 				}
 			});
-			
+
 			var postData = {
 				settings: settings
 			}
@@ -132,7 +132,7 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 			apiService.updateSettings(postData, createCompleted, apiError);
 		}
 	}
-	
+
 	var createCompleted = function(response,status)
 	{
 		var result = angular.fromJson( response );
@@ -149,29 +149,29 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 			$scope.errMsg = result.data;
 		}
 	}
-	
+
 	$scope.addEmpCat = function()
 	{
 		var dlg = $dialogs.create('addEmpCategory.html','addEmpCategoryCtrl',{},{size: 'sm',backdrop:'static'});
 		dlg.result.then(function(category){
 			$rootScope.empCats = undefined;
-			$rootScope.getEmpCats();		
+			$rootScope.getEmpCats();
 		},function(){
-			
+
 		});
 	}
-	
+
 	$scope.editEmpCat = function(item)
 	{
 		var dlg = $dialogs.create('addEmpCategory.html','addEmpCategoryCtrl',{item:item},{size: 'sm',backdrop:'static'});
 		dlg.result.then(function(category){
 			$rootScope.empCats = undefined;
-			$rootScope.getEmpCats();		
+			$rootScope.getEmpCats();
 		},function(){
-			
+
 		});
 	}
-	
+
 	$scope.removeEmpCat = function(item)
 	{
 		$scope.error = false;
@@ -180,14 +180,14 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 			if( result.response == 'success' )
 			{
 				var canDelete = ( parseInt(result.data.num_employees) == 0 ? true : false );
-				
+
 				if( canDelete )
 				{
 					var dlg = $dialogs.confirm('Delete Employee Category','Are you sure you want to permanently delete employee category <strong>' + item.emp_cat_name + '</strong>? ',{size:'sm'});
 					dlg.result.then(function(btn){
 						apiService.deleteEmpCat(item.emp_cat_id,function(response,status){
 							$rootScope.empCats = undefined;
-							$rootScope.getEmpCats();	
+							$rootScope.getEmpCats();
 						},apiError);
 					});
 				}
@@ -216,29 +216,29 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 		},apiError);
 
 	}
-	
+
 	$scope.addClassCat = function()
 	{
 		var dlg = $dialogs.create('addClassCategory.html','addClassCategoryCtrl',{},{size: 'sm',backdrop:'static'});
 		dlg.result.then(function(category){
 			$rootScope.classCats = undefined;
-			$rootScope.getClassCats();					
+			$rootScope.getClassCats();
 		},function(){
-			
+
 		});
 	}
-	
+
 	$scope.editClassCat = function(item)
 	{
 		var dlg = $dialogs.create('addClassCategory.html','addClassCategoryCtrl',{item:item},{size: 'sm',backdrop:'static'});
 		dlg.result.then(function(category){
 			$rootScope.classCats = undefined;
-			$rootScope.getClassCats();					
+			$rootScope.getClassCats();
 		},function(){
-			
+
 		});
 	}
-	
+
 	$scope.removeClassCat = function(item)
 	{
 		$scope.error = false;
@@ -247,20 +247,20 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 			if( result.response == 'success' )
 			{
 				var canDelete = ( parseInt(result.data.num_exams) == 0 ? true : false );
-				
+
 				if( canDelete )
 				{
-					var dlg = $dialogs.confirm('Delete Class Category','Are you sure you want to permanently delete class category <strong>' + item.class_cat_name + '</strong>? ',{size:'sm'});
+					var dlg = $dialogs.confirm('Delete Class Category','Are you sure you want to permanently delete parent class <strong>' + item.class_cat_name + '</strong>? ',{size:'sm'});
 					dlg.result.then(function(btn){
 						apiService.deleteClassCat(item.class_cat_id,function(response,status){
 							$rootScope.classCats = undefined;
-							$rootScope.getClassCats();	
+							$rootScope.getClassCats();
 						},apiError);
 					});
 				}
 				else
 				{
-					var dlg = $dialogs.confirm('Please Confirm','Class category <strong>' + item.class_cat_name + '</strong> is associated with <b>' + result.data.num_exams + '</b> exam marks. Are you sure you want to mark this class category as in-active? ',{size:'sm'});
+					var dlg = $dialogs.confirm('Please Confirm','Parent class <strong>' + item.class_cat_name + '</strong> is associated with <b>' + result.data.num_exams + '</b> exam marks. Are you sure you want to mark this parent class as in-active? ',{size:'sm'});
 					dlg.result.then(function(btn){
 						var data = {
 							user_id : $rootScope.currentUser.user_id,
@@ -269,7 +269,7 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 						}
 						apiService.setClassCatStatus(data,function(response,status){
 							$rootScope.classCats = undefined;
-							$rootScope.getClassCats();	
+							$rootScope.getClassCats();
 						},apiError);
 
 					});
@@ -281,30 +281,30 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 				$scope.errMsg = result.data;
 			}
 		},apiError);
-	}		
+	}
 
-	var apiError = function (response, status) 
+	var apiError = function (response, status)
 	{
 		var result = angular.fromJson( response );
 		$scope.error = true;
 		var msg = ( result.data.indexOf('"U_active_emp_cat"') > -1 ? 'The Employee Category name you entered already exists.' : result.data);
 		$scope.errMsg = msg;
 	}
-	
-	
+
+
 	var uploader = $scope.uploader = new FileUploader({
             url: 'upload.php',
 			formData : [{
 				'dir': 'schools'
 			}]
-    });	
+    });
 	var uploader2 = $scope.uploader2 = new FileUploader({
             url: 'upload.php',
 			formData : [{
 				'dir': 'schools'
 			}]
     });
-	
+
 	$scope.$on('$destroy', function() {
 		if($scope.dataGrid){
 			$('.fixedHeader-floating').remove();
@@ -318,14 +318,14 @@ function($scope, $rootScope, apiService, $timeout, $window, $filter, FileUploade
 } ])
 .controller('addEmpCategoryCtrl',[ '$scope','$rootScope','$uibModalInstance','apiService','dialogs','data',
 function($scope,$rootScope,$uibModalInstance,apiService,$dialogs,data){
-		
+
 		$scope.edit = (data.item !== undefined ? true : false);
 		$scope.empCat = data.item || {};
-		
+
 		$scope.cancel = function(){
 			$uibModalInstance.dismiss('Canceled');
 		}; // end cancel
-		
+
 		$scope.save = function()
 		{
 			if( $scope.edit )
@@ -348,10 +348,10 @@ function($scope,$rootScope,$uibModalInstance,apiService,$dialogs,data){
 				}
 				apiService.addEmployeeCat(data, createCompleted, apiError);
 			}
-			
+
 		}; // end save
-		
-		
+
+
 		var createCompleted = function(response,status)
 		{
 			var result = angular.fromJson( response );
@@ -365,8 +365,8 @@ function($scope,$rootScope,$uibModalInstance,apiService,$dialogs,data){
 				$scope.errMsg = result.data;
 			}
 		}
-		
-		
+
+
 		var apiError = function(response,status)
 		{
 			var result = angular.fromJson( response );
@@ -374,15 +374,15 @@ function($scope,$rootScope,$uibModalInstance,apiService,$dialogs,data){
 			var msg = ( result.data.indexOf('"U_active_emp_cat"') > -1 ? 'The Employee Category name you entered already exists.' : result.data);
 			$scope.errMsg = msg;
 		}
-		
+
 		$scope.hitEnter = function(evt){
 			if( angular.equals(evt.keyCode,13) )
 				$scope.save();
 		};
-		
 
-	
-	
+
+
+
 	}]) // end controller(addCargoCtrl)
 .run(['$templateCache',function($templateCache){
   		$templateCache.put('addEmpCategory.html',

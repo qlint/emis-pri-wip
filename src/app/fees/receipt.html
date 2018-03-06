@@ -1,26 +1,26 @@
-<form name="paymentForm" class="form-horizontal modalForm" method="post" novalidate ng-submit="save()">		
+<form name="paymentForm" class="form-horizontal modalForm" method="post" novalidate ng-submit="save()">
 		<div class="modal-header dialog-header-form">
 			<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 			<h4 class="modal-title">Receipt for Payment</h4>
 		</div>
 		<div class="modal-body receipt">
-	
+
 			<p ng-show="error" class="error alert alert-danger">
 				{{errMsg}}
 			</p>
-			
+
 			<div class="watermark reversed" ng-show="payment.reversed">
 				<p>REVERSED</p>
 			</div>
-			
+
 			<div class="receipt-header-letterhead" ng-if="useLetterhead">
 				<img class="center" src="assets/schools/{{currentUser.settings['Letterhead']}}" />
 				<h2 class="receipt-title">Official Receipt</h2>
 			</div>
-			
+
 			<div class="row" ng-if="!useLetterhead">
 				<div class="col-xs-2">
-					<img src="{{'assets/schools/' + currentUser.settings.logo}}" title="{{currentUser.settings['School Name']}}" class="brand" /> 
+					<img src="{{'assets/schools/' + currentUser.settings.logo}}" title="{{currentUser.settings['School Name']}}" class="brand" />
 				</div>
 				<div class="col-xs-10 receipt-header">
 					<h2 class="receipt-title">Receipt</h2>
@@ -32,7 +32,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div>
 				<span class="text-group"><strong>Received:</strong> {{payment.payment_date|date}}</span>
 				<span class="text-group"><strong>Student:</strong> {{student.student_name}}</span>
@@ -70,17 +70,17 @@
 						</tr>
 					</tfoot>
 				</table>
-				
+
 				<div>
 					<p class="text-group"><strong>Amount Paid:</strong> {{payment.amount|currency:""}} {{currency}}</p>
 					<p class="text-group"><strong>Outstanding Balance:</strong> {{ ( balanceDue > 0 ? '0' : balanceDue)|numeric }} {{currency}}</p>
 					<p ng-show="hasCredit" class="text-group"><strong>Available Credit:</strong> {{credit|currency:""}} {{currency}}</p>
-					<p class="text-group"><strong>Cash/Deposit Slip/Cheque No:</strong> {{payment.slip_cheque_no}}</p>
+					<p class="text-group"><strong>{{payment.payment_method}}:</strong> {{payment.slip_cheque_no}}</p> 
 					<p class="text-group"><strong>Official Stamp:</strong></p>
 				</div>
 
 			</div>
-			
+
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-link" ng-click="cancel()">Close</button>

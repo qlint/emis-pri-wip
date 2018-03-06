@@ -1,7 +1,7 @@
-<div ng-controller="examTypesCtrl">	
-	
+<div ng-controller="examTypesCtrl">
+
 	<div id="body-content" class="row fixed-filter hasSubNav" ng-class="{'modal-body': isPrinting, 'smallScreen' : isSmallScreen}">
-		
+
 		<div class="notification alert alert-success" ng-show="updated" ng-class="{'fade-out': alert.expired}">
 			<strong>Success!</strong> {{notificationMsg}}
 		</div>
@@ -9,7 +9,7 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{errMsg}}
 		</div>
-		
+
 		<div class="fixed content-fixed-header">
 			<div class="subnavbar non-printable" ng-hide="isPrinting">
 				<ul class="nav nav-tabs main-sub-nav" >
@@ -20,14 +20,14 @@
 			<div class="pull-right toolbar-container clearfix non-printable" ng-class="{'collapse': isSmallScreen}" ng-hide="isPrinting" id="pageTools">
 				<div class="btn-group toolbar">
 					<div class="btn add-btn" title="Add Exam Type" ng-show="permissions.exams.exam_types.add" ng-click="addExamType()"><a class="clickable"><span class="glyphicon glyphicon-plus-sign"></span> <span class="tool-text">Add Exam Type</span></a></div>
-				</div>				
+				</div>
 			</div>
-			
+
 			<div class="clearfix">
 				<h1 id="pageTitle">Exam Types</h1>
-			</div>			
+			</div>
 			<!-- search form -->
-			<div class="dataFilterForm">	
+			<div class="dataFilterForm">
 				<h4 ng-show="!isSmallScreen">Filters</h4>
 				<h4 ng-show="isSmallScreen" data-toggle="collapse" data-target="#filterForm" aria-expanded="false" aria-controls="filterForm" ng-click="toggleFilter()">Filters <span class="caret"></span></h4>
 				<form name="dataFilterForm" class="form-inline non-printable" method="post" novalidate ng-hide="isPrinting" ng-class="{'collapse': isSmallScreen}" id="filterForm">
@@ -47,9 +47,9 @@
 
 				</form>
 			</div>
-			<!-- // end search form -->	
+			<!-- // end search form -->
 		</div>
-		
+
 		<div class="full-height datagrid main-datagrid">
 			<div class="loading-indicator" ng-show="loading"><i class="fa fa-spinner fa-spin text-lg"></i></div>
 			<table id="resultsTable" class="display" cellspacing="0" width="100%" ng-show="!loading">
@@ -57,10 +57,10 @@
 					<tr>
 						<th class="center">Order</th>
 						<th>Exam Type</th>
-						<th>Class Category</th>
+						<th>Parent Class</th>
 						<th>Delete</th>
 					</tr>
-				</thead>	
+				</thead>
 				<tbody>
 					<tr id="{{item.exam_type_id}}" ng-repeat="item in examTypes track by $index">
 						<td>{{$index+1}}</td>
@@ -70,9 +70,6 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>	
+		</div>
 	</div>
 </div>
-
-
-

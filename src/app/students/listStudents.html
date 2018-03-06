@@ -35,9 +35,9 @@
 				<form name="dataFilterForm" class="form-inline non-printable" method="post" novalidate ng-hide="isPrinting" ng-class="{'collapse': isSmallScreen}" id="filterForm">
 					<!-- category select -->
 					<div class="form-group">
-						<label for="category">Category</label>
+						<label for="category">Parent Class</label>
 						<select class="form-control" id="category" name="class_cat_id" ng-options="cat.class_cat_id as cat.class_cat_name for cat in classCats" ng-model="filters.class_cat_id">
-							<option value="">All Class Categories</option>
+							<option value="">All Parent Classes</option>
 						</select>
 					</div>
 					<!-- class select -->
@@ -48,7 +48,7 @@
 						</select>
 					</div>
 
-					<!-- date range 
+					<!-- date range
 					<div class="form-group">
 						<label for="class">Date Range</label>
 						<div class="input-group">
@@ -64,7 +64,7 @@
 							<option value="">ALL</option>
 						</select>
 					</div>
-          
+
           <!-- course select -->
 					<div class="form-group">
 						<label for="course">Activity</label>
@@ -72,7 +72,7 @@
 							<option value="">ALL</option>
 						</select>
 					</div>
-          
+
           <!-- reoute select -->
 					<div class="form-group">
 						<label for="course">Transport</label>
@@ -80,7 +80,7 @@
 							<option value="">ALL</option>
 						</select>
 					</div>
-          
+
 					<!-- status select -->
 					<div class="form-group">
 						<label for="status">Status</label>
@@ -140,6 +140,3 @@
 
 	</div>
 </div>
-
-
-

@@ -1,4 +1,4 @@
-<form name="subjectForm" class="form-horizontal modalForm" method="post" novalidate ng-submit="save(subjectForm)">		
+<form name="subjectForm" class="form-horizontal modalForm" method="post" novalidate ng-submit="save(subjectForm)">
 	<div class="modal-header dialog-header-form">
 				<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 				<h4 class="modal-title"><span class="glyphicon glyphicon-plus"></span> {{ (edit ? 'Update' : 'Add') }} Subject</h4>
@@ -9,17 +9,17 @@
 						{{errMsg}}
 					</div>
 					<!-- class category -->
-					<div class="form-group" ng-class="{ 'has-error' : subjectForm.class_cat.$invalid && (subjectForm.class_cat.$touched || subjectForm.$submitted) }">		
-						<label for="class_cat" class="col-sm-3 control-label">Class Category</label>
+					<div class="form-group" ng-class="{ 'has-error' : subjectForm.class_cat.$invalid && (subjectForm.class_cat.$touched || subjectForm.$submitted) }">
+						<label for="class_cat" class="col-sm-3 control-label">Parent Class</label>
 						<div class="col-sm-5">
 							<select name="class_cat" class="form-control" ng-options="cat.class_cat_id as cat.class_cat_name for cat in classCats"  ng-model="subject.class_cat_id" required>
-								<option value="">--select class category--</option>
-							</select>							
-							<p ng-show="subjectForm.class_cat.$invalid && (subjectForm.class_cat.$touched || subjectForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> Class Category is required.</p>
-						</div>	
+								<option value="">--select parent class--</option>
+							</select>
+							<p ng-show="subjectForm.class_cat.$invalid && (subjectForm.class_cat.$touched || subjectForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> Parent Class is required.</p>
+						</div>
 						<div class="col-sm-4">
-							<button type="button" class="btn btn-sm btn-link" ng-click="addClassCat()"><i class="glyphicon glyphicon-plus"></i> Add class category</button>					
-						</div>	
+							<button type="button" class="btn btn-sm btn-link" ng-click="addClassCat()"><i class="glyphicon glyphicon-plus"></i> Add parent class</button>
+						</div>
 					</div>
 					<!-- subject name -->
 					<div class="form-group" ng-class="{ 'has-error' : subjectForm.subject_name.$invalid && (subjectForm.subject_name.$touched || subjectForm.$submitted) }">
@@ -30,24 +30,24 @@
 						</div>
 					</div>
 					<!-- teacher -->
-					<div class="form-group">		
+					<div class="form-group">
 						<label for="teacher_id" class="col-sm-3 control-label">Teacher</label>
 						<div class="col-sm-9">
 							<select name="teacher_id" class="form-control" ng-options="teacher.teacher_id as teacher.teacher_name for teacher in teachers"  ng-model="subject.teacher_id">
 								<option value="">--select teacher--</option>
-							</select>						
-						</div>	
+							</select>
+						</div>
 					</div>
 					<!-- parent subject -->
-					<div class="form-group">		
+					<div class="form-group">
 						<label for="parent_subject_id" class="col-sm-3 control-label">Parent Subject</label>
 						<div class="col-sm-9">
 							<select name="parent_subject_id" class="form-control" ng-options="subject.subject_id as ( (subject.parent_subject_name !== null ? ' - ' : '') + subject.subject_name) for subject in subjects"  ng-model="subject.parent_subject_id">
 								<option value="">--select subject--</option>
-							</select>						
-						</div>	
+							</select>
+						</div>
 					</div>
-					
+
 					<!-- use for grading -->
 					<div class="form-group">
 						<label for="parent_subject_id" class="col-sm-3 control-label">Use for grading?</label>
@@ -62,7 +62,7 @@
 							</label>
 						</div>
 					</div>
-					
+
 			</div>
 			<div class="modal-footer">
 				<div class="pull-left">
