@@ -28,7 +28,7 @@ header('Access-Control-Allow-Origin: *');
 $db = pg_connect("host=localhost port=5432 dbname=eduweb_dev user=postgres password=postgres");
 // $getDbname = 'eduweb_'.array_shift((explode('.', $_SERVER['HTTP_HOST'])));
 // $db = pg_connect("host=localhost port=5432 dbname=".$getDbname." user=postgres password=postgres");
-$table1 = pg_query($db,"SELECT fee_item, payment_method, total_due, total_paid, balance
+/*$table1 = pg_query($db,"SELECT fee_item, payment_method, total_due, total_paid, balance
                       FROM(
                       	SELECT fee_item, q.payment_method,
                       	       sum(invoice_total) AS total_due,
@@ -51,7 +51,32 @@ $table1 = pg_query($db,"SELECT fee_item, payment_method, total_due, total_paid, 
                       	      ) q
                       	      GROUP BY fee_item, q.payment_method
                       )v
-                      WHERE balance <>0");
+                      WHERE balance <>0");*/
+$table1 = pg_query($db,"SELECT * FROM (
+		SELECT fee_item, q.payment_method, sum(invoice_total) AS total_due, sum(total_paid) AS total_paid, sum(total_paid) - sum(invoice_total) AS balance,
+		       (SELECT value FROM app.settings WHERE name = 'Currency') as currency
+		FROM (
+			SELECT invoice_line_items.amount as invoice_total, fee_item, student_fee_items.payment_method, inv_item_id,
+				(
+				SELECT COALESCE(sum(payment_inv_items.amount), 0)
+				FROM app.payment_inv_items
+				INNER JOIN app.payments ON payment_inv_items.payment_id = payments.payment_id AND reversed is false
+				WHERE inv_item_id = invoice_line_items.inv_item_id
+				) as total_paid, date_part('year', invoices.due_date) AS due_date
+			  FROM app.invoices
+			  INNER JOIN app.students ON invoices.student_id = students.student_id
+			  INNER JOIN app.invoice_line_items ON invoices.inv_id = invoice_line_items.inv_id
+			  INNER JOIN app.student_fee_items
+			  INNER JOIN app.fee_items ON student_fee_items.fee_item_id = fee_items.fee_item_id
+			  ON invoice_line_items.student_fee_item_id = student_fee_items.student_fee_item_id AND student_fee_items.active = true
+
+			  --ON invoices.student_id = students.student_id
+			  --WHERE invoices.student_id = :studentID
+			  WHERE invoices.canceled = false AND students.active is true
+		) q WHERE due_date = date_part('year', CURRENT_DATE)
+		GROUP BY fee_item, q.payment_method
+	)s WHERE balance < 0");
+
 echo "<div class='table100 ver1 m-b-110'>";
 echo "<table id='table1'>";
   echo "<div id='t1' class='table100-head'>";
@@ -86,7 +111,7 @@ echo "<table id='table1'>";
  echo "</div>";
 
 echo "<h4>Amount paid by each student for their fee items (Ordered by Names Ascending & Dates Descending)</h4><hr>";
- $table2 = pg_query($db,"SELECT s.first_name || ' ' || coalesce(s.middle_name,'') || ' ' || s.last_name AS student_name, c.class_name, fi.fee_item, pii.amount AS amount_paid, ili.amount AS default_amount, pii.creation_date AS date
+ $table2 = pg_query($db,/*"SELECT s.first_name || ' ' || coalesce(s.middle_name,'') || ' ' || s.last_name AS student_name, c.class_name, fi.fee_item, pii.amount AS amount_paid, ili.amount AS default_amount, pii.creation_date AS date
                         FROM app.students s
                         INNER JOIN app.classes c ON s.current_class = c.class_cat_id
                         INNER JOIN app.student_fee_items sfi ON s.student_id = sfi.student_id
@@ -95,7 +120,19 @@ echo "<h4>Amount paid by each student for their fee items (Ordered by Names Asce
                         INNER JOIN app.payment_inv_items pii ON ili.inv_item_id = pii.inv_item_id
                         INNER JOIN app.payments p ON pii.payment_id = p.payment_id
                         WHERE s.active IS TRUE AND c.active IS TRUE
-                        ORDER BY student_name ASC, date DESC");
+                      ORDER BY student_name ASC, date DESC"*/
+                    "SELECT * FROM (
+                                  	SELECT s.first_name || ' ' || coalesce(s.middle_name,'') || ' ' || s.last_name AS student_name, c.class_name, fi.fee_item, pii.amount AS amount_paid, ili.amount AS default_amount, pii.creation_date AS date
+                                          FROM app.students s
+                                          INNER JOIN app.classes c ON s.current_class = c.class_cat_id
+                                          INNER JOIN app.student_fee_items sfi ON s.student_id = sfi.student_id
+                                          INNER JOIN app.fee_items fi ON sfi.fee_item_id = fi.fee_item_id
+                                          INNER JOIN app.invoice_line_items ili ON sfi.student_fee_item_id = ili.student_fee_item_id
+                                          INNER JOIN app.payment_inv_items pii ON ili.inv_item_id = pii.inv_item_id
+                                          INNER JOIN app.payments p ON pii.payment_id = p.payment_id
+                                          WHERE s.active IS TRUE AND c.active IS TRUE
+                                          ORDER BY student_name ASC, date DESC
+                                  )a WHERE date >= (SELECT start_date FROM app.terms WHERE now() between start_date and end_date)");
 
  // $col1 = NULL;
  echo "<div class='table100 ver1 m-b-110'>";
