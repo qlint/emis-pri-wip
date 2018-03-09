@@ -256,9 +256,8 @@ th, td {
 }
 
 tr:hover{
-  background-color:#397C49 !important;
+  background-color:#68AC50 !important;
   color:#ffffff !important;
-  opacity: 0.75;
 }
 
 /*==================================================================
