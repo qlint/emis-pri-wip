@@ -395,7 +395,36 @@ function getChartPath()
 						</tfoot>
 					</table>
 
-					<img  class="col-md-6"  style="width:450px;height:225px;" id="url"   src="{{chart_path}}"  />
+					<div class="row">
+						<div class="col-md-6">
+							<img  class="col-md-6"  style="width:450px;height:225px;" id="url"   src="{{chart_path}}"  />
+						</div>
+						<div class="col-md-6">
+							<table class="display dataTable" cellspacing="0" width="100%">
+							  <tr>
+							    <th colspan="4" style="text-align:center;">FORM {{report.class_name}}</th>
+							  </tr>
+							  <tr>
+							    <th  class="center">Term</th>
+							    <th  class="center">Pos</th>
+							    <th  class="center">Out Of</th>
+							    <th  class="center">Grade</th>
+							  </tr>
+							  <tr>
+							    <td  class="center">{{report.term}}</td>
+							    <td  class="center">{{streamRankPosition}}</td>
+							    <td  class="center">{{streamRankOutOf}}</td>
+							    <td  class="center">{{overall.grade}}</td>
+							  </tr>
+							  <tr>
+							    <td  class="center">-</td>
+							    <td  class="center">{{overallLastTerm.rank||'-'}}</td>
+							    <td  class="center">{{overallLastTerm.position_out_of||'--'}}</td>
+							    <td  class="center">-</td>
+							  </tr>
+							</table>
+						</div>
+					</div>
 
 
 
@@ -423,6 +452,18 @@ function getChartPath()
 								<td>
 									<p class="form-control-static" ng-show="isPrinting">{{comments.head_teacher_name}}</p>
 									<input ng-show="!isPrinting" type="text" name="head_teacher_name" class="form-control" ng-model="comments.head_teacher_name" ng-change="updateReport()" />
+
+									<label>Sign:</label>
+								</td>
+							</tr>
+							<tr ng-show="isAdmin">
+								<td>
+									<label>Parent/Guardian Comments:</label>
+									<textarea ng-show="isPrinting" name="principle-comments" rows="2" class="form-control"></textarea>
+								</td>
+								<td>
+									<p class="form-control-static" ng-show="isPrinting">Parent/ Guardian Name <div>( ______________________ )</div></p>
+									<input ng-show="isPrinting" type="text" name="head_teacher_name" class="form-control" />
 
 									<label>Sign:</label>
 								</td>
