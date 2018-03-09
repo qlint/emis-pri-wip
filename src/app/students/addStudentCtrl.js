@@ -28,7 +28,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 	$scope.conditionSelection = [];
 	$scope.formError = false;
 
-	var detailsSection = ['new_student', 'admission_number', 'current_class', 'last_name', 'first_name', 'dob', 'gender', 'emergency_name', 'emergency_relationship', 'emergency_telephone'];
+	var detailsSection = ['new_student', 'admission_number', 'current_class', 'last_name', 'first_name', 'dob', 'gender', 'emergency_name', 'emergency_relationship', 'emergency_telephone', 'kcpe_marks', 'school_house'];
 	var guardianSection = ['father_last_name','father_first_name','father_id_number','father_telephone','father_email', 'mother_last_name','mother_first_name','mother_id_number','mother_telephone','mother_email'];
 	var feesSection = ['payment_method','installment_option'];
 	$scope.submitted = false;
