@@ -23,7 +23,7 @@ header('Access-Control-Allow-Origin: *');
   <div class="limiter">
     <div class="container-table100">
   	   <div class="wrap-table100">
-         <h4>Total amounts due and balances per fee item for the school. (Including Last Year)</h4><hr>
+         <h4>Total amounts due and balances per fee item for the school. (Due this term)</h4><hr>
 <?php
 $db = pg_connect("host=localhost port=5432 dbname=eduweb_dev user=postgres password=postgres");
 // $getDbname = 'eduweb_'.array_shift((explode('.', $_SERVER['HTTP_HOST'])));
