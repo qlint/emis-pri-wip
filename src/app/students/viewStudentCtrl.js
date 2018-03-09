@@ -155,6 +155,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 	var initializeController = function()
 	{
 		$scope.getStudentDetails(data.student.student_id);
+		// console.log(data.student);
 
 		var studentCats = $rootScope.currentUser.settings['Student Categories'];
 		$scope.studentCats = studentCats.split(',');
@@ -273,7 +274,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 			// console.log("This year " + yyyy);
 			// console.log("Student DOB year - " + studentDOByear);
 			// console.log("Age - " + age);
-			console.log($scope.student.age);
+			// console.log($scope.student.age);
 			// var studentDOB = $scope.student.dob;
 			// var getDOByear = studentDOB.getFullYear();
 			// $scope.student.age = yyyy - getDOByear;
@@ -1406,8 +1407,8 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 
 	$scope.getReportCard = function(item, term_name, reportData)
 	{
-		console.log(":::::>")
-		console.log(reportData);
+		// console.log(":::::>")
+		// console.log(reportData);
 		var data = {
 			student : $scope.student,
 			report_card_id: reportData.report_card_id,
@@ -1506,7 +1507,9 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 						admission_date: moment($scope.student.admission_date.startDate).format('YYYY-MM-DD'),
 						admission_number: $scope.student.admission_number,
 						new_student : ( $scope.student.new_student ? 't' : 'f' ),
-            student_type: $scope.student.student_type
+            student_type: $scope.student.student_type,
+						kcpe_marks: $scope.student.kcpe_marks,
+						school_house: $scope.student.school_house
 					}
 				}
 			}
