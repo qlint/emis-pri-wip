@@ -3,8 +3,8 @@
 angular.module('eduwebApp').
 controller('reportCardCtrl', ['$scope', '$rootScope', '$uibModalInstance', 'apiService', 'dialogs', 'data','$timeout','$window','$parse',
 function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $timeout, $window, $parse){
-	console.log(data);
-	// console.log($scope);
+	// console.log(data);
+	console.log($scope);
 	$rootScope.isPrinting = false;
 	$scope.student = data.student || undefined;
 	$scope.reportCardType = ($scope.student !== undefined ? $scope.student.report_card_type : undefined);
@@ -138,7 +138,7 @@ $scope.entity_id = data.entity_id;
 			$scope.currentClassPosition = data.currentClassPosition;
 
 
-			// console.log(data);
+			console.log($scope.student);
 
 			$scope.savedReport = true;
 			$scope.canPrint = true;
