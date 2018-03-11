@@ -278,6 +278,21 @@ function getChartPath()
 								<p class="form-control-static">{{student.admission_number}}</p>
 							</div>
 						</div>
+						<!-- kcpe marks and school house -->
+						<div class="row">
+							<div class="col-xs-1 nopad-right">
+								<label class="">KCPE Marks:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.kcpe_marks}}</p>
+							</div>
+							<div class="col-xs-1 nopad-right">
+								<label>House:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.school_house}}</p>
+							</div>
+						</div>
 						<!-- class, term and year -->
 						<div class="row">
 							<div class="col-xs-1 nopad-right">
@@ -537,6 +552,21 @@ function getChartPath()
 								<p class="form-control-static">{{student.admission_number}}</p>
 							</div>
 						</div>
+						<!-- kcpe marks and school house -->
+						<div class="row">
+							<div class="col-xs-1 nopad-right">
+								<label class="">KCPE Marks:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.kcpe_marks}}</p>
+							</div>
+							<div class="col-xs-1 nopad-right">
+								<label>House:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.school_house}}</p>
+							</div>
+						</div>
 						<!-- class, term and year -->
 						<div class="row">
 							<div class="col-xs-1 nopad-right">
@@ -693,6 +723,18 @@ function getChartPath()
 									<label>Sign:</label>
 								</td>
 							</tr>
+							<tr ng-show="isAdmin">
+								<td>
+									<label>Parent/Guardian Comments:</label>
+									<textarea ng-show="isPrinting" name="principle-comments" rows="2" class="form-control"></textarea>
+								</td>
+								<td>
+									<p class="form-control-static" ng-show="isPrinting">Parent/ Guardian Name <div>( ______________________ )</div></p>
+									<input ng-show="isPrinting" type="text" name="head_teacher_name" class="form-control" />
+
+									<label>Sign:</label>
+								</td>
+							</tr>
 						</table>
 						<table width="100%">
 							<tr>
@@ -760,6 +802,21 @@ function getChartPath()
 							</div>
 							<div class="col-xs-5 lesspad">
 								<p class="form-control-static">{{student.admission_number}}</p>
+							</div>
+						</div>
+						<!-- kcpe marks and school house -->
+						<div class="row">
+							<div class="col-xs-1 nopad-right">
+								<label class="">KCPE Marks:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.kcpe_marks}}</p>
+							</div>
+							<div class="col-xs-1 nopad-right">
+								<label>House:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.school_house}}</p>
 							</div>
 						</div>
 						<!-- class, term and year -->
@@ -918,6 +975,18 @@ function getChartPath()
 									<label>Sign:</label>
 								</td>
 							</tr>
+							<tr ng-show="isAdmin">
+								<td>
+									<label>Parent/Guardian Comments:</label>
+									<textarea ng-show="isPrinting" name="principle-comments" rows="2" class="form-control"></textarea>
+								</td>
+								<td>
+									<p class="form-control-static" ng-show="isPrinting">Parent/ Guardian Name <div>( ______________________ )</div></p>
+									<input ng-show="isPrinting" type="text" name="head_teacher_name" class="form-control" />
+
+									<label>Sign:</label>
+								</td>
+							</tr>
 						</table>
 						<table width="100%">
 							<tr>
@@ -949,6 +1018,21 @@ function getChartPath()
 							</div>
 							<div class="col-xs-5 lesspad">
 								<p class="form-control-static">{{report.class_name}}</p>
+							</div>
+						</div>
+						<!-- kcpe marks and school house -->
+						<div class="row">
+							<div class="col-xs-1 nopad-right">
+								<label class="">KCPE Marks:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.kcpe_marks}}</p>
+							</div>
+							<div class="col-xs-1 nopad-right">
+								<label>House:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.school_house}}</p>
 							</div>
 						</div>
 						<!-- class, term and year -->
@@ -1046,6 +1130,21 @@ function getChartPath()
 							</div>
 							<div class="col-xs-5 lesspad">
 								<p class="form-control-static">{{report.class_name}}</p>
+							</div>
+						</div>
+						<!-- kcpe marks and school house -->
+						<div class="row">
+							<div class="col-xs-1 nopad-right">
+								<label class="">KCPE Marks:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.kcpe_marks}}</p>
+							</div>
+							<div class="col-xs-1 nopad-right">
+								<label>House:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.school_house}}</p>
 							</div>
 						</div>
 						<!-- class, term and year -->
