@@ -46,16 +46,19 @@
 					{{errMsg}}
 				</p>
 				<div>
+					
 						<table ng-show="!marksNotFound" id="resultsTable2" class="display dataTable tableSection" cellspacing="0" width="100%" media="print">
 							<thead>
 								<tr>
 									<th class="text">Student</th>
+									<th class="text">Adm #</th>
 									<th class="center text moremargin" ng-repeat="col in subjects">{{col.subject_name}}</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr ng-repeat="item in examMarks track by $index">
 									<td id="{{item.student_id}}">{{item.student_name}}</td>
+									<td class="center">{{item.admission_number}}</td>
 									<td class="center td-form-control-add-on" ng-repeat="col in subjects">
 										<input type="text" class="form-control" ng-model="item.marks[col.subject_name].mark" numeric-only ng-change="calculateParentSubject(item.marks,{{item.marks[col.subject_name]}})" ng-model-options="{ debounce: 500 }" ng-disabled="item.marks[col.subject_name].is_parent" />
 										<div class="input-group-addon">/{{item.marks[col.subject_name].grade_weight}}</div>
