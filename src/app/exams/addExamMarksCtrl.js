@@ -6,32 +6,32 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 
 	$scope.classes = data.classes;
 	$scope.terms = data.terms;
-	$scope.examTypes = data.examTypes;		
+	$scope.examTypes = data.examTypes;
 	$scope.filters = data.filters;
-	var ignoreCols = ['student_id','student_name','sum','total'];
-	
+	var ignoreCols = ['student_id','student_name','admission_number','sum','total'];
+
 	$scope.isTeacher = ($rootScope.currentUser.user_type == 'TEACHER' ? true : false);
-	
+
 	var initializeController = function()
-	{		
+	{
 		//getClassDetails($scope.filters.class_id);
 		//$scope.getStudentExams();
 	}
 	setTimeout(initializeController,1);
-	
-	
+
+
 	$scope.$watch('filters.class',function(newVal,oldVal){
 		if( newVal == oldVal ) return;
-		
+
 		$scope.filters.class_id = newVal.class_id;
 		//getClassDetails($scope.filters.class_id);
-		
+
 		apiService.getExamTypes(newVal.class_cat_id, function(response){
-			var result = angular.fromJson(response);				
-			if( result.response == 'success'){ $scope.examTypes = result.data;}			
+			var result = angular.fromJson(response);
+			if( result.response == 'success'){ $scope.examTypes = result.data;}
 		}, apiError);
 	});
-	
+
 	/*
 	var getClassDetails = function(classId)
 	{
@@ -43,14 +43,14 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 			}
 		}, apiError);
 	}
-*/	
-	
-	
+*/
+
+
 	$scope.cancel = function()
 	{
-		$uibModalInstance.dismiss('canceled');  
+		$uibModalInstance.dismiss('canceled');
 	}; // end cancel
-	
+
 	$scope.getStudentExams = function(theForm)
 	{
 		theForm.$submitted = true;
@@ -58,13 +58,13 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 		{
 			$scope.examMarks = {};
 			$scope.marksNotFound = false;
-			
+
 			if( $scope.dataGrid !== undefined )
 			{
 				$scope.dataGrid.destroy();
 				$scope.dataGrid = undefined;
 			}
-			
+
 			var request = $scope.filters.class_id + '/' + $scope.filters.exam_type_id;
 			request += ( $scope.isTeacher ? '/' + $rootScope.currentUser.emp_id : '/0');
 			apiService.getAllClassExams(request, function(response){
@@ -80,22 +80,22 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 					else
 					{
 						$scope.subjects = result.data;
-						
+
 						var request = $scope.filters.class_id + '/' + $scope.filters.term_id + '/' + $scope.filters.exam_type_id;
 						if( $scope.isTeacher ) request += '/' + $rootScope.currentUser.emp_id;
 						apiService.getClassExamMarks(request, loadMarks, apiError);
 					}
 				}
 			}, apiError)
-		}	
+		}
 	}
-		
+
 	var loadMarks = function(response,status)
 	{
 		$scope.loading = false;
 		var result = angular.fromJson( response );
 		if( result.response == 'success' )
-		{			
+		{
 			if( result.nodata )
 			{
 				$scope.marksNotFound = true;
@@ -105,7 +105,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 			{
 				$scope.students = result.data;
 				$scope.currentFilters = angular.copy($scope.filters);
-				
+
 				// loop through exam marks and build into
 				// one object per student, with
 				$scope.examMarks = [];
@@ -117,25 +117,26 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 					{
 						// changing to new student, store the report
 						if( i > 0 ) $scope.examMarks[(i-1)].marks = marks;
-						
+
 						$scope.examMarks.push(
 							{
 								student_name: item.student_name,
-								student_id: item.student_id,								
+								admission_number:item.admission_number,
+								student_id: item.student_id,
 								marks : {}
 							}
 						);
-						
+
 						marks = {};
 						i++;
 
 					}
-					
+
 					var thesubject = $scope.subjects.filter(function(subject){
 						if ( subject.subject_name == item.subject_name ) return subject;
 					})[0];
 
-					
+
 					marks[thesubject.subject_name] = {
 						mark: item.mark,
 						class_sub_exam_id: item.class_sub_exam_id,
@@ -144,13 +145,13 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 						parent_subject_id : item.parent_subject_id || undefined,
 						subject_id : item.subject_id
 					};
-					
+
 					lastStudent = item.student_id;
-					
+
 				});
 				$scope.examMarks[(i-1)].marks = marks;
 
-				
+
 			}
 		}
 		else
@@ -159,7 +160,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 			$scope.errMsg = result.data;
 		}
 	}
-	
+
 	$scope.calculateParentSubject = function(marks, markObj)
 	{
 		var parent_id = markObj.parent_subject_id;
@@ -168,7 +169,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 			var children = [];
 			var parent = null;
 
-			
+
 			angular.forEach(marks, function(item,key){
 				// get marks for children subjects
 				if( item.parent_subject_id == parent_id ) children.push(item);
@@ -187,8 +188,8 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 			parent.mark = Math.round( (total/totalWeight)*100 ) ;
 		}
 	}
-	
-	var initDataGrid = function() 
+
+	var initDataGrid = function()
 	{
 		var tableElement = $('#resultsTable2');
 		$scope.dataGrid = tableElement.DataTable( {
@@ -220,8 +221,8 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 						emptyTable: "No students found."
 				},
 			} );
-			
-		
+
+
 		var headerHeight = $('.navbar-fixed-top').height();
 		//var subHeaderHeight = $('.subnavbar-container.fixed').height();
 		var searchHeight = $('#body-content .content-fixed-header').height();
@@ -230,8 +231,8 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 				header: true,
 				headerOffset: (headerHeight + searchHeight) + offset
 			} );
-		
-		
+
+
 		// position search box
 		if( !$rootScope.isSmallScreen )
 		{
@@ -239,9 +240,9 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 
 			$('#resultsTable_filter').css('left',filterFormWidth+55);
 		}
-		
+
 		$window.addEventListener('resize', function() {
-			
+
 			$rootScope.isSmallScreen = (window.innerWidth < 768 ? true : false );
 			if( $rootScope.isSmallScreen )
 			{
@@ -251,21 +252,21 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 			{
 				var filterFormWidth = $('.dataFilterForm form').width();
 
-				$('#resultsTable_filter').css('left',filterFormWidth-30);	
+				$('#resultsTable_filter').css('left',filterFormWidth-30);
 			}
 		}, false);
-		
+
 	}
-	
+
 	$scope.save = function(form)
 	{
 
-		if ( !form.$invalid ) 
+		if ( !form.$invalid )
 		{
-		
+
 			var examMarks = [];
 			angular.forEach($scope.examMarks, function(item,index){
-				
+
 				var exam = undefined;
 				// need to get class_sub_exam_id
 				angular.forEach(item.marks, function(mark,key){
@@ -278,18 +279,18 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 					});
 				});
 			});
-			
-			
+
+
 			var data = {
 				user_id: $rootScope.currentUser.user_id,
 				exam_marks: examMarks
 			}
 
-			apiService.addExamMarks(data,createCompleted,apiError);			
+			apiService.addExamMarks(data,createCompleted,apiError);
 		}
 	}
-	
-	var createCompleted = function ( response, status, params ) 
+
+	var createCompleted = function ( response, status, params )
 	{
 
 		var result = angular.fromJson( response );
@@ -306,12 +307,12 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 			$scope.errMsg = result.data;
 		}
 	}
-	
-	var apiError = function (response, status) 
+
+	var apiError = function (response, status)
 	{
 		var result = angular.fromJson( response );
 		$scope.error = true;
 		$scope.errMsg = result.data;
 	}
-	
+
 } ]);
