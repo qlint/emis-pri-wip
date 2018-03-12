@@ -8,10 +8,11 @@ $app->get('/getAllClasses(/:status)', function ($status = true) {
     try
     {
         $db = getDB();
-        $sth = $db->prepare("SELECT class_id, class_name, class_cat_id, classes.teacher_id, classes.active, report_card_type,
+        $sth = $db->prepare("SELECT class_id, class_name, classes.class_cat_id, cc.entity_id, classes.teacher_id, classes.active, report_card_type,
 									first_name || ' ' || coalesce(middle_name,'') || ' ' || last_name as teacher_name
 							FROM app.classes
 							LEFT JOIN app.employees ON classes.teacher_id = employees.emp_id
+							LEFT JOIN app.class_cats cc ON classes.class_cat_id = cc.class_cat_id
 							WHERE classes.active = :status
 							ORDER BY sort_order");
        $sth->execute( array(':status' => $status ) );
