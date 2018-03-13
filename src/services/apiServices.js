@@ -441,6 +441,10 @@ angular.module('eduwebApp').service('apiService', [ '$rootScope', 'ajaxService',
 		ajaxService.AjaxGet(path + "/getAllStudentExamMarks/" + param, successFunction, errorFunction, params);
 	};
 
+	this.getStreamExamMarks = function (param, successFunction, errorFunction, params) {
+		ajaxService.AjaxGet(path + "/getStreamExamMarks/" + param, successFunction, errorFunction, params);
+	};
+
 	this.postStudent = function (request, successFunction, errorFunction, params) {
 		ajaxService.AjaxPost2(request, path + "/addStudent", successFunction, errorFunction, params);
 	};
