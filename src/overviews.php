@@ -52,30 +52,38 @@ $db = pg_connect("host=localhost port=5432 dbname=eduweb_dev user=postgres passw
                       	      GROUP BY fee_item, q.payment_method
                       )v
                       WHERE balance <>0");*/
-$table1 = pg_query($db,"SELECT * FROM (
-		SELECT fee_item, q.payment_method, sum(invoice_total) AS total_due, sum(total_paid) AS total_paid, sum(total_paid) - sum(invoice_total) AS balance,
-		       (SELECT value FROM app.settings WHERE name = 'Currency') as currency
-		FROM (
-			SELECT invoice_line_items.amount as invoice_total, fee_item, student_fee_items.payment_method, inv_item_id,
-				(
-				SELECT COALESCE(sum(payment_inv_items.amount), 0)
-				FROM app.payment_inv_items
-				INNER JOIN app.payments ON payment_inv_items.payment_id = payments.payment_id AND reversed is false
-				WHERE inv_item_id = invoice_line_items.inv_item_id
-				) as total_paid, date_part('year', invoices.due_date) AS due_date
-			  FROM app.invoices
-			  INNER JOIN app.students ON invoices.student_id = students.student_id
-			  INNER JOIN app.invoice_line_items ON invoices.inv_id = invoice_line_items.inv_id
-			  INNER JOIN app.student_fee_items
-			  INNER JOIN app.fee_items ON student_fee_items.fee_item_id = fee_items.fee_item_id
-			  ON invoice_line_items.student_fee_item_id = student_fee_items.student_fee_item_id AND student_fee_items.active = true
-
-			  --ON invoices.student_id = students.student_id
-			  --WHERE invoices.student_id = :studentID
-			  WHERE invoices.canceled = false AND students.active is true
-		) q WHERE due_date = date_part('year', CURRENT_DATE)
-		GROUP BY fee_item, q.payment_method
-	)s WHERE balance < 0");
+$table1 = pg_query($db,"SELECT fee_item, SUM(amount) AS total_due, SUM(total_paid) AS total_paid, SUM(balance) AS balance
+FROM (
+	SELECT fee_item, amount, total_paid, balance
+	FROM (
+		SELECT *FROM (
+				SELECT *, amount - total_paid as balance
+				FROM (
+					SELECT  invoices.inv_id, inv_date, invoice_line_items.amount,
+								coalesce((select sum(payment_inv_items.amount)
+										from app.payment_inv_items
+										inner join app.payments on payment_inv_items.payment_id = payments.payment_id
+										where payment_inv_items.inv_item_id = invoice_line_items.inv_item_id
+										AND reversed = false),0) as total_paid,
+								date_part('year', due_date) AS due_date,
+								inv_item_id,
+								fee_item
+							FROM app.invoices
+							INNER JOIN app.invoice_line_items
+								INNER JOIN app.student_fee_items
+									INNER JOIN app.fee_items
+									ON student_fee_items.fee_item_id = fee_items.fee_item_id
+								ON invoice_line_items.student_fee_item_id = student_fee_items.student_fee_item_id
+							ON invoices.inv_id = invoice_line_items.inv_id
+							INNER JOIN app.students
+								INNER JOIN app.classes
+								ON students.current_class = classes.class_id
+							ON invoices.student_id = students.student_id
+							WHERE students.active is true
+							ORDER BY fee_item
+							) q)x WHERE due_date = date_part('year', CURRENT_DATE))y)z
+							--WHERE balance <> 0
+							GROUP BY z.fee_item");
 
 echo "<div class='table100 ver1 m-b-110'>";
 echo "<table id='table1'>";
