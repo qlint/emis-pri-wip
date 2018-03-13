@@ -907,7 +907,7 @@ $scope.entity_id = data.entity_id;
 			chart_path: $scope.chart_path
 		}
 
-		var domain = 'localhost:8008/highschool';
+		var domain = window.location.host;
 		var newWindowRef = window.open('http://' + domain + '/#/exams/report_card/print');
 		newWindowRef.printCriteria = criteria;
 	}
