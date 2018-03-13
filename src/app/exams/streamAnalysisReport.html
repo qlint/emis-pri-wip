@@ -1,0 +1,120 @@
+<div ng-controller="streamAnalysisReportCtrl">
+
+	<div id="body-content" class="row fixed-filter hasSubNav" ng-class="{'modal-body': isPrinting, 'smallScreen' : isSmallScreen}">
+
+		<div class="notification alert alert-success" ng-show="updated" ng-class="{'fade-out': alert.expired}">
+			<strong>Success!</strong> {{notificationMsg}}
+		</div>
+		<div class="notification alert alert-danger alert-dismissible" ng-show="error">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{errMsg}}
+		</div>
+
+		<div class="fixed content-fixed-header">
+			<div class="subnavbar non-printable" ng-hide="isPrinting">
+				<ul class="nav nav-tabs main-sub-nav" >
+					<li ng-class="{active: item.subSection == activeSubSection}" ng-repeat="item in mainSubNavItems"><a ui-sref="{{item.id}}">{{item.label}}</a></li>
+				</ul>
+			</div>
+			<h4 class="pageToolsToggler" ng-show="isSmallScreen" data-toggle="collapse" data-target="#pageTools" aria-expanded="false" aria-controls="pageTools" ng-click="toggleTools()">Tools <span class="caret"></span></h4>
+			<div class="pull-right toolbar-container clearfix non-printable" ng-class="{'collapse': isSmallScreen}" ng-hide="isPrinting" id="pageTools">
+				<div class="btn-group toolbar">
+					<div class="btn" title="print" ng-click="printReport()"><a class="export-btn"><span class="glyphicon glyphicon-print"></span> <span class="tool-text">Print</span></a></div>
+					<div class="btn" title="Export" ng-click="exportData()"><a class="export-btn"><span class="glyphicon glyphicon-download"></span> <span class="tool-text">Export</span></a></div>
+				</div>
+			</div>
+
+			<div class="clearfix">
+				<h1 id="pageTitle">Stream Analysis</h1>
+			</div>
+
+			<!-- search form -->
+			<div class="dataFilterForm">
+				<h4 ng-show="!isSmallScreen">Filters</h4>
+				<h4 ng-show="isSmallScreen" data-toggle="collapse" data-target="#filterForm" aria-expanded="false" aria-controls="filterForm" ng-click="toggleFilter()">Filters <span class="caret"></span></h4>
+				<form name="dataFilterForm" class="form-inline non-printable" method="post" novalidate ng-hide="isPrinting" ng-class="{'collapse': isSmallScreen}" id="filterForm">
+					<!-- class select -->
+					<div class="form-group">
+						<label for="class">Class</label>
+						<select name="class" id="class" class="form-control" ng-options="class.class_name for class in classes track by class.class_id" ng-model="filters.class">
+							<option value="">--select class--</option>
+						</select>
+					</div>
+
+					<!-- term select -->
+					<div class="form-group">
+						<label for="term">Term</label>
+						<select class="form-control" ng-options="item.term_id as item.term_year_name for item in terms" ng-model="filters.term_id" >
+							<option value="">--select term--</option>
+						</select>
+					</div>
+
+					<!-- exam select -->
+					<div class="form-group">
+						<label for="term">Exam</label>
+						<select id="term" class="form-control" ng-options="exam.exam_type_id as exam.exam_type for exam in examTypes" ng-model="filters.exam_type_id" >
+							<option value="">-- select exam --</option>
+						</select>
+					</div>
+
+					<!-- search btn -->
+					<div class="form-group submit-btn">
+						<input type="submit" class="btn btn-sm btn-info" ng-click="getStudentExams()" value="Load" />
+						<img src="assets/spinner.gif" ng-show="loading" />
+						<button type="button" class="btn btn-link" ng-show="isSmallScreen" data-toggle="collapse" data-target="#filterForm" aria-expanded="false" aria-controls="filterForm" ng-click="toggleFilter()">cancel</button>
+					</div>
+
+				</form>
+			</div>
+			<!-- // end search form -->
+
+
+		</div>
+
+
+
+		<div class="full-height datagrid main-datagrid" >
+			<div class="loading-indicator" ng-show="loading"><i class="fa fa-spinner fa-spin text-lg"></i></div>
+			<p ng-show="marksNotFound" class="error alert alert-danger">
+				{{errMsg}}
+			</p>
+
+			<div ng-include="getReport"></div>
+
+			<script type="text/ng-template" id="examsTable">
+				<table id="resultsTable" class="display dataTable compactHeader" cellspacing="0" width="100%" ng-show="!loading">
+					<thead>
+						<tr>
+							<th>Student</th>
+							<th class="center" ng-repeat="col in tableHeader">{{col.title}}</th>
+							<th>G.TOT</th>
+							<th>POS</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in examMarks track by $index">
+							<td id="{{item.student_id}}">{{item.student_name}}</td>
+							<td class="center" ng-repeat="col in tableHeader" ng-class="{'text-muted':!col.isParent, 'strong': col.isParent}" ng-bind="displayMark($parent.$index, col.key)"></td>
+							<td class="center strong">{{item.total}}</td>
+							<td class="center strong">{{item.rank}}</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th class="right">TOTAL MARKS</th>
+							<th class="center" ng-repeat="col in tableHeader" ng-class="{'text-muted':!col.isParent, 'strong': col.isParent}" ng-bind="displayTotalMark(col.key)"></th>
+							<th class="center strong"></th>
+							<th></th>
+						</tr>
+						<tr>
+							<th class="right">MEAN SCORE</th>
+							<th class="center" ng-repeat="col in tableHeader" ng-class="{'text-muted':!col.isParent, 'strong': col.isParent}" ng-bind="displayMeanScore(col.key)"></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</tfoot>
+				</table>
+			</script>
+		</div>
+	</div>
+</div>
