@@ -392,7 +392,8 @@ function getChartPath()
 								<td class="center strong"><span ng-hide="item.parent_subject_name!==null">{{item.overall_grade}}</span></td>
 								<td class="double-border">
 									<span ng-show="isPrinting">{{item.remarks}}</span>
-									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" ng-change="updateReport()" />
+									<!-- <input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" ng-change="updateReport()" /> -->
+									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" readonly style="background-color:#ffffff;" />
 								</td>
 								<td>{{item.initials}}</td>
 							</tr>
@@ -666,7 +667,7 @@ function getChartPath()
 								<td class="center strong"><span ng-hide="item.parent_subject_name!==null">{{item.overall_grade}}</span></td>
 								<td class="double-border">
 									<span ng-show="isPrinting">{{item.remarks}}</span>
-									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" ng-change="updateReport()" />
+									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" readonly style="background-color:#ffffff;" />
 								</td>
 								<td>{{item.initials}}</td>
 							</tr>
@@ -918,7 +919,7 @@ function getChartPath()
 								<td class="center strong"><span ng-hide="item.parent_subject_name!==null">{{item.overall_grade}}</span></td>
 								<td class="double-border">
 									<span ng-show="isPrinting">{{item.remarks}}</span>
-									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" ng-change="updateReport()" />
+									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" readonly style="background-color:#ffffff;" />
 								</td>
 								<td>{{item.initials}}</td>
 							</tr>
@@ -1071,7 +1072,7 @@ function getChartPath()
 								<td style="vertical-align:top" ng-class="{'strong uppercase': item.parent_subject_name===null, 'indent' : item.parent_subject_name!==null}">{{item.subject_name}}</td>
 								<td>
 									<span ng-show="isPrinting">{{item.remarks}}</span>
-									<textarea ng-show="!isPrinting && !item.has_children" rows="2" name="remarks" class="form-control" ng-model="item.remarks" ng-change="updateReport()"></textarea>
+									<textarea ng-show="!isPrinting && !item.has_children" rows="2" name="remarks" class="form-control" ng-model="item.remarks" readonly style="background-color:#ffffff;"></textarea>
 								</td>
 							</tr>
 						</tbody>
