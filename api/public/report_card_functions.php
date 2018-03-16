@@ -152,6 +152,7 @@ $app->get('/getExamMarksforReportCard/:student_id/:class/:term(/:teacherId)', fu
 								grade_weight,
 								exam_type,
 								(select grade from app.grading where round((mark::float/grade_weight::float)*100) between min_mark and max_mark) as grade,
+								(select comment from app.grading where round((mark::float/grade_weight::float)*100) between min_mark and max_mark) as comment,
 								(select subject_name from app.subjects s where s.subject_id = subjects.parent_subject_id and s.active is true limit 1) as parent_subject_name,
 								subject_name,
 								subjects.teacher_id,
@@ -188,10 +189,11 @@ $app->get('/getExamMarksforReportCard/:student_id/:class/:term(/:teacherId)', fu
 
 
 		// get overall marks per subjects, only use parent subjects
-			$sth2 = $db->prepare("SELECT subject_name, total_mark, total_grade_weight, percentage, grade, sort_order, grade as overall_grade2
+			$sth2 = $db->prepare("SELECT subject_name, total_mark, total_grade_weight, percentage, grade, comment, sort_order, grade as overall_grade2
 														FROM(
 															 SELECT  subject_name, total_mark, total_grade_weight, ceil(total_mark::float/total_grade_weight::float*100) as percentage,
-															   	(select grade from app.grading where (total_mark::float/total_grade_weight::float)*100 between min_mark and max_mark) as grade, sort_order
+															   	(select grade from app.grading where (total_mark::float/total_grade_weight::float)*100 between min_mark and max_mark) as grade,
+																	(select comment from app.grading where (total_mark::float/total_grade_weight::float)*100 between min_mark and max_mark) as comment, sort_order
 															 FROM (
 																  SELECT class_id,class_subjects.subject_id,subject_name,exam_marks.student_id,coalesce(sum(case when subjects.parent_subject_id is null then mark end),0) as total_mark,
 																   coalesce(sum(case when subjects.parent_subject_id is null then grade_weight end),0) as total_grade_weight,subjects.sort_order
