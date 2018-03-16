@@ -138,7 +138,7 @@ $scope.entity_id = data.entity_id;
 			$scope.currentClassPosition = data.currentClassPosition;
 
 
-			console.log($scope.student);
+			console.log($scope.subjectOverall);
 
 			$scope.savedReport = true;
 			$scope.canPrint = true;
@@ -569,6 +569,9 @@ $scope.entity_id = data.entity_id;
 					item.overall_mark = overall.percentage;
 					item.overall_grade = overall.grade;
 					item.position = overall.rank;
+					item.comment = overall.comment;
+					console.log("Comments ::>");
+					console.log(item.comment);
 
 					total_marks += parseInt(overall.total_mark);
 					total_grade_weight += parseInt(overall.total_grade_weight);
@@ -615,7 +618,10 @@ $scope.entity_id = data.entity_id;
 				var orgData = $scope.originalData.subjects.filter(function(newItem){
 					if( newItem.subject_name == item.subject_name ) return newItem;
 				})[0];
-				if( orgData !== undefined ) 	item.remarks = angular.copy(orgData.remarks);
+				var overall = $scope.overallSubjectMarks.filter(function(item2){
+					if( item.subject_name == item2.subject_name ) return item2;
+				})[0];
+				if( overall ) 	item.remarks = overall.comment;
 			});
 		}
 
