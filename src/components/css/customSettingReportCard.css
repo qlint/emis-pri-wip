@@ -1,0 +1,15 @@
+@media print {
+  table#avaragesTable{
+    max-width: 30% !important;
+    float: right;
+    margin-top: -200px;
+  }
+  div#motto {
+    visibility: visible !important;
+    display: block;
+  }
+  #url{
+    max-height: 80% !important;
+  }
+
+}
