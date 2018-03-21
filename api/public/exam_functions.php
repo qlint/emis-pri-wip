@@ -46,6 +46,7 @@ $app->post('/addExamType', function () use($app) {
 	$examType =		( isset($allPostVars['exam_type']) ? $allPostVars['exam_type']: null);
 	$classCatId =	( isset($allPostVars['class_cat_id']) ? $allPostVars['class_cat_id']: null);
 	$userId =		( isset($allPostVars['user_id']) ? $allPostVars['user_id']: null);
+	$isItEndTerm =		( isset($allPostVars['is_it_end_term']) ? $allPostVars['is_it_end_term']: null);
 
 	try
 	{
@@ -53,8 +54,8 @@ $app->post('/addExamType', function () use($app) {
 
 		$sth0 = $db->prepare("SELECT max(sort_order) as sort_order FROM app.exam_types WHERE class_cat_id = :classCatId");
 		/* get the next number for sort order */
-		$sth1 = $db->prepare("INSERT INTO app.exam_types(exam_type, class_cat_id, sort_order, created_by)
-								VALUES(:examType, :classCatId, :sortOrder, :userId)");
+		$sth1 = $db->prepare("INSERT INTO app.exam_types(exam_type, class_cat_id, sort_order, created_by, is_last_exam)
+								VALUES(:examType, :classCatId, :sortOrder, :userId, :isItEndTerm)");
 		$sth2 = $db->prepare("SELECT * FROM app.exam_types WHERE exam_type_id = currval('app.exam_types_exam_type_id_seq')");
 
 		$db->beginTransaction();
@@ -62,7 +63,7 @@ $app->post('/addExamType', function () use($app) {
 		$sort = $sth0->fetch(PDO::FETCH_OBJ);
 		$sortOrder = ($sort && $sort->sort_order !== NULL ? $sort->sort_order + 1 : 1);
 
-		$sth1->execute( array(':examType' => $examType, ':classCatId' => $classCatId, ':sortOrder' => $sortOrder, ':userId' => $userId ) );
+		$sth1->execute( array(':examType' => $examType, ':classCatId' => $classCatId, ':sortOrder' => $sortOrder, ':userId' => $userId, ':isItEndTerm' => $isItEndTerm ) );
 		$sth2->execute();
 		$results = $sth2->fetch(PDO::FETCH_OBJ);
 
@@ -382,18 +383,19 @@ $app->get('/getAllStudentExamMarks/:class/:term/:type(/:teacherId)', function ($
 
 });
 
-$app->get('/getStreamExamMarks/:entityId/:term/:type(/:teacherId)', function ($entityId,$termId,$examTypeId,$teacherId=null) {
+$app->get('/getStreamExamMarks/:entityId/:term(/:teacherId)', function ($entityId,$termId,$teacherId=null) {
 	//Get all student exam marks
 	$app = \Slim\Slim::getInstance();
 
 	try
 	{
 		// need to make sure class, term and type are integers
-		if( is_numeric($entityId) && is_numeric($termId)  && is_numeric($examTypeId) )
+		if( is_numeric($entityId) && is_numeric($termId) )
 		{
 			$db = getDB();
 
-			$query = "select app.colpivot('_exam_marks', 'SELECT first_name || '' '' || coalesce(middle_name,'''') || '' '' || last_name as student_name
+			$query = "select app.colpivot('_exam_marks', 'SELECT student_name, class_id, subject_name, parent_subject_name, student_id, sum(mark) AS mark, sort_order FROM (
+						SELECT first_name || ' ' || coalesce(middle_name,'') || ' ' || last_name as student_name
 							 ,classes.class_id
 							  ,subject_name
 							  ,coalesce((select subject_name from app.subjects s where s.subject_id = subjects.parent_subject_id and s.active is true limit 1),'''') as parent_subject_name
@@ -417,7 +419,6 @@ $app->get('/getStreamExamMarks/:entityId/:term/:type(/:teacherId)', function ($e
 						INNER JOIN app.students ON exam_marks.student_id = students.student_id
 						WHERE class_cats.entity_id = $entityId
 						AND term_id = $termId
-						AND class_subject_exams.exam_type_id = $examTypeId
 						AND subjects.use_for_grading is true
 						AND students.active is true
 						";
@@ -427,8 +428,10 @@ $app->get('/getStreamExamMarks/:entityId/:term/:type(/:teacherId)', function ($e
 		}
 
 		$query .= "	WINDOW w AS (PARTITION BY class_subject_exams.exam_type_id, class_subjects.subject_id ORDER BY subjects.sort_order, mark desc)
+					)a GROUP BY student_name, class_id, subject_name, parent_subject_name, student_id, sort_order
+					ORDER BY student_name, class_id, subject_name, parent_subject_name, student_id, sort_order
 						',
-						array['student_id','student_name','exam_type'], array['sort_order','parent_subject_name','subject_name','grade_weight'], '#.mark', null);";
+						array['student_id','student_name'], array['sort_order','parent_subject_name','subject_name','grade_weight'], '#.mark', null);";
 
 			$query2 = "select *,
 									(
