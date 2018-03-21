@@ -361,7 +361,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data){
 	$scope.addSubject = function()
 	{
 		// show small dialog with add form
-		var domain = 'localhost:8008/highschool';
+		var domain = window.location.host;
 		var dlg = $dialogs.create('http://' + domain + '/app/school/subjectForm.html','subjectFormCtrl',{class_cat_id:$scope.theClass.class_cat_id},{size: 'md',backdrop:'static'});
 		dlg.result.then(function(subject){
 
@@ -556,6 +556,13 @@ function($scope,$rootScope,$uibModalInstance,apiService,data){
 								'<option value="">--select class--</option>' +
 							'</select>' +
 							'<p ng-show="catDialog.class_cat.$invalid && (catDialog.class_cat.$touched || catDialog.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> Class is required.</p>' +
+						'</div>' +
+					'</div>' +
+					'<!-- is this exam end term? yes/no -->' +
+					'<div class="form-group" ng-class="{ \'has-error\' : catDialog.is_it_end_term.$invalid && (catDialog.is_it_end_term.$touched || catDialog.$submitted) }">' +
+						'<label for="is_it_end_term" class="col-sm-10 control-label">Is This Exam The Last Exam Of The Term?</label>' +
+						'<div class="col-sm-2">' +
+							'<input type="checkbox" value="true" name="is_it_end_term" ng-model="examType.is_it_end_term" class="form-control"  >' +
 						'</div>' +
 					'</div>' +
 				'</ng-form>' +
