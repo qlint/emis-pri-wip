@@ -42,6 +42,7 @@ function($scope, $rootScope){
 		//$scope.total_overall_mark = data.total_overall_mark;
 		$scope.reportCardType = data.report_card_type;
 		$scope.chart_path = data.chart_path;
+		$scope.motto = data.motto;
 		$scope.currentClassPosition = data.currentClassPosition;
 		$scope.streamRankPosition = data.streamRankPosition;
 		$scope.streamRankOutOf = data.streamRankOutOf;
