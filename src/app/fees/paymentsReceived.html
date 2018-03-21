@@ -1,7 +1,7 @@
-<div ng-controller="paymentsReceivedCtrl" class="full-height">
-
+<div ng-controller="paymentsReceivedCtrl" class="full-height">	
+	
 	<div id="body-content" class="row fixed-filter hasSubNav" ng-class="{'modal-body': isPrinting, 'smallScreen' : isSmallScreen}">
-
+		
 		<div class="notification alert alert-success" ng-show="updated" ng-class="{'fade-out': alert.expired}">
 			<strong>Success!</strong> {{notificationMsg}}
 		</div>
@@ -9,7 +9,7 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{errMsg}}
 		</div>
-
+		
 		<div class="fixed content-fixed-header">
 			<div class="subnavbar non-printable" ng-hide="isPrinting">
 				<ul class="nav nav-tabs main-sub-nav" >
@@ -22,29 +22,29 @@
 					<div class="btn add-btn" title="Make Payment" ng-show="permissions.fees.payments_received.add" ng-click="addPayment()"><a class="clickable"><span class="glyphicon glyphicon-plus-sign"></span> <span class="tool-text">Make Payment</span></a></div>
 					<div class="btn" title="Adjust Payment" ng-show="permissions.fees.payments_received.edit" ng-click="adjustPayment()"><a class="clickable"><span class="glyphicon glyphicon-pencil"></span> <span class="tool-text">Adjust Payment</span></a></div>
 					<div class="btn" title="Export" ng-click="exportPayments()"><a class="clickable"><span class="glyphicon glyphicon-download"></span> <span class="tool-text">Export</span></a></div>
-				</div>
+				</div>				
 			</div>
-
+			
 			<div class="clearfix">
 				<h1 id="pageTitle">Payments Received</h1>
 			</div>
-
+			
 			<!-- search form -->
-			<div class="dataFilterForm">
+			<div class="dataFilterForm">	
 				<h4 ng-show="!isSmallScreen">Filters</h4>
 				<h4 ng-show="isSmallScreen" data-toggle="collapse" data-target="#filterForm" aria-expanded="false" aria-controls="filterForm" ng-click="toggleFilter()">Filters <span class="caret"></span></h4>
 				<form name="dataFilterForm" class="form-inline non-printable" method="post" novalidate ng-hide="isPrinting" ng-class="{'collapse': isSmallScreen}" id="filterForm">
 					<!-- category select -->
 					<div class="form-group">
-						<label for="category">Parent Class</label>
+						<label for="category">Category</label>
 						<select class="form-control" id="category" name="class_cat_id" ng-model="filters.class_cat_id">
-							<option value="">All Parent Classes</option>
+							<option value="">All Class Categories</option>
 							<option value="{{cat.class_cat_id}}" ng-repeat="cat in classCats">{{cat.class_cat_name}}</option>
 						</select>
 					</div>
 					<!-- class select -->
 					<div class="form-group">
-						<label for="class">Class</label>
+						<label for="class">Class</label>	
 						<select name="class" id="class" class="form-control" ng-model="filters.class_id">
 							<option value="">All Classes</option>
 							<option value="{{class.class_id}}" ng-repeat="class in classes">{{class.class_name}}</option>
@@ -60,32 +60,32 @@
 							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="showStartDatePicker = !showStartDatePicker"></i></span>
 						</div>
 					</div>
-
+					
 					<!-- status select -->
 					<div class="form-group">
-						<label for="status">Status</label>
+						<label for="status">Status</label>	
 						<select name="status" id="status" class="form-control" ng-model="filters.status">
 							<option value="">All</option>
 							<option value="true">Current</option>
-							<option value="false">Former</option>
+							<option value="false">Former</option>							
 						</select>
-					</div>
-
+					</div>	
+					
 					<!-- payment status select -->
 					<div class="form-group">
-						<label for="payment_status">Show</label>
+						<label for="payment_status">Show</label>	
 						<select name="payment_status" id="payment_status" class="form-control" ng-model="filters.payment_status">
 							<option value="{{item.value}}" ng-repeat="item in paymentStatuses">{{item.label}}</option>
 						</select>
-					</div>
-
+					</div>	
+					
 					<!-- search btn -->
 					<div class="form-group submit-btn">
 						<input type="submit" class="btn btn-sm btn-info" ng-click="loadFilter()" value="Load" />
 						<img src="assets/spinner.gif" ng-show="loading" />
 						<button type="button" class="btn btn-link" ng-show="isSmallScreen" data-toggle="collapse" data-target="#filterForm" aria-expanded="false" aria-controls="filterForm" ng-click="toggleFilter()">cancel</button>
 					</div>
-
+					
 					<div class="form-group grid-filter">
 						<input class="ui-grid-filter" ng-model='gridFilter.filterValue' placeholder="Filter"/>
 						<button class="btn btn-xs btn-primary" ng-click='filterDataTable()'>Filter</button>
@@ -95,15 +95,15 @@
 				</form>
 			</div>
 			<!-- // end search form -->
-
-
+			
+			
 		</div>
-
+		
 		<div class="full-height datagrid main-datagrid">
 			<div class="row">
 				<div class="col-sm-10">
 				<div class="loading-indicator" ng-show="loading"><i class="fa fa-spinner fa-spin text-lg"></i></div>
-
+				
 				<div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-resize-columns class="myGrid">
 					<div ng-if="!gridOptions.data.length" class="no-results">No results found.</div>
 				</div>
@@ -118,10 +118,13 @@
 				</div>
 			</div>
 		</div>
-
+		
 		<div class="loading-screen modal-backdrop fade in" ng-show="modalLoading">
 			<p class="msg"><span class="fa fa-cog fa-spin"></span> Fetching data...</p>
 		</div>
-
+		
 	</div>
 </div>
+
+
+

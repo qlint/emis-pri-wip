@@ -12,7 +12,7 @@ $app->get('/getAllStudents/:status(/:startDate/:endDate)', function ($status,$st
     {
       $sth = $db->prepare("SELECT students.*, classes.class_id, classes.class_cat_id, classes.class_name, classes.report_card_type,
                   classes.teacher_id as class_teacher_id,
-                  (select array_agg(fee_items.fee_item_id)
+                  (select array_agg(fee_items.fee_item_id) 
                     from app.student_fee_items
                     inner join app.fee_items
                     on student_fee_items.fee_item_id = fee_items.fee_item_id
@@ -29,7 +29,7 @@ $app->get('/getAllStudents/:status(/:startDate/:endDate)', function ($status,$st
     {
       $sth = $db->prepare("SELECT students.*, classes.class_id, classes.class_cat_id, classes.class_name, classes.report_card_type,
                   classes.teacher_id as class_teacher_id,
-                  (select array_agg(fee_items.fee_item_id)
+                  (select array_agg(fee_items.fee_item_id) 
                     from app.student_fee_items
                     inner join app.fee_items
                     on student_fee_items.fee_item_id = fee_items.fee_item_id
@@ -48,7 +48,7 @@ $app->get('/getAllStudents/:status(/:startDate/:endDate)', function ($status,$st
         {
           $result->enrolled_opt_courses = pg_array_parse($result->enrolled_opt_courses);
         }
-
+      
         $app->response->setStatus(200);
         $app->response()->headers->set('Content-Type', 'application/json');
         echo json_encode(array('response' => 'success', 'data' => $results ));
@@ -847,8 +847,6 @@ $app->post('/addStudent', function () use($app) {
   $emergencyContact =       ( isset($allPostVars['emergency_name']) ? $allPostVars['emergency_name']: null);
   $emergencyRelation =      ( isset($allPostVars['emergency_relationship']) ? $allPostVars['emergency_relationship']: null);
   $emergencyPhone =         ( isset($allPostVars['emergency_telephone']) ? $allPostVars['emergency_telephone']: null);
-  $kcpeMarks =         ( isset($allPostVars['kcpe_marks']) ? $allPostVars['kcpe_marks']: null);
-  $schoolHouse =         ( isset($allPostVars['school_house']) ? $allPostVars['school_house']: null);
   $pickUpIndividual =       ( isset($allPostVars['pick_up_drop_off_individual']) ? $allPostVars['pick_up_drop_off_individual']: null);
   $installmentOption =      ( isset($allPostVars['installment_option']) ? $allPostVars['installment_option']: null);
   $routeId =                ( isset($allPostVars['route_id']) ? $allPostVars['route_id']: null);
@@ -876,18 +874,18 @@ $app->post('/addStudent', function () use($app) {
   {
     $db = getDB();
 
-    $studentInsert = $db->prepare("INSERT INTO app.students(admission_number, gender, first_name, middle_name, last_name, dob, student_category,
+    $studentInsert = $db->prepare("INSERT INTO app.students(admission_number, gender, first_name, middle_name, last_name, dob, student_category, 
                                 student_type, nationality,
                                 student_image, current_class, payment_method, active, created_by, admission_date, marial_status_parents,
                                 adopted, adopted_age, marital_separation_age, adoption_aware, comments, medical_conditions, hospitalized,
                                 hospitalized_description, current_medical_treatment, current_medical_treatment_description,
                                 other_medical_conditions, other_medical_conditions_description,
-                                emergency_name, emergency_relationship, emergency_telephone, pick_up_drop_off_individual,
-                                installment_option_id, new_student, transport_route_id, kcpe_marks, school_house)
+                                emergency_name, emergency_relationship, emergency_telephone, pick_up_drop_off_individual, 
+                                installment_option_id, new_student, transport_route_id)
             VALUES(:admissionNumber,:gender,:firstName,:middleName,:lastName,:dob,:studentCat,:studentType,:nationality,:studentImg, :currentClass, :paymentMethod, :active, :createdBy,
           :admissionDate, :marialStatusParents, :adopted, :adoptedAge, :maritalSeparationAge, :adoptionAware, :comments, :hasMedicalConditions, :hospitalized,
           :hospitalizedDesc, :currentMedicalTreatment, :currentMedicalTreatmentDesc, :otherMedicalConditions, :otherMedicalConditionsDesc,
-          :emergencyContact, :emergencyRelation, :emergencyPhone, :pickUpIndividual, :installmentOption, :newStudent, :routeId, :kcpeMarks, :schoolHouse);");
+          :emergencyContact, :emergencyRelation, :emergencyPhone, :pickUpIndividual, :installmentOption, :newStudent, :routeId);");
 
     $studentClassInsert = $db->prepare("INSERT INTO app.student_class_history(student_id,class_id,created_by)
                       VALUES(currval('app.students_student_id_seq'),:currentClass,:createdBy);");
@@ -985,9 +983,7 @@ $app->post('/addStudent', function () use($app) {
               ':pickUpIndividual' => $pickUpIndividual,
               ':installmentOption' => $installmentOption,
               ':newStudent' => $newStudent,
-              ':routeId' => $routeId,
-              ':kcpeMarks' => $kcpeMarks,
-              ':schoolHouse' => $schoolHouse
+              ':routeId' => $routeId
     ) );
 
     $studentClassInsert->execute(array(':currentClass' => $currentClass,':createdBy' => $createdBy));
@@ -1176,8 +1172,6 @@ $app->put('/updateStudent', function () use($app) {
     $newStudent =       ( isset($allPostVars['details']['new_student']) ? $allPostVars['details']['new_student']: 'f');
     $admissionNumber =    ( isset($allPostVars['details']['admission_number']) ? $allPostVars['details']['admission_number']: null);
     $admissionDate =    ( isset($allPostVars['details']['admission_date']) ? $allPostVars['details']['admission_date']: null);
-    $kcpeMarks =          ( isset($allPostVars['details']['kcpe_marks']) ? $allPostVars['details']['kcpe_marks']: null);
-    $schoolHouse =          ( isset($allPostVars['details']['school_house']) ? $allPostVars['details']['school_house']: null);
   }
 
   if( isset($allPostVars['family']) )
@@ -1241,9 +1235,7 @@ $app->put('/updateStudent', function () use($app) {
             admission_date= :admissionDate,
             admission_number= :admissionNumber,
             modified_date = now(),
-            modified_by = :userId,
-            kcpe_marks = :kcpeMarks,
-            school_house = :schoolHouse
+            modified_by = :userId
           WHERE student_id = :studentId"
       );
 
@@ -1394,9 +1386,7 @@ $app->put('/updateStudent', function () use($app) {
               ':newStudent' => $newStudent,
               ':admissionDate' => $admissionDate,
               ':admissionNumber' => $admissionNumber,
-              ':userId' => $userId,
-              ':kcpeMarks' => $kcpeMarks,
-              ':schoolHouse' => $schoolHouse
+              ':userId' => $userId
       ) );
       if( $updateClass )
       {
@@ -2339,15 +2329,15 @@ $app->put('/promoteStudents', function () use($app) {
   {
     $db = getDB();
 
-    $update = $db->prepare("UPDATE app.students
+    $update = $db->prepare("UPDATE app.students 
                             SET current_class = :classId,
                                 modified_date = now(),
                                 modified_by = :userId
                             WHERE student_id = :studentId");
-
-    $classUpdate = $db->prepare("UPDATE app.student_class_history
-                                  SET end_date = now()
-                                  WHERE student_id = :studentId
+    
+    $classUpdate = $db->prepare("UPDATE app.student_class_history 
+                                  SET end_date = now() 
+                                  WHERE student_id = :studentId 
                                   AND class_id = :previousClassId;");
 
     $classInsert = $db->prepare("
@@ -2369,13 +2359,13 @@ $app->put('/promoteStudents', function () use($app) {
             ':classId' => $classId,
             ':userId' => $userId
       ) );
-
+      
       $classUpdate->execute( array(':studentId' => $studentId, ':previousClassId' => $previousClassId ) );
       $classInsert->execute( array(':studentId' => $studentId, ':classId' => $classId, ':userId' => $userId ) );
       $feeItemUpdate->execute( array(':studentId' => $studentId, ':previousClassCatId' => $previousClassCatId, ':userId' => $userId ) );
     }
     $db->commit();
-
+    
 
     $app->response->setStatus(200);
     $app->response()->headers->set('Content-Type', 'application/json');

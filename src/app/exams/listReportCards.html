@@ -1,7 +1,7 @@
-<div ng-controller="listReportCardsCtrl">
-
+<div ng-controller="listReportCardsCtrl">	
+	
 	<div id="body-content" class="row fixed-filter hasSubNav" ng-class="{'modal-body': isPrinting, 'smallScreen' : isSmallScreen}">
-
+		
 		<div class="notification alert alert-success" ng-show="updated" ng-class="{'fade-out': alert.expired}">
 			<strong>Success!</strong> {{notificationMsg}}
 		</div>
@@ -9,7 +9,7 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{errMsg}}
 		</div>
-
+		
 		<div class="fixed content-fixed-header">
 			<div class="subnavbar non-printable" ng-hide="isPrinting">
 				<ul class="nav nav-tabs main-sub-nav" >
@@ -19,28 +19,27 @@
 			<h4 class="pageToolsToggler" ng-show="isSmallScreen" data-toggle="collapse" data-target="#pageTools" aria-expanded="false" aria-controls="pageTools" ng-click="toggleTools()">Tools <span class="caret"></span></h4>
 			<div class="pull-right toolbar-container clearfix non-printable" ng-class="{'collapse': isSmallScreen}" ng-hide="isPrinting" id="pageTools">
 				<div class="btn-group toolbar">
-					<div class="btn add-btn" title="Print All" ng-click="printAll()"><a> Print All</a></div>
 					<div class="btn add-btn" title="Add Exam Marks" ng-show="permissions.exams.report_cards.add" ng-click="addReportCard()"><a class="clickable"><span class="glyphicon glyphicon-plus-sign"></span> <span class="tool-text">Add Report Card</span></a></div>
-				</div>
+				</div>			
 			</div>
-
+			
 			<div class="clearfix">
 				<h1 id="pageTitle">Report Cards</h1>
 			</div>
-
+			
 			<!-- search form -->
-			<div class="dataFilterForm">
+			<div class="dataFilterForm">	
 				<h4 ng-show="!isSmallScreen">Filters</h4>
 				<h4 ng-show="isSmallScreen" data-toggle="collapse" data-target="#filterForm" aria-expanded="false" aria-controls="filterForm" ng-click="toggleFilter()">Filters <span class="caret"></span></h4>
 				<form name="dataFilterForm" class="form-inline non-printable" method="post" novalidate ng-hide="isPrinting" ng-class="{'collapse': isSmallScreen}" id="filterForm">
 					<!-- class select -->
 					<div class="form-group">
-						<label for="class">Class</label>
+						<label for="class">Class</label>	
 						<select name="class" id="class" class="form-control" ng-options="class.class_name for class in classes track by class.class_id" ng-model="filters.class">
 							<option value="">--select class--</option>
 						</select>
-					</div>
-
+					</div>		
+					
 					<!-- search btn -->
 					<div class="form-group submit-btn">
 						<input type="submit" class="btn btn-sm btn-info" ng-click="getStudentReportCards()" value="Load" />
@@ -51,20 +50,20 @@
 				</form>
 			</div>
 			<!-- // end search form -->
-
-
+			
+			
 		</div>
-
-
-
+		
+		
+		
 		<div class="full-height datagrid main-datagrid">
 			<div class="loading-indicator" ng-show="loading"><i class="fa fa-spinner fa-spin text-lg"></i></div>
 			<p ng-show="reportsNotFound" class="error alert alert-danger">
 				{{errMsg}}
 			</p>
-
+			
 			<div ng-include="getReport"></div>
-
+			
 			<script type="text/ng-template" id="reportTable">
 				<table id="resultsTable" class="display dataTable clickable" cellspacing="0" width="100%" ng-show="!loading">
 					<thead>
@@ -73,7 +72,7 @@
 							<th>Student</th>
 							<th class="center" ng-repeat="item in terms">{{item.term_name}}</th>
 						</tr>
-					</thead>
+					</thead>	
 					<tbody>
 						<tr ng-repeat="item in reportCards.students track by $index">
 							<td></td>
@@ -86,9 +85,12 @@
 					</tbody>
 				</table>
 			</script>
-
-
+			
+			
 		</div>
-
+		
 	</div>
 </div>
+
+
+

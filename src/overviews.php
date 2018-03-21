@@ -25,9 +25,9 @@ header('Access-Control-Allow-Origin: *');
   	   <div class="wrap-table100">
          <h4>Total amounts due and balances per fee item for the school. (Due this term)</h4><hr>
 <?php
-$db = pg_connect("host=localhost port=5432 dbname=eduweb_dev user=postgres password=postgres");
-// $getDbname = 'eduweb_'.array_shift((explode('.', $_SERVER['HTTP_HOST'])));
-// $db = pg_connect("host=localhost port=5432 dbname=".$getDbname." user=postgres password=postgres");
+// $db = pg_connect("host=localhost port=5432 dbname=eduweb_dev user=postgres password=postgres");
+$getDbname = 'eduweb_'.array_shift((explode('.', $_SERVER['HTTP_HOST'])));
+$db = pg_connect("host=localhost port=5432 dbname=".$getDbname." user=postgres password=postgres");
 /*$table1 = pg_query($db,"SELECT fee_item, payment_method, total_due, total_paid, balance
                       FROM(
                       	SELECT fee_item, q.payment_method,

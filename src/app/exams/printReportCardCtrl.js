@@ -6,26 +6,9 @@ function($scope, $rootScope){
 
 	var initializeController = function()
 	{
-
-		var loadStreamPOsition = function(response, status)
-		{
-			var result = angular.fromJson(response);
-			console.log("streamPosition - >");
-			console.log(response);
-				$scope.streamRankPosition = result.data.streamRank[0].position;
-			$scope.streamRankOutOf = result.data.streamRank[0].position_out_of;
-
-				console.log($scope.streamRankPosition);
-				console.log($scope.streamRankOutOf);
-
-		}
-
 		$scope.isAdmin = ( $rootScope.currentUser.user_type == 'SYS_ADMIN' ? true : false );
 
 		var data = window.printCriteria;
-		var getPrintRank = localStorage.getItem("printStreamRank");
-		var getStreamRankOutOf = localStorage.getItem("printStreamRankOutOf");
-		var getClassPos = localStorage.getItem("printClassPos");
 		$rootScope.isPrinting = true;
 		$scope.showReportCard = true;
 		$scope.student = angular.fromJson(data.student);
@@ -42,13 +25,6 @@ function($scope, $rootScope){
 		//$scope.total_overall_mark = data.total_overall_mark;
 		$scope.reportCardType = data.report_card_type;
 		$scope.chart_path = data.chart_path;
-		$scope.motto = data.motto;
-		$scope.currentClassPosition = data.currentClassPosition;
-		$scope.streamRankPosition = data.streamRankPosition;
-		$scope.streamRankOutOf = data.streamRankOutOf;
-		// $scope.currentClassPosition.position = getClassPos;
-		// $scope.streamRankPosition = getPrintRank;
-		// $scope.streamRankOutOf = getStreamRankOutOf;
 
 
 		$scope.loading = false;

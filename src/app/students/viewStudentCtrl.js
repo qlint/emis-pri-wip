@@ -155,7 +155,6 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 	var initializeController = function()
 	{
 		$scope.getStudentDetails(data.student.student_id);
-		// console.log(data.student);
 
 		var studentCats = $rootScope.currentUser.settings['Student Categories'];
 		$scope.studentCats = studentCats.split(',');
@@ -274,7 +273,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 			// console.log("This year " + yyyy);
 			// console.log("Student DOB year - " + studentDOByear);
 			// console.log("Age - " + age);
-			// console.log($scope.student.age);
+			console.log($scope.student.age);
 			// var studentDOB = $scope.student.dob;
 			// var getDOByear = studentDOB.getFullYear();
 			// $scope.student.age = yyyy - getDOByear;
@@ -788,7 +787,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 	$scope.addInvoice = function()
 	{
 		var domain = window.location.host;
-		var dlg = $dialogs.create('http://localhost:8008/highschool/app/fees/invoiceForm.html','invoiceFormCtrl',{selectedStudent:$scope.student},{size: 'lg',backdrop:'static'});
+		var dlg = $dialogs.create('http://' + domain + '/app/fees/invoiceForm.html','invoiceFormCtrl',{selectedStudent:$scope.student},{size: 'lg',backdrop:'static'});
 		dlg.result.then(function(result){
 			// update invoices
 			getStudentBalance();
@@ -806,7 +805,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 		item.student_name = $scope.student.student_name;
 
 		var domain = window.location.host;
-		var dlg = $dialogs.create('http://localhost:8008/highschool/app/fees/invoiceDetails.html','invoiceDetailsCtrl',item,{size: 'md',backdrop:'static'});
+		var dlg = $dialogs.create('http://' + domain + '/app/fees/invoiceDetails.html','invoiceDetailsCtrl',item,{size: 'md',backdrop:'static'});
 		dlg.result.then(function(result){
 			// update invoices
 			getStudentBalance();
@@ -831,7 +830,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 			invoice: invoice
 		}
 		var domain = window.location.host;
-		var dlg = $dialogs.create('http://localhost:8008/highschool/app/fees/invoice.html','invoiceCtrl',data,{size: 'md',backdrop:'static'});
+		var dlg = $dialogs.create('http://' + domain + '/app/fees/invoice.html','invoiceCtrl',data,{size: 'md',backdrop:'static'});
 
 		//$scope.openModal('fees', 'invoice', 'md',data);
 	}
@@ -846,7 +845,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 		}
 
 		var domain = window.location.host;
-		var newWindowRef = window.open('http://localhost:8008/highschool/#/fees/statement/print');
+		var newWindowRef = window.open('http://' + domain + '/#/fees/statement/print');
 		newWindowRef.printCriteria = criteria;
 	}
 
@@ -926,7 +925,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 	{
 		// open dialog
 		var domain = window.location.host;
-		var dlg = $dialogs.create('http://localhost:8008/highschool/app/fees/paymentForm.html','paymentFormCtrl',{selectedStudent:$scope.student},{size: 'lg',backdrop:'static'});
+		var dlg = $dialogs.create('http://' + domain + '/app/fees/paymentForm.html','paymentFormCtrl',{selectedStudent:$scope.student},{size: 'lg',backdrop:'static'});
 		dlg.result.then(function(payment){
 			// update payments
 			getStudentBalance();
@@ -944,7 +943,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 			feeItems: $scope.feeItems.concat($scope.optFeeItems)
 		}
 		var domain = window.location.host;
-		var dlg = $dialogs.create('http://localhost:8008/highschool/app/fees/receipt.html','receiptCtrl',data,{size: 'md',backdrop:'static'});
+		var dlg = $dialogs.create('http://' + domain + '/app/fees/receipt.html','receiptCtrl',data,{size: 'md',backdrop:'static'});
 	}
 
 	$scope.viewPayment = function(payment)
@@ -953,7 +952,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 		payment.student_name = $scope.student.student_name;
 		//$rootScope.modalLoading = true;
 		var domain = window.location.host;
-		var dlg = $dialogs.create('http://localhost:8008/highschool/app/fees/paymentDetails.html','paymentDetailsCtrl',payment,{size: 'lg',backdrop:'static'});
+		var dlg = $dialogs.create('http://' + domain + '/app/fees/paymentDetails.html','paymentDetailsCtrl',payment,{size: 'lg',backdrop:'static'});
 		dlg.result.then(function(payment){
 			// update invoices
 			getStudentBalance();
@@ -1097,7 +1096,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 	{
 		// open dialog
 		var domain = window.location.host;
-		var dlg = $dialogs.create('http://localhost:8008/highschool/app/fees/feeItemForm.html','feeItemFormCtrl',undefined,{size: 'md',backdrop:'static'});
+		var dlg = $dialogs.create('http://' + domain + '/app/fees/feeItemForm.html','feeItemFormCtrl',undefined,{size: 'md',backdrop:'static'});
 		dlg.result.then(function(){
 			// update fee items
 			getFeeItems();
@@ -1295,8 +1294,6 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 
 	var loadReportCards = function(response,status)
 	{
-		// console.log(">>>>>");
-		// console.log(response);
 		$scope.loading = false;
 		var result = angular.fromJson( response );
 		if( result.response == 'success' )
@@ -1347,8 +1344,6 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 								date: item.date,
 								year: item.year,
 								published: item.published
-
-
 							}
 						);
 
@@ -1367,8 +1362,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 						teacher_id: item.teacher_id,
 						teacher_name: item.teacher_name,
 						date: item.date,
-						data: item.report_data,
-						entity_id: item.entity_id
+						data: item.report_data
 					};
 
 					lastClass = item.class_name;
@@ -1397,7 +1391,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 		}
 
 		var domain = window.location.host;
-		var dlg = $dialogs.create('http://localhost:8008/highschool/app/exams/reportCard.html','reportCardCtrl',data,{size: 'lg',backdrop:'static'});
+		var dlg = $dialogs.create('http://' + domain + '/app/exams/reportCard.html','reportCardCtrl',data,{size: 'lg',backdrop:'static'});
 		dlg.result.then(function(examMarks){
 			$scope.getStudentReportCards();
 		},function(){
@@ -1407,8 +1401,6 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 
 	$scope.getReportCard = function(item, term_name, reportData)
 	{
-		// console.log(":::::>")
-		// console.log(reportData);
 		var data = {
 			student : $scope.student,
 			report_card_id: reportData.report_card_id,
@@ -1416,7 +1408,6 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 			class_id : reportData.class_id,
 			published: reportData.published,
 			term_id: reportData.term_id,
-			entity_id: reportData.entity_id,
 			term_name : term_name,
 			year: reportData.year,
 			report_card_type: reportData.report_card_type,
@@ -1438,7 +1429,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 		};
 
 		var domain = window.location.host;
-		var dlg = $dialogs.create('http://localhost:8008/highschool/app/exams/reportCard.html','reportCardCtrl',data,{size: 'lg',backdrop:'static'});
+		var dlg = $dialogs.create('http://' + domain + '/app/exams/reportCard.html','reportCardCtrl',data,{size: 'lg',backdrop:'static'});
 		dlg.result.then(function(examMarks){
 			$scope.getStudentReportCards();
 		},function(){
@@ -1507,9 +1498,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, FileUpload
 						admission_date: moment($scope.student.admission_date.startDate).format('YYYY-MM-DD'),
 						admission_number: $scope.student.admission_number,
 						new_student : ( $scope.student.new_student ? 't' : 'f' ),
-            student_type: $scope.student.student_type,
-						kcpe_marks: $scope.student.kcpe_marks,
-						school_house: $scope.student.school_house
+            student_type: $scope.student.student_type
 					}
 				}
 			}

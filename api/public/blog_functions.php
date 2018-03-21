@@ -1069,8 +1069,8 @@ $app->post('/addCommunication', function () use($app) {
   try
   {
     $db = getDB();
-    $sth = $db->prepare("INSERT INTO app.communications(com_date, audience_id, com_type_id, subject, message, attachment, message_from, class_id, send_as_email, send_as_sms, created_by, reply_to, post_status_id, route, activity, studentarray_id(arr), guardianarray_id(arr))
-               VALUES(now(), :audienceId, :comTypeId, :subject, :message, :attachment, :messageFrom, :classId, :sendAsEmail, :sendAsSms, :userId, :replyTo, :postStatus, :route, :activity, {:studentId}, {:guardianId}) RETURNING com_id AS postId");
+    $sth = $db->prepare("INSERT INTO app.communications(com_date, audience_id, com_type_id, subject, message, attachment, message_from, student_id, guardian_id, class_id, send_as_email, send_as_sms, created_by, reply_to, post_status_id, route, activity)
+               VALUES(now(), :audienceId, :comTypeId, :subject, :message, :attachment, :messageFrom, :studentId, :guardianId, :classId, :sendAsEmail, :sendAsSms, :userId, :replyTo, :postStatus, :route, :activity) RETURNING com_id AS postId");
 
     // if( $attachment === 'TRUE' )
     // {
@@ -1275,7 +1275,7 @@ $app->post('/addCommunication', function () use($app) {
 
     $db->beginTransaction();
     $sth->execute( array(':audienceId' => $audienceId, ':comTypeId' => $comTypeId, ':subject' => $subject, ':message' => $message ,
-            ':attachment' => $attachment , ':userId' => $userId, '{:studentId}' => $studentId, '{:guardianId}' => $guardianId,
+            ':attachment' => $attachment , ':userId' => $userId, ':studentId' => $studentId, ':guardianId' => $guardianId,
             ':classId' => $classId, ':sendAsEmail' => $sendAsEmail, ':sendAsSms' => $sendAsSms, ':replyTo' => $replyTo,
             ':messageFrom' => $messageFrom, ':postStatus' => $postStatus, ':route' => $routeId, ':activity' => $feeItem) );
 

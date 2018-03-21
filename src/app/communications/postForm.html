@@ -94,9 +94,9 @@
 						<div class="col-sm-10">
 							<label for="parent">Select a parent:</label>
 							<div>
-								<ui-select ng-model="theparent.selected" theme="select2" class="form-control" name="parent" multiple required>
+								<ui-select ng-model="theparent.selected" theme="select2" class="form-control" name="parent" required>
 								  <ui-select-match placeholder="Select or search a parent...">
-									<span>{{$item.parent_full_name}} ({{$item.relationship}} of {{$item.student_name}}, {{$item.class_name}})</span>
+									<span>{{$select.selected.parent_full_name}} ({{$select.selected.relationship}} of {{$select.selected.student_name}}, {{$select.selected.class_name}})</span>
 								  </ui-select-match>
 								  <ui-select-choices repeat="item in parents | filter: $select.search">
 								    <span ng-bind-html="item.parent_full_name | highlight: $select.search"></span> -

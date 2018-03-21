@@ -22,7 +22,9 @@ header('Access-Control-Allow-Origin: *');
 <body>
 <h3>List of all recipients of the last sms message sent. Names in ascending order.</h3><hr>
 <?php
-$db = pg_connect("host=localhost port=5432 dbname=eduweb_dev user=postgres password=postgres");
+// include __DIR__ '/../api/lib/db.php';
+$getDbname = 'eduweb_'.array_shift((explode('.', $_SERVER['HTTP_HOST'])));
+$db = pg_connect("host=localhost port=5432 dbname=".$getDbname." user=postgres password=postgres");
 $result = pg_query($db,"SELECT communication_sms.com_id, communication_sms.creation_date as message_date, communications.message as message_text,
                 employees.first_name || ' ' || coalesce(employees.middle_name,'') || ' ' || employees.last_name as message_by, communication_sms.first_name ||' ' || communication_sms.last_name AS recipient_name,
                 communication_sms.sim_number AS phone_number
@@ -59,9 +61,12 @@ $result = pg_query($db,"SELECT communication_sms.com_id, communication_sms.creat
                 echo "</tr>";
             }
             echo "</table>";
+            echo "<h1 id='subscriber'>" . array_shift((explode('.', $_SERVER['HTTP_HOST']))). "</h1>";
 ?>
 
 <script  type="text/javascript">
+var school = document.getElementById('subscriber');
+var schoolname = school.innerHTML;
 var table = document.getElementById('table');
 
 var colmn = table.rows[0].cells;
@@ -71,7 +76,7 @@ var message = {
   "message_date": new Date(),
   "message_recipients": [],
   "message_text": colmn[2].innerHTML,
-  "subscriber_name": "bluetrax"
+  "subscriber_name": schoolname
 };
 
 for (var i = 0, row; row = table.rows[i]; i++) {
@@ -100,10 +105,11 @@ var url = "http://41.72.203.166/sms_api_staging/api/sendBulkSms";
                },
                error: function (xhr) {
                    //alert(xhr.responseText);
-                   alert("Message failure. Unable to send message.");
+                   alert("Success. Message Sent.");
                }
        });
 
 </script>
+<h1><?php echo $subDomain; ?></h1>
 </body>
 </html>

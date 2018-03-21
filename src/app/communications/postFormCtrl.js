@@ -648,23 +648,8 @@ function($scope, $rootScope, apiService, $dialogs, FileUploader, $timeout, $stat
 			$scope.selectedMethod =	angular.copy($scope.filters.send_method).toUpperCase();
 
 			/* set variables to post of selected criteria */
-			var studentIdsArray = [];
-			var parentIdsArray = [];
-			for (var i = 0; i < $scope.theparent.selected.length; i++){
-				studentIdsArray[i] = $scope.theparent.selected[i].student_id;
-				parentIdsArray[i] = $scope.theparent.selected[i].guardian_id;
-			}
-			var studentsJoinedArray = studentIdsArray.join();
-			var parentsJoinedArray = parentIdsArray.join();
-
-			console.log(studentIdsArray);
-			console.log(parentIdsArray);
-
-			// console.log(parentIdsArray.join(','));
-			// var parentIdsArrayJoined = parentIdsArray.join(',');
-			// console.log(JSON.stringify(parentIdsArray));
-			$scope.post.student_id = ( $scope.theparent.selected !== undefined ? studentIdsArray : undefined );
-			$scope.post.guardian_id = ( $scope.theparent.selected !== undefined ? parentIdsArray : undefined );
+			$scope.post.student_id = ( $scope.theparent.selected !== undefined ? angular.copy($scope.theparent.selected.student_id) : undefined );
+			$scope.post.guardian_id = ( $scope.theparent.selected !== undefined ? angular.copy($scope.theparent.selected.guardian_id) : undefined );
 			$scope.post.transport_id = ( $scope.theroute.selected !== undefined ? angular.copy($scope.theroute.selected.transport_id) : undefined );
 			$scope.post.fee_item = ( $scope.theactivity.selected !== undefined ? angular.copy($scope.theactivity.selected.fee_item) : undefined );
 			$scope.post.class_id = ( $scope.filters.class !== undefined ? angular.copy($scope.filters.class.class_id) : undefined );
@@ -887,7 +872,7 @@ function($scope, $rootScope, apiService, $dialogs, FileUploader, $timeout, $stat
 					}
 				}
 				$scope.post.attachment = attachmentArray.join(',');
-				// console.log($scope.post.attachment);
+				console.log($scope.post.attachment);
 
 				if( $scope.isHomework )
 				{

@@ -1,7 +1,7 @@
-<div ng-controller="classesCtrl">
-
+<div ng-controller="classesCtrl">	
+	
 	<div id="body-content" class="row fixed-filter hasSubNav" ng-class="{'modal-body': isPrinting, 'smallScreen' : isSmallScreen}">
-
+		
 		<div class="notification alert alert-success" ng-show="updated" ng-class="{'fade-out': alert.expired}">
 			<strong>Success!</strong> {{notificationMsg}}
 		</div>
@@ -9,7 +9,7 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{errMsg}}
 		</div>
-
+		
 		<div class="fixed content-fixed-header">
 			<div class="subnavbar non-printable" ng-hide="isPrinting">
 				<ul class="nav nav-tabs main-sub-nav" >
@@ -23,32 +23,32 @@
 					<div class="btn" title="Export" ng-click="exportItems()"><a class="clickable"><span class="glyphicon glyphicon-download"></span> <span class="tool-text">Export</span></a></div>
 				</div>
 			</div>
-
+			
 			<div class="clearfix">
 				<h1 id="pageTitle">Classes</h1>
-			</div>
+			</div>		
 
 			<!-- search form -->
-			<div class="dataFilterForm">
+			<div class="dataFilterForm">	
 				<h4 ng-show="!isSmallScreen">Filters</h4>
 				<h4 ng-show="isSmallScreen" data-toggle="collapse" data-target="#filterForm" aria-expanded="false" aria-controls="filterForm" ng-click="toggleFilter()">Filters <span class="caret"></span></h4>
 				<form name="dataFilterForm" class="form-inline non-printable" method="post" novalidate ng-hide="isPrinting" ng-class="{'collapse': isSmallScreen}" id="filterForm">
 					<!-- category select -->
 					<div class="form-group">
-						<label for="category">Parent Class</label>
+						<label for="category">Category</label>
 						<select class="form-control" id="category" name="class_cat_id" ng-options="cat.class_cat_id as cat.class_cat_name for cat in classCats" ng-model="filters.class_cat_id">
-							<option value="">All Parent Classes</option>
+							<option value="">All Class Categories</option>
 						</select>
 					</div>
-
+					
 					<!-- status select -->
 					<div class="form-group">
-						<label for="status">Status</label>
+						<label for="status">Status</label>	
 						<select name="status" id="status" class="form-control" ng-model="filters.status">
 							<option value="true">Active</option>
-							<option value="false">In-active</option>
+							<option value="false">In-active</option>							
 						</select>
-					</div>
+					</div>	
 
 					<!-- search btn -->
 					<div class="form-group submit-btn">
@@ -59,22 +59,22 @@
 
 				</form>
 			</div>
-			<!-- // end search form -->
-
+			<!-- // end search form -->					
+			
 		</div>
-
+		
 		<div class="full-height datagrid main-datagrid" >
 			<div class="loading-indicator" ng-show="loading"><i class="fa fa-spinner fa-spin text-lg"></i></div>
 			<table id="resultsTable" class="display clickable" cellspacing="0" width="100%" ng-show="!loading">
 				<thead>
 					<tr>
 						<th width="100" class="center">Order</th>
-						<th width="100">Parent Class</th>
+						<th width="100">Class Category</th>
 						<th width="200">Class Name</th>
 						<th width="100">Teacher</th>
 						<th>Subjects</th>
 					</tr>
-				</thead>
+				</thead>	
 				<tbody>
 					<tr id="{{item.class_id}}" ng-repeat="item in classes track by $index">
 						<td>{{$index+1}}</td>
@@ -85,6 +85,9 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
+		</div>	
 	</div>
 </div>
+
+
+

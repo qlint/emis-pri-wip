@@ -137,7 +137,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, data){
 		}
 
 		var domain = window.location.host;
-		var newWindowRef = window.open('http://localhost:8008/highschool/#/fees/receipt/print');
+		var newWindowRef = window.open('http://' + domain + '/#/fees/receipt/print');
 		newWindowRef.printCriteria = criteria;
 	}
 

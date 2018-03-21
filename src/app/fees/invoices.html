@@ -1,7 +1,7 @@
-<div ng-controller="invoicesCtrl" class="full-height">
-
+<div ng-controller="invoicesCtrl" class="full-height">	
+	
 	<div id="body-content" class="row fixed-filter hasSubNav" ng-class="{'modal-body': isPrinting, 'smallScreen' : isSmallScreen}">
-
+		
 		<div class="notification alert alert-success" ng-show="updated" ng-class="{'fade-out': alert.expired}">
 			<strong>Success!</strong> {{notificationMsg}}
 		</div>
@@ -9,7 +9,7 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{errMsg}}
 		</div>
-
+		
 		<div class="fixed content-fixed-header">
 			<div class="subnavbar non-printable" ng-hide="isPrinting">
 				<ul class="nav nav-tabs main-sub-nav" >
@@ -22,29 +22,29 @@
 					<div class="btn add-btn" title="Add Invoice" ng-show="permissions.fees.invoices.add" ng-click="addInvoice()"><a class="clickable"><span class="glyphicon glyphicon-plus-sign"></span> <span class="tool-text">Add Invoice</span></a></div>
 					<div class="btn add-btn" title="Generate Next Invoices" ng-show="permissions.fees.invoices.add" ng-click="generateInvoices()"><a class="clickable"><span class="fa fa-magic"></span> <span class="tool-text">Generate Invoices</span></a></div>
 					<div class="btn" title="Export" ng-click="exportInvoices()"><a class="clickable"><span class="glyphicon glyphicon-download"></span> <span class="tool-text">Export</span></a></div>
-				</div>
+				</div>			
 			</div>
-
+			
 			<div class="clearfix">
 				<h1 id="pageTitle">Invoices</h1>
 			</div>
-
+			
 			<!-- search form -->
-			<div class="dataFilterForm">
+			<div class="dataFilterForm">	
 				<h4 ng-show="!isSmallScreen">Filters</h4>
 				<h4 ng-show="isSmallScreen" data-toggle="collapse" data-target="#filterForm" aria-expanded="false" aria-controls="filterForm" ng-click="toggleFilter()">Filters <span class="caret"></span></h4>
 				<form name="dataFilterForm" class="form-inline non-printable" method="post" novalidate ng-hide="isPrinting" ng-class="{'collapse': isSmallScreen}" id="filterForm">
 					<!-- category select -->
 					<div class="form-group">
-						<label for="category">Parent Class</label>
+						<label for="category">Category</label>
 						<select class="form-control" id="category" name="class_cat_id" ng-model="filters.class_cat_id">
-							<option value="">All Parent Classes</option>
+							<option value="">All Class Categories</option>
 							<option value="{{cat.class_cat_id}}" ng-repeat="cat in classCats">{{cat.class_cat_name}}</option>
 						</select>
 					</div>
 					<!-- class select -->
 					<div class="form-group">
-						<label for="class">Class</label>
+						<label for="class">Class</label>	
 						<select name="class" id="class" class="form-control" ng-model="filters.class_id">
 							<option value="">All Classes</option>
 							<option value="{{class.class_id}}" ng-repeat="class in classes">{{class.class_name}}</option>
@@ -53,39 +53,39 @@
 
 					<!-- date range -->
 					<div class="form-group">
-						<label for="class">Date Range</label>
-						<!-- date range picker -->
+						<label for="class">Date Range</label>	
+						<!-- date range picker -->				
 						<div class="input-group">
 							<input type="text" name="dob" date-range-picker class="form-control date-picker input-sm" ng-model="filters.date" options="{ranges:termRanges}" />
 							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar" ng-click="showStartDatePicker = !showStartDatePicker"></i></span>
 						</div>
 					</div>
-
+					
 					<!-- status select -->
 					<div class="form-group">
-						<label for="status">Status</label>
+						<label for="status">Status</label>	
 						<select name="status" id="status" class="form-control" ng-model="filters.status">
 							<option value="true">Current</option>
-							<option value="false">Former</option>
+							<option value="false">Former</option>							
 						</select>
-					</div>
+					</div>	
 
 					<!-- balance status select -->
 					<div class="form-group">
-						<label for="balance_status">Show</label>
+						<label for="balance_status">Show</label>	
 						<select name="balance_status" id="balance_status" class="form-control" ng-model="filters.balance_status">
 							<option value="">All</option>
 							<option value="{{item}}" ng-repeat="item in balanceStatuses">{{item}}</option>
 						</select>
-					</div>
-
+					</div>	
+					
 					<!-- search btn -->
 					<div class="form-group submit-btn">
 						<input type="submit" class="btn btn-sm btn-info" ng-click="loadFilter()" value="Load" />
 						<img src="assets/spinner.gif" ng-show="loading" />
 						<button type="button" class="btn btn-link" ng-show="isSmallScreen" data-toggle="collapse" data-target="#filterForm" aria-expanded="false" aria-controls="filterForm" ng-click="toggleFilter()">cancel</button>
 					</div>
-
+					
 					<div class="form-group grid-filter">
 						<input class="ui-grid-filter" ng-model='gridFilter.filterValue' placeholder="Filter"/>
 						<button class="btn btn-xs btn-primary" ng-click='filterDataTable()'>Filter</button>
@@ -95,15 +95,15 @@
 				</form>
 			</div>
 			<!-- // end search form -->
-
-
+			
+			
 		</div>
-
+		
 		<div class="full-height datagrid main-datagrid">
 			<div class="row">
 				<div class="col-sm-10">
 				<div class="loading-indicator" ng-show="loading"><i class="fa fa-spinner fa-spin text-lg"></i></div>
-
+				
 				<div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-resize-columns class="myGrid">
 					<div ng-if="!gridOptions.data.length" class="no-results">No results found.</div>
 				</div>
@@ -121,7 +121,7 @@
 							<th>Due Date</th>
 							<th>Days Over Due</th>
 						</tr>
-					</thead>
+					</thead>	
 					<tbody>
 						<tr ng-repeat="item in invoices track by $index" ng-class="{'alert-danger': item.days_overdue>0}">
 							<td></td>
@@ -150,15 +150,18 @@
 					</div>
 					<div class="info-box" ng-class="{'alert-success':totals.total_balance>=0, 'text-warning' : totals.total_balance<0 && gracePeriod, 'text-danger': totals.total_balance<0}">
 						Balance
-						<p>{{totals.total_balance|numeric}} <span>{{currency}}</span></p>
+						<p>{{totals.total_balance|numeric}} <span>{{currency}}</span></p>						
 					</div>
 				</div>
 			</div>
 		</div>
-
+		
 		<div class="loading-screen modal-backdrop fade in" ng-show="modalLoading">
 			<p class="msg"><span class="fa fa-cog fa-spin"></span> Fetching data...</p>
 		</div>
-
+		
 	</div>
 </div>
+
+
+

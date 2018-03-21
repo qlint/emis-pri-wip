@@ -8,11 +8,10 @@ $app->get('/getAllClasses(/:status)', function ($status = true) {
     try
     {
         $db = getDB();
-        $sth = $db->prepare("SELECT class_id, class_name, classes.class_cat_id, cc.entity_id, classes.teacher_id, classes.active, report_card_type,
+        $sth = $db->prepare("SELECT class_id, class_name, class_cat_id, classes.teacher_id, classes.active, report_card_type,
 									first_name || ' ' || coalesce(middle_name,'') || ' ' || last_name as teacher_name
 							FROM app.classes
 							LEFT JOIN app.employees ON classes.teacher_id = employees.emp_id
-							LEFT JOIN app.class_cats cc ON classes.class_cat_id = cc.class_cat_id
 							WHERE classes.active = :status
 							ORDER BY sort_order");
        $sth->execute( array(':status' => $status ) );
@@ -1065,31 +1064,26 @@ $app->get('/getClassCats(/:teacher_id)', function ($teacherId=null) {
         $db = getDB();
 		if( $teacherId !== null )
 		{
-			$sth = $db->prepare("SELECT DISTINCT ON(class_cats.class_cat_id) class_cats.class_cat_id, class_cat_name, classes.class_id, classes.class_name
+			$sth = $db->prepare("SELECT class_cats.class_cat_id, class_cat_name
 								FROM app.class_cats
 								INNER JOIN app.classes
-								INNER JOIN app.class_subjects
-								INNER JOIN app.subjects ON class_subjects.subject_id = subjects.subject_id
-																				ON classes.class_id = class_subjects.class_id
-																				ON class_cats.class_cat_id = classes.class_cat_id
-																				WHERE class_cats.active is true
-																				AND (classes.teacher_id = :teacherId OR subjects.teacher_id = :teacherId)
-								GROUP BY class_cats.class_cat_id, class_cat_name, classes.class_id
+									INNER JOIN app.class_subjects
+									INNER JOIN app.subjects
+									ON class_subjects.subject_id = subjects.subject_id
+								ON classes.class_id = class_subjects.class_id
+								ON class_cats.class_cat_id = classes.class_cat_id
+								WHERE class_cats.active is true
+								AND (classes.teacher_id = :teacherId OR subjects.teacher_id = :teacherId)
+								GROUP BY class_cats.class_cat_id, class_cat_name
 								ORDER BY class_cats.class_cat_id");
 			$sth->execute(array(':teacherId' => $teacherId));
 		}
 		else
 		{
-			$sth = $db->prepare("SELECT DISTINCT ON(class_cats.class_cat_id) class_cats.class_cat_id, class_cat_name, classes.class_id, classes.class_name
-													FROM app.class_cats
-														INNER JOIN app.classes
-														INNER JOIN app.class_subjects
-														INNER JOIN app.subjects ON class_subjects.subject_id = subjects.subject_id
-															ON classes.class_id = class_subjects.class_id
-															ON class_cats.class_cat_id = classes.class_cat_id
-															WHERE class_cats.active is true
-													GROUP BY class_cats.class_cat_id, class_cat_name, classes.class_id
-													ORDER BY class_cats.class_cat_id");
+			$sth = $db->prepare("SELECT class_cat_id, class_cat_name
+								FROM app.class_cats
+								WHERE active is true
+								ORDER BY class_cat_id");
 			$sth->execute();
 		}
 
@@ -1230,61 +1224,6 @@ $app->put('/setClassCatStatus', function () use($app) {
         echo json_encode(array("response" => "success", "code" => 1));
         $db = null;
 
-
-    } catch(PDOException $e) {
-        $app->response()->setStatus(404);
-		$app->response()->headers->set('Content-Type', 'application/json');
-        echo  json_encode(array('response' => 'error', 'data' => $e->getMessage() ));
-    }
-
-});
-
-//Get all classes (different from the other one on this file as this is joined to class_cats and subjects)
-$app->get('/getClassNames(/:classCatId)', function ($classCatId) {
-    //Show all classes (these are joined to class_cats)
-
-	$app = \Slim\Slim::getInstance();
-
-    try
-    {
-        $db = getDB();
-				if( $classId !== null )
-				{
-					$sth = $db->prepare("SELECT classes.class_id, classes.class_name, class_cats.class_cat_id
-										FROM app.classes
-										INNER JOIN app.class_cats ON classes.class_cat_id = class_cats.class_cat_id
-										INNER JOIN app.class_subjects
-										INNER JOIN app.subjects ON class_subjects.subject_id = subjects.subject_id
-													ON classes.class_id = class_subjects.class_id
-													WHERE class_cats.active is true
-													AND class_cats.class_cat_id = :classCatId
-										GROUP BY classes.class_id, classes.class_name, class_cats.class_cat_id
-										ORDER BY class_cats.class_cat_id");
-					$sth->execute(array(':classCatId' => $classCatId));
-				}
-				else
-				{
-					$sth = $db->prepare("SELECT classes.class_id, classes.class_name, class_cats.class_cat_id
-										FROM app.classes
-										INNER JOIN app.class_cats ON classes.class_cat_id = class_cats.class_cat_id
-													  WHERE class_cats.active is true
-										ORDER BY class_cats.class_cat_id");
-					$sth->execute();
-				}
-
-        $results = $sth->fetchAll(PDO::FETCH_OBJ);
-
-        if($results) {
-            $app->response->setStatus(200);
-            $app->response()->headers->set('Content-Type', 'application/json');
-            echo json_encode(array('response' => 'success', 'data' => $results ));
-            $db = null;
-        } else {
-            $app->response->setStatus(200);
-            $app->response()->headers->set('Content-Type', 'application/json');
-            echo json_encode(array('response' => 'success', 'nodata' => 'No records found' ));
-            $db = null;
-        }
 
     } catch(PDOException $e) {
         $app->response()->setStatus(404);

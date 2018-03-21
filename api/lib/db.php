@@ -50,7 +50,7 @@ function getClientDBData()
 		$dbData->dbuser = $appData->dbusername;
 		$dbData->dbpass = $appData->dbpassword;
 		$dbData->dbname = "eduweb_" . $subDomain;
-		$dbData->dbname = "eduweb_highschool";
+		$dbData->dbname = "eduweb_dev";
 		$dbData->subdomain = $subDomain;
 	}
 	$dbConnection = null;
@@ -82,7 +82,7 @@ function setDBConnection($subDomain)
 	$dbuser = $appData->dbusername;
 	$dbpass = $appData->dbpassword;
 	$dbname = "eduweb_" . $subDomain;
-	$dbname = "eduweb_highschool";
+	$dbname = "eduweb_dev";
 	$dbConnection = new PDO("pgsql:host=$dbhost;port=$dbport;dbname=$dbname", $dbuser, $dbpass);
 	$dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	return $dbConnection;

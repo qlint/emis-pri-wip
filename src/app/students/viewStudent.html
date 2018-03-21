@@ -188,7 +188,7 @@
 
 						<div class="row">
 							<!-- new_student -->
-							<div class="col-sm-3" ng-class="{ 'has-error' : (studentForm.$submitted || studentForm.new_student.$dirty ) && studentForm.new_student.$invalid && studentForm.new_student.$error.required }">
+							<div class="col-sm-4" ng-class="{ 'has-error' : (studentForm.$submitted || studentForm.new_student.$dirty ) && studentForm.new_student.$invalid && studentForm.new_student.$error.required }">
 								<label for="new_student">New Student?</label>
 								<p class="form-control-static" ng-show="!edit">{{student.new_student}}</p>
 								<div ng-show="edit">
@@ -203,7 +203,7 @@
 							</div>
 
               <!-- student type -->
-							<div class="col-sm-3" ng-class="{ 'has-error' : (studentForm.$submitted || studentForm.student_type.$dirty ) && studentForm.student_type.$invalid && studentForm.student_type.$error.required }">
+							<div class="col-sm-4" ng-class="{ 'has-error' : (studentForm.$submitted || studentForm.student_type.$dirty ) && studentForm.student_type.$invalid && studentForm.student_type.$error.required }">
 								<label for="new_student">Student Type</label>
 								<p class="form-control-static" ng-show="!edit">{{student.student_type}}</p>
 								<div ng-show="edit">
@@ -211,24 +211,6 @@
                     <option value="{{item}}" ng-repeat="item in studentTypes">{{item}}</option>
                   </select>
 									<p ng-show="(studentForm.$submitted || studentForm.student_type.$dirty ) && studentForm.student_type.$invalid && studentForm.student_type.$error.required" class="help-block"><i class="fa fa-exclamation-triangle"></i> Student Type is required.</p>
-								</div>
-							</div>
-							<!-- kcpe_marks -->
-							<div class="col-sm-3" ng-class="{ 'has-error' : (studentForm.$submitted || studentForm.kcpe_marks.$dirty ) && studentForm.kcpe_marks.$invalid && studentForm.kcpe_marks.$error.required }">
-								<label for="kcpe_marks">KCPE Marks</label>
-								<p class="form-control-static" ng-show="!edit">{{student.kcpe_marks}}</p>
-								<div ng-show="edit">
-									<input type="text" name="kcpe_marks" ng-model="student.kcpe_marks" class="form-control" required numeric-only />
-									<p ng-show="(studentForm.$submitted || studentForm.kcpe_marks.$dirty ) && studentForm.kcpe_marks.$invalid && studentForm.kcpe_marks.$error.required" class="help-block"><i class="fa fa-exclamation-triangle"></i> The KCPE marks are required.</p>
-								</div>
-							</div>
-							<!-- school_house -->
-							<div class="col-sm-3"  ng-class="{ 'has-error' : (studentForm.$submitted || studentForm.school_house.$dirty ) && studentForm.school_house.$invalid && studentForm.school_house.$error.required }">
-								<label for="school_house">School House</label>
-								<p class="form-control-static" ng-show="!edit">{{student.school_house}}</p>
-								<div ng-show="edit">
-									<input type="text" name="school_house" class="form-control input-sm" ng-model="student.school_house" />
-									<p ng-show="(studentForm.$submitted || studentForm.school_house.$dirty ) && studentForm.school_house.$invalid && studentForm.school_house.$error.required" class="help-block"><i class="fa fa-exclamation-triangle"></i> Student's school house is required.</p>
 								</div>
 							</div>
 

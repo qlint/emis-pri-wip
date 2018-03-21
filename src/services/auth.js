@@ -18,8 +18,10 @@ function($http, $rootScope, $window, Session, AUTH_EVENTS, ajaxService) {
 		***************************/
 
 		var domain = window.location.host;
-		var path = ( domain.indexOf('dev.eduweb.co.ke') > -1 ? 'http://devapi.eduweb.co.ke' : (domain.indexOf('eduweb.co.ke') > -1  ? 'http://api.eduweb.co.ke': 'http://api.eduweb.localhost'));
-		path = 'http://localhost/api_eduweb';
+		// var path = ( domain.indexOf('dev.eduweb.co.ke') > -1 ? 'http://devapi.eduweb.co.ke' : (domain.indexOf('eduweb.co.ke') > -1  ? 'http://api.eduweb.co.ke': 'http://api.eduweb.localhost'));
+		var path = 'http://localhost:8010/api_primary';
+
+
 		var subdomain = domain.substr(0, domain.indexOf('.'));
 		var apiAction = ( subdomain == 'parents' ? 'parentLogin' : 'login');
 

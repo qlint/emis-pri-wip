@@ -1,7 +1,7 @@
-<div ng-controller="schoolSettingsCtrl">
-
+<div ng-controller="schoolSettingsCtrl">	
+	
 	<div id="body-content" class="row fixed-filter hasSubNav" ng-class="{'modal-body': isPrinting, 'smallScreen' : isSmallScreen}">
-
+		
 		<div class="notification alert alert-success" ng-show="updated" ng-class="{'fade-out': alert.expired}">
 			<strong>Success!</strong> {{notificationMsg}}
 		</div>
@@ -9,7 +9,7 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{errMsg}}
 		</div>
-
+		
 		<div class="fixed content-fixed-header">
 			<div class="subnavbar non-printable" ng-hide="isPrinting">
 				<ul class="nav nav-tabs main-sub-nav" >
@@ -19,161 +19,161 @@
 
 			<div class="clearfix">
 				<h1 id="pageTitle">School Settings</h1>
-			</div>
-
+			</div>	
+			
 		</div>
-
+		
 		<div class="full-height main-datagrid">
-
+			
 			<div class="col-sm-6">
 				<div ng-show="initialSetup" class="alert alert-success text-sm">
 					Welcome! To get started lets set up your school settings. Start by entering your school name and details below.
 				</div>
-				<div class="dashboard-panel">
+				<div class="dashboard-panel">					
 					<div class="dashboard-panel-header">
 						<h2>School Details</h2>
 					</div>
 					<div class="dashboard-panel-body row">
-						<div class="col-sm-8">
-							<form name="schoolForm" class="form-horizontal modalForm" method="post" novalidate ng-submit="save(schoolForm)">
+						<div class="col-sm-8">							
+							<form name="schoolForm" class="form-horizontal modalForm" method="post" novalidate ng-submit="save(schoolForm)">	
 							<!-- school name -->
-							<div class="form-group" ng-class="{ 'has-error' : schoolForm.school_name.$invalid && (schoolForm.school_name.$touched || schoolForm.$submitted) }">
+							<div class="form-group" ng-class="{ 'has-error' : schoolForm.school_name.$invalid && (schoolForm.school_name.$touched || schoolForm.$submitted) }">		
 								<label for="school_name" class="col-sm-4 control-label nopad-right">School Name</label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control" name="school_name" ng-model="settings['School Name']" required />
+									<input type="text" class="form-control" name="school_name" ng-model="settings['School Name']" required />						
 									<p ng-show="schoolForm.school_name.$invalid && (schoolForm.school_name.$touched || schoolForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> School Name is required.</p>
-								</div>
+								</div>	
 							</div>
-
+							
 							<!-- school type -->
-							<div class="form-group" ng-class="{ 'has-error' : schoolForm.school_type.$invalid && (schoolForm.school_type.$touched || schoolForm.$submitted) }">
+							<div class="form-group" ng-class="{ 'has-error' : schoolForm.school_type.$invalid && (schoolForm.school_type.$touched || schoolForm.$submitted) }">		
 								<label for="school_type" class="col-sm-4 control-label nopad-right">School Type</label>
 								<div class="col-sm-8">
 									<select name="school_type" class="form-control" ng-options="item for item in schoolTypes"  ng-model="settings['School Type']" >
 										<option value="">--select school type--</option>
-									</select>
+									</select>					
 									<p ng-show="schoolForm.school_type.$invalid && (schoolForm.school_type.$touched || schoolForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> School Type is required.</p>
-								</div>
+								</div>	
 							</div>
-
+							
 							<!-- school level -->
-							<div class="form-group" ng-class="{ 'has-error' : schoolForm.school_level.$invalid && (schoolForm.school_level.$touched || schoolForm.$submitted) }">
+							<div class="form-group" ng-class="{ 'has-error' : schoolForm.school_level.$invalid && (schoolForm.school_level.$touched || schoolForm.$submitted) }">		
 								<label for="school_level" class="col-sm-4 control-label nopad-right">School Level</label>
 								<div class="col-sm-8">
 									<select name="school_level" class="form-control" ng-options="item for item in schoolLevels"  ng-model="settings['School Level']" >
 										<option value="">--select school level--</option>
-									</select>
+									</select>					
 									<p ng-show="schoolForm.school_level.$invalid && (schoolForm.school_level.$touched || schoolForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> School Type is required.</p>
-								</div>
+								</div>	
 							</div>
-
+							
 							<!-- Curriculum -->
-							<div class="form-group" ng-class="{ 'has-error' : schoolForm.curriculum.$invalid && (schoolForm.curriculum.$touched || schoolForm.$submitted) }">
+							<div class="form-group" ng-class="{ 'has-error' : schoolForm.curriculum.$invalid && (schoolForm.curriculum.$touched || schoolForm.$submitted) }">		
 								<label for="curriculum" class="col-sm-4 control-label nopad-right">Curriculum</label>
 								<div class="col-sm-8">
 									<select name="curriculum" class="form-control" ng-options="item for item in curriculums"  ng-model="settings['Curriculum']" required>
 										<option value="">--select curriculum--</option>
-									</select>
+									</select>					
 									<p ng-show="schoolForm.curriculum.$invalid && (schoolForm.curriculum.$touched || schoolForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> School Curriculum is required.</p>
-								</div>
+								</div>	
 							</div>
-
+							
 							<!-- Address -->
-							<div class="form-group" ng-class="{ 'has-error' : schoolForm.address_1.$invalid && (schoolForm.address_1.$touched || schoolForm.$submitted) }">
+							<div class="form-group" ng-class="{ 'has-error' : schoolForm.address_1.$invalid && (schoolForm.address_1.$touched || schoolForm.$submitted) }">		
 								<label for="address_1" class="col-sm-4 control-label nopad-right">Address</label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control" name="address_1" ng-model="settings['Address 1']"  />
+									<input type="text" class="form-control" name="address_1" ng-model="settings['Address 1']"  />						
 									<p ng-show="schoolForm.address_1.$invalid && (schoolForm.address_1.$touched || schoolForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> School Type is required.</p>
-								</div>
+								</div>	
 							</div>
-							<div class="form-group">
+							<div class="form-group">									
 								<div class="col-sm-8 col-sm-offset-4">
-									<input type="text" class="form-control" name="address_1" ng-model="settings['Address 2']" />
-								</div>
+									<input type="text" class="form-control" name="address_1" ng-model="settings['Address 2']" />						
+								</div>	
 							</div>
-							<div class="form-group">
+							<div class="form-group">									
 								<div class="col-sm-8 col-sm-offset-4">
-									<input type="text" class="form-control" name="country" ng-model="settings['Country']" />
-								</div>
+									<input type="text" class="form-control" name="country" ng-model="settings['Country']" />						
+								</div>	
 							</div>
-
+							
 							<!-- phone number -->
-							<div class="form-group" ng-class="{ 'has-error' : schoolForm.phone_number.$invalid && (schoolForm.phone_number.$touched || schoolForm.$submitted) }">
+							<div class="form-group" ng-class="{ 'has-error' : schoolForm.phone_number.$invalid && (schoolForm.phone_number.$touched || schoolForm.$submitted) }">		
 								<label for="phone_number" class="col-sm-4 control-label nopad-right">Phone Number</label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control" name="phone_number" ng-model="settings['Phone Number']"  numeric-only />
+									<input type="text" class="form-control" name="phone_number" ng-model="settings['Phone Number']"  numeric-only />						
 									<p ng-show="schoolForm.phone_number.$invalid && (schoolForm.phone_number.$touched || schoolForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> Phone Number is required.</p>
-								</div>
+								</div>	
 							</div>
-
+							
 							<!-- email -->
-							<div class="form-group" ng-class="{ 'has-error' : schoolForm.email_address.$invalid && (schoolForm.email_address.$touched || schoolForm.$submitted) }">
+							<div class="form-group" ng-class="{ 'has-error' : schoolForm.email_address.$invalid && (schoolForm.email_address.$touched || schoolForm.$submitted) }">		
 								<label for="email_address" class="col-sm-4 control-label nopad-right">Email Address</label>
 								<div class="col-sm-8">
-									<input type="email" class="form-control" name="email_address" ng-model="settings['Email Address']"  />
+									<input type="email" class="form-control" name="email_address" ng-model="settings['Email Address']"  />						
 									<p ng-show="schoolForm.email_address.$error.required && (schoolForm.email_address.$touched || schoolForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> Email Address is required.</p>
 									<p ng-show="schoolForm.email_address.$error.email&& (schoolForm.email_address.$touched || schoolForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> Email Address is invalid.</p>
-
-								</div>
+									
+								</div>	
 							</div>
-
+							
 							<!-- email from -->
-							<div class="form-group" ng-class="{ 'has-error' : schoolForm.email_from.$invalid && (schoolForm.email_from.$touched || schoolForm.$submitted) }">
+							<div class="form-group" ng-class="{ 'has-error' : schoolForm.email_from.$invalid && (schoolForm.email_from.$touched || schoolForm.$submitted) }">		
 								<label for="email_from" class="col-sm-4 control-label nopad-right">Email From</label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control" name="email_from" ng-model="settings['Email From']">
+									<input type="text" class="form-control" name="email_from" ng-model="settings['Email From']">						
 									<p ng-show="schoolForm.email_from.$invalid && (schoolForm.email_from.$touched || schoolForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> Email From is required.</p>
-								</div>
+								</div>	
 							</div>
-
+							
 							<!-- currency -->
-							<div class="form-group" ng-class="{ 'has-error' : schoolForm.email_from.$invalid && (schoolForm.email_from.$touched || schoolForm.$submitted) }">
+							<div class="form-group" ng-class="{ 'has-error' : schoolForm.email_from.$invalid && (schoolForm.email_from.$touched || schoolForm.$submitted) }">		
 								<label for="currency" class="col-sm-4 control-label nopad-right">Currency</label>
 								<div class="col-sm-8">
 									<select name="currency" class="form-control" ng-options="item for item in currencies"  ng-model="settings['Currency']" required>
 										<option value="">--select currency--</option>
-									</select>
+									</select>				
 									<p ng-show="schoolForm.email_from.$invalid && (schoolForm.email_from.$touched || schoolForm.$submitted)" class="help-block"><i class="fa fa-exclamation-triangle"></i> Email From is required.</p>
-								</div>
+								</div>	
 							</div>
-
+							
 							<!-- pic -->
-							<div class="form-group">
+							<div class="form-group">					
 								<label for="student-image" class="col-sm-4 control-label nopad-right">Logo</label>
 								<div class="col-sm-8">
-									<input type="file" nv-file-select="" uploader="uploader" />
-								</div>
+									<input type="file" nv-file-select="" uploader="uploader" />						
+								</div>	
 							</div>
-
+							
 							<!-- letterhead -->
-							<div class="form-group">
+							<div class="form-group">					
 								<label for="student-image" class="col-sm-4 control-label nopad-right">Letterhead</label>
 								<div class="col-sm-8">
-									<input type="file" nv-file-select="" uploader="uploader2" />
-								</div>
+									<input type="file" nv-file-select="" uploader="uploader2" />						
+								</div>	
 							</div>
-
-
-
-							<div class="form-group">
+							
+							
+							
+							<div class="form-group">					
 								<div class="col-sm-8 col-sm-offset-4">
 									<button type="submit" class="btn btn-sm btn-success" ng-show="!schoolForm.$pristine">
 										<span ng-hide="saving">Save</span>
 										<span ng-show="saving" class="glyphicon glyphicon-refresh spin"></span>
-									</button>
-								</div>
+									</button>		
+								</div>	
 							</div>
-
+							
 							</form>
 						</div>
 						<div class="col-sm-4">
-
+							
 							<div class="pic-container">
 								<p>Logo</p>
 								<img ng-show="settings['logo'] !== null" src="assets/schools/{{settings['logo']}}" />
 								<span ng-show="settings['logo'] === null" class="glyphicon glyphicon-picture"></span>
 							</div>
-
+							
 							<div class="pic-container">
 								<p>Letterhead</p>
 								<img ng-show="settings['Letterhead'] !== null" src="assets/schools/{{settings['Letterhead']}}" />
@@ -182,17 +182,17 @@
 						</div>
 					</div>
 					<div class="dashboard-panel-footer">
-
+						
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6">
-				<div class="dashboard-panel">
+				<div class="dashboard-panel">					
 					<div class="dashboard-panel-header">
 						<button type="button" class="btn btn-sm btn-link pull-right" ng-click="addEmpCat()"><span class="glyphicon glyphicon-plus"></span> Add Category</button>
-						<h2>Employee Categories</h2>
+						<h2>Employee Categories</h2>						
 					</div>
-					<div class="dashboard-panel-body row">
+					<div class="dashboard-panel-body row">						
 						<table class="display clickable dataTable" cellspacing="0" width="100%">
 							<thead>
 								<tr>
@@ -209,18 +209,18 @@
 						</table>
 					</div>
 				</div>
-
-				<div class="dashboard-panel">
+				
+				<div class="dashboard-panel">					
 					<div class="dashboard-panel-header">
-						<button type="button" class="btn btn-sm btn-link pull-right" ng-click="addClassCat()"><span class="glyphicon glyphicon-plus"></span> Add Parent Class</button>
-						<h2>Parent Classes</h2>
+						<button type="button" class="btn btn-sm btn-link pull-right" ng-click="addClassCat()"><span class="glyphicon glyphicon-plus"></span> Add Category</button>
+						<h2>Class Categories</h2>
 					</div>
 					<div class="dashboard-panel-body row">
 						<table class="display clickable dataTable" cellspacing="0" width="100%">
 							<thead>
 								<tr>
 									<th></th>
-									<th>Parent Class</th>
+									<th>Category</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -233,6 +233,9 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>	
 	</div>
 </div>
+
+
+

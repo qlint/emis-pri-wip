@@ -202,9 +202,9 @@ function getChartPath()
 
 			<div ng-show="showReportCard">
 
-				<!-- <div class="receipt-header-letterhead row" ng-if="useLetterhead">
+				<div class="receipt-header-letterhead row" ng-if="useLetterhead">
 					<img class="center col-sm-3" src="assets/schools/{{currentUser.settings['Letterhead']}}" />
-					<h2 class="receipt-title col-sm-6">Termly Assesment Report</h2>
+					<h2 class="receipt-title col-sm-6">Progress Report</h2>
 					<img class="col-sm-3" id="testdiv" src="assets/students/{{student.student_image}}" title="{{student.student_name}} Image" alt="{{student.student_name}} Image" style="float:right;max-width:150px;" />
 				</div>
 
@@ -219,13 +219,12 @@ function getChartPath()
 							<p>Contact: {{currentUser.settings['Phone Number 2']}}, {{currentUser.settings['Phone Number']}}</p>
 							<p>Email: {{currentUser.settings['Email Address']}}</p>
 						</div>
-						<h2 class="report-card-title">Termly Assesment Report</h2>
+						<h2 class="report-card-title">Progress Report</h2>
 					</div>
-				</div> -->
+				</div>
 
 				<div ng-include="reportCardType"></div>
 
-				<style type="text/css"> @import url("components/css/customSettingReportCard.css"); </style>
 				<script type="text/ng-template" id="Standard">
 					<div ng-show="savedReport" class="alert alert-warning">
 						You are viewing a previously saved report card. If this student's exam marks were updated, click 'Re-Create' to generate a new report card.
@@ -243,26 +242,6 @@ function getChartPath()
 						Report card has been re-created.
 						<button type="button" class="btn btn-sm btn-info" ng-click="revertReport()">Revert</button>
 					</div>
-					<div class="receipt-header-letterhead row" ng-if="useLetterhead">
-						<img class="center col-sm-3" src="assets/schools/{{currentUser.settings['Letterhead']}}" />
-						<h2 class="receipt-title col-sm-6">Termly Assesment Report</h2>
-						<img class="col-sm-3" id="testdiv" src="assets/students/{{student.student_image}}" title="{{student.student_name}} Image" alt="{{student.student_name}} Image" style="float:right;max-width:150px;" />
-					</div>
-
-					<div class="row progress-report-header"  ng-if="!useLetterhead">
-						<div class="col-xs-2">
-							<img src="assets/schools/{{currentUser.settings.logo}}" title="{{currentUser.settings['School Name']}}" class="brand" />
-						</div>
-						<div class="col-xs-8">
-							<h1 class="school-name">{{currentUser.settings['School Name']}}</h1>
-							<div class="school-address">
-								<p>{{currentUser.settings['Address 1']}}, {{currentUser.settings['Address 2']}}</p>
-								<p>Contact: {{currentUser.settings['Phone Number 2']}}, {{currentUser.settings['Phone Number']}}</p>
-								<p>Email: {{currentUser.settings['Email Address']}}</p>
-							</div>
-							<h2 class="report-card-title">Termly Assesment Report</h2>
-						</div>
-					</div>
 					<div class="progress-report-student">
 						<!-- name and adm number -->
 						<div class="row">
@@ -277,297 +256,6 @@ function getChartPath()
 							</div>
 							<div class="col-xs-5 lesspad">
 								<p class="form-control-static">{{student.admission_number}}</p>
-							</div>
-						</div>
-						<!-- kcpe marks and school house -->
-						<div class="row">
-							<div class="col-xs-1 nopad-right">
-								<label class="">KCPE Marks:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.kcpe_marks}}</p>
-							</div>
-							<div class="col-xs-1 nopad-right">
-								<label>House:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.school_house}}</p>
-							</div>
-						</div>
-						<!-- class, term and year -->
-						<div class="row">
-							<div class="col-xs-1 nopad-right">
-								<label>Class:</label>
-							</div>
-							<div class="col-xs-3 lesspad">
-								<p class="form-control-static">{{report.class_name}}</p>
-							</div>
-							<div class="col-xs-1 nopad-right">
-								<label>Term:</label>
-							</div>
-							<div class="col-xs-3 lesspad">
-								<p class="form-control-static">{{report.term}}</p>
-							</div>
-							<div class="col-xs-1 nopad-right">
-								<label>Year:</label>
-							</div>
-							<div class="col-xs-3 lesspad">
-								<p class="form-control-static">{{report.year}}</p>
-							</div>
-						</div>
-						<!-- position, out of, pos last term, out of -->
-						<div class="row">
-							<div class="col-xs-1 nopad-right">
-								<label>Position:</label>
-							</div>
-							<div class="col-xs-3 lesspad">
-								<p class="form-control-static inline">{{overall.rank}}</p> / <p class="form-control-static inline">{{overall.position_out_of}}</p>
-							</div>
-
-							<div class="col-xs-2 nopad-right">
-								<label>Pos Last Term:</label>
-							</div>
-							<div class="col-xs-2 lesspad">
-								<p class="form-control-static inline">{{overallLastTerm.rank||'-'}}</p>  / <p class="form-control-static inline">{{overallLastTerm.position_out_of||'--'}}</p>
-							</div>
-
-							<div class="col-xs-2 nopad-right">
-								<label>Last Term Marks:</label>
-							</div>
-							<div class="col-xs-2 lesspad">
-								<p class="form-control-static inline">{{overallLastTerm.total_mark||'-'}}</p> / <p class="form-control-static inline">{{overallLastTerm.total_grade_weight||'-'}}</p>
-							</div>
-						</div>
-						<!-- stream position, out of, stream pos last term, out of -->
-						<div class="row">
-							<div class="col-xs-1 nopad-right">
-								<label>Stream Position:</label>
-							</div>
-							<div class="col-xs-3 lesspad">
-								<p class="form-control-static inline">{{streamRankPosition}}</p> / <p class="form-control-static inline">{{streamRankOutOf}}</p>
-							</div>
-
-							<div class="col-xs-2 nopad-right">
-								<label>Stream Pos Last Term:</label>
-							</div>
-							<div class="col-xs-2 lesspad">
-								<p class="form-control-static inline">{{overallLastTerm.rank||'-'}}</p>  / <p class="form-control-static inline">{{overallLastTerm.position_out_of||'--'}}</p>
-							</div>
-
-							<!-- <div class="col-xs-2 nopad-right">
-								<label></label>
-							</div>
-							<div class="col-xs-2 lesspad">
-								<p class="form-control-static inline"></p><p class="form-control-static inline"></p>
-							</div> -->
-						</div>
-					</div>
-
-					<table class="display dataTable" cellspacing="0" width="100%">
-						<thead>
-							<tr>
-								<th rowspan="3" class="center">Subject</th>
-								<th class="center double-border" colspan="{{examTypes.length*3}}">Marks</th>
-								<th rowspan="2" colspan="2" class="center double-border">Overall</th>
-								<th class="center double-border" rowspan="3" width="300">Remarks</th>
-								<th class="center" rowspan="3">Teacher<br>Int.</th>
-							</tr>
-							<tr>
-								<th class="center double-border" colspan="3" ng-repeat="item in examTypes">{{item.exam_type}}</th>
-							</tr>
-							<tr>
-								<th class="center double-border" ng-repeat-start="item in examTypes">Mark</th>
-								<th class="center">Out Of</th>
-								<th class="center" ng-repeat-end="">Grade</th>
-								<th class="center double-border">Avg</th>
-								<th class="center">Grade</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="item in reportData.subjects track by $index">
-								<td ng-class="{'text-muted indent' : item.parent_subject_name!==null, 'strong': item.parent_subject_name===null}">{{item.subject_name}}</td>
-								<td class="center double-border" ng-class="{'strong': item.parent_subject_name===null}" ng-repeat-start="examType in examTypes">{{item.marks[examType.exam_type].mark}}</td>
-								<td class="center" ng-class="{'strong': item.parent_subject_name===null}">{{item.marks[examType.exam_type].grade_weight}}</td>
-								<td class="center" ng-class="{'text-muted' : item.parent_subject_name!==null, 'strong': item.parent_subject_name===null}" ng-repeat-end="">{{item.marks[examType.exam_type].grade}}</td>
-								<td class="center strong double-border"><span ng-hide="item.parent_subject_name!==null">{{item.overall_mark}}%</span></td>
-								<td class="center strong"><span ng-hide="item.parent_subject_name!==null">{{item.overall_grade}}</span></td>
-								<td class="double-border">
-									<span ng-show="isPrinting">{{item.remarks}}</span>
-									<!-- <input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" ng-change="updateReport()" /> -->
-									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" readonly style="background-color:#ffffff;" />
-								</td>
-								<td>{{item.initials}}</td>
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<th class="center">Total</th>
-								<th class="center double-border" ng-repeat-start="examType in examTypes">{{totals[examType.exam_type].total_mark}}</th>
-								<th class="center">{{totals[examType.exam_type].total_grade_weight}}</th>
-								<th class="center" ng-repeat-end=""></th>
-								<th class="center double-border getpercentage">{{overall.percentage}}%</th>
-								<th class="center">{{overall.grade}}</th>
-								<th colspan="2" class="center double-border"></th>
-							</tr>
-						</tfoot>
-					</table>
-
-					<div class="row">
-						<div class="col-md-6">
-							<img  class="col-md-6"  style="width:450px;height:225px;" id="url"   src="{{chart_path}}"  />
-						</div>
-						<div class="col-md-6">
-							<table id="avaragesTable" class="display dataTable" cellspacing="0" width="100%">
-							  <tr>
-							    <th colspan="4" style="text-align:center;">FORM {{report.class_name}}</th>
-							  </tr>
-							  <tr>
-							    <th  class="center">Term</th>
-							    <th  class="center">Pos</th>
-							    <th  class="center">Out Of</th>
-							    <th  class="center">Grade</th>
-							  </tr>
-							  <tr>
-							    <td  class="center">{{report.term}}</td>
-							    <td  class="center">{{streamRankPosition}}</td>
-							    <td  class="center">{{streamRankOutOf}}</td>
-							    <td  class="center">{{overall.grade}}</td>
-							  </tr>
-							  <tr>
-							    <td  class="center">-</td>
-							    <td  class="center">{{overallLastTerm.rank||'-'}}</td>
-							    <td  class="center">{{overallLastTerm.position_out_of||'--'}}</td>
-							    <td  class="center">-</td>
-							  </tr>
-							</table>
-						</div>
-					</div>
-
-
-
-					<div id="graphresult"></div>
-					<div class="progress-report-remarks">
-						<h3>Remarks</h3>
-						<table width="100%">
-							<tr ng-show="isAdmin || isClassTeacher">
-								<td width="75%">
-									<label>Class Teacher Comments:</label>
-									<textarea ng-show="!isPrinting" name="teacher-comments" rows="3" class="form-control" ng-model="comments.teacher_comments" ng-change="updateReport()"></textarea>
-									<p ng-show="isPrinting" class="form-control-static">{{comments.teacher_comments}}</p>
-								</td>
-								<td>
-									<p class="form-control-static">{{comments.teacher_name}}</p>
-									<label>Sign:</label>
-								</td>
-							</tr>
-							<tr ng-show="isAdmin">
-								<td>
-									<label>Head Teacher Comments:</label>
-									<textarea ng-show="!isPrinting" name="principle-comments" rows="3" class="form-control" ng-model="comments.principle_comments" ng-change="updateReport()"></textarea>
-									<p ng-show="isPrinting" class="form-control-static">{{comments.principle_comments}}</p>
-								</td>
-								<td>
-									<p class="form-control-static" ng-show="isPrinting">{{comments.head_teacher_name}}</p>
-									<input ng-show="!isPrinting" type="text" name="head_teacher_name" class="form-control" ng-model="comments.head_teacher_name" ng-change="updateReport()" />
-
-									<label>Sign:</label>
-								</td>
-							</tr>
-							<tr ng-show="isAdmin">
-								<td>
-									<label>Parent/Guardian Comments:</label>
-									<textarea ng-show="isPrinting" name="principle-comments" rows="2" class="form-control"></textarea>
-								</td>
-								<td>
-									<p class="form-control-static" ng-show="isPrinting">Parent/ Guardian Name <div>( ______________________ )</div></p>
-									<input ng-show="isPrinting" type="text" name="head_teacher_name" class="form-control" />
-
-									<label>Sign:</label>
-								</td>
-							</tr>
-						</table>
-						<table width="100%">
-							<tr>
-								<td>
-									<label>Closing Date:</label>
-									<p class="form-control-static">{{currentTermEndDate|date}}</p>
-								</td>
-								<td>
-									<label>Next Term Begins:</label>
-									<p class="form-control-static">{{nextTermStartDate|date}}</p>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<div id="motto" style="text-align:center;font: italic bold 15px/30px Georgia, serif;visibility: visible !important;">{{motto}}</div>
-				</script>
-
-				<script type="text/ng-template" id="Standard-v.2">
-					<div ng-show="savedReport" class="alert alert-warning">
-						You are viewing a previously saved report card. If this student's exam marks were updated, click 'Re-Create' to generate a new report card.
-						<button type="button" class="btn btn-sm btn-info" ng-click="recreateReport()">Re-Create</button>
-						<div ng-show="differences.length>0">
-							The following changes have been found:
-							<ul>
-								<li ng-repeat="diff in differences">
-									<strong>{{diff.subject_name}} {{diff.exam_type}} {{diff.change}}</strong>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div ng-show="recreated" class="alert alert-success">
-						Report card has been re-created.
-						<button type="button" class="btn btn-sm btn-info" ng-click="revertReport()">Revert</button>
-					</div>
-					<div class="progress-report-student">
-						<div class="receipt-header-letterhead row" ng-if="useLetterhead">
-							<img class="center col-sm-3" src="assets/schools/{{currentUser.settings['Letterhead']}}" />
-							<h2 class="receipt-title col-sm-6">Termly Assesment Report</h2>
-							<img class="col-sm-3" id="testdiv" src="assets/students/{{student.student_image}}" title="{{student.student_name}} Image" alt="{{student.student_name}} Image" style="float:right;max-width:150px;" />
-						</div>
-
-						<div class="row progress-report-header"  ng-if="!useLetterhead">
-							<div class="col-xs-2">
-								<img src="assets/schools/{{currentUser.settings.logo}}" title="{{currentUser.settings['School Name']}}" class="brand" />
-							</div>
-							<div class="col-xs-8">
-								<h1 class="school-name">{{currentUser.settings['School Name']}}</h1>
-								<div class="school-address">
-									<p>{{currentUser.settings['Address 1']}}, {{currentUser.settings['Address 2']}}</p>
-									<p>Contact: {{currentUser.settings['Phone Number 2']}}, {{currentUser.settings['Phone Number']}}</p>
-									<p>Email: {{currentUser.settings['Email Address']}}</p>
-								</div>
-								<h2 class="report-card-title">Termly Assesment Report</h2>
-							</div>
-						</div>
-						<!-- name and adm number -->
-						<div class="row">
-							<div class="col-xs-1 nopad-right">
-								<label class="">Name:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.student_name}}</p>
-							</div>
-							<div class="col-xs-1 nopad-right">
-								<label>Adm No:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.admission_number}}</p>
-							</div>
-						</div>
-						<!-- kcpe marks and school house -->
-						<div class="row">
-							<div class="col-xs-1 nopad-right">
-								<label class="">KCPE Marks:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.kcpe_marks}}</p>
-							</div>
-							<div class="col-xs-1 nopad-right">
-								<label>House:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.school_house}}</p>
 							</div>
 						</div>
 						<!-- class, term and year -->
@@ -615,29 +303,6 @@ function getChartPath()
 							</div>
 						</div>
 					</div>
-					<!-- stream position, out of, stream pos last term, out of -->
-					<div class="row">
-						<div class="col-xs-1 nopad-right">
-							<label>Stream Position:</label>
-						</div>
-						<div class="col-xs-3 lesspad">
-							<p class="form-control-static inline">{{streamRankPosition}}</p> / <p class="form-control-static inline">{{streamRankOutOf}}</p>
-						</div>
-
-						<div class="col-xs-2 nopad-right">
-							<label>Stream Pos Last Term:</label>
-						</div>
-						<div class="col-xs-2 lesspad">
-							<p class="form-control-static inline">{{overallLastTerm.rank||'-'}}</p>  / <p class="form-control-static inline">{{overallLastTerm.position_out_of||'--'}}</p>
-						</div>
-
-						<!-- <div class="col-xs-2 nopad-right">
-							<label></label>
-						</div>
-						<div class="col-xs-2 lesspad">
-							<p class="form-control-static inline"></p><p class="form-control-static inline"></p>
-						</div> -->
-					</div>
 
 					<table class="display dataTable" cellspacing="0" width="100%">
 						<thead>
@@ -669,7 +334,7 @@ function getChartPath()
 								<td class="center strong"><span ng-hide="item.parent_subject_name!==null">{{item.overall_grade}}</span></td>
 								<td class="double-border">
 									<span ng-show="isPrinting">{{item.remarks}}</span>
-									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" readonly style="background-color:#ffffff;" />
+									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" ng-change="updateReport()" />
 								</td>
 								<td>{{item.initials}}</td>
 							</tr>
@@ -687,7 +352,7 @@ function getChartPath()
 						</tfoot>
 					</table>
 
-					<img  class="col-sm-12"  style="width:440px;height:220px;" id="url"   src="{{chart_path}}"  />
+					<img  class="col-md-6"  style="width:450px;height:225px;" id="url"   src="{{chart_path}}"  />
 
 
 
@@ -726,18 +391,6 @@ function getChartPath()
 									<label>Sign:</label>
 								</td>
 							</tr>
-							<tr ng-show="isAdmin">
-								<td>
-									<label>Parent/Guardian Comments:</label>
-									<textarea ng-show="isPrinting" name="principle-comments" rows="2" class="form-control"></textarea>
-								</td>
-								<td>
-									<p class="form-control-static" ng-show="isPrinting">Parent/ Guardian Name <div>( ______________________ )</div></p>
-									<input ng-show="isPrinting" type="text" name="head_teacher_name" class="form-control" />
-
-									<label>Sign:</label>
-								</td>
-							</tr>
 						</table>
 						<table width="100%">
 							<tr>
@@ -752,10 +405,9 @@ function getChartPath()
 							</tr>
 						</table>
 					</div>
-					<div id="motto" style="text-align:center;font: italic bold 15px/30px Georgia, serif">{{motto}}</div>
 				</script>
 
-				<script type="text/ng-template" id="Standard-v.3">
+				<script type="text/ng-template" id="Standard-v.2">
 					<div ng-show="savedReport" class="alert alert-warning">
 						You are viewing a previously saved report card. If this student's exam marks were updated, click 'Re-Create' to generate a new report card.
 						<button type="button" class="btn btn-sm btn-info" ng-click="recreateReport()">Re-Create</button>
@@ -773,26 +425,6 @@ function getChartPath()
 						<button type="button" class="btn btn-sm btn-info" ng-click="revertReport()">Revert</button>
 					</div>
 					<div class="progress-report-student">
-						<div class="receipt-header-letterhead row" ng-if="useLetterhead">
-							<img class="center col-sm-3" src="assets/schools/{{currentUser.settings['Letterhead']}}" />
-							<h2 class="receipt-title col-sm-6">Termly Assesment Report</h2>
-							<!-- <img class="col-sm-3" id="testdiv" src="assets/students/{{student.student_image}}" title="{{student.student_name}} Image" alt="{{student.student_name}} Image" style="float:right;max-width:150px;" /> -->
-						</div>
-
-						<div class="row progress-report-header"  ng-if="!useLetterhead">
-							<div class="col-xs-2">
-								<img src="assets/schools/{{currentUser.settings.logo}}" title="{{currentUser.settings['School Name']}}" class="brand" />
-							</div>
-							<div class="col-xs-8">
-								<h1 class="school-name">{{currentUser.settings['School Name']}}</h1>
-								<div class="school-address">
-									<p>{{currentUser.settings['Address 1']}}, {{currentUser.settings['Address 2']}}</p>
-									<p>Contact: {{currentUser.settings['Phone Number 2']}}, {{currentUser.settings['Phone Number']}}</p>
-									<p>Email: {{currentUser.settings['Email Address']}}</p>
-								</div>
-								<h2 class="report-card-title">Termly Assesment Report</h2>
-							</div>
-						</div>
 						<!-- name and adm number -->
 						<div class="row">
 							<div class="col-xs-1 nopad-right">
@@ -806,21 +438,6 @@ function getChartPath()
 							</div>
 							<div class="col-xs-5 lesspad">
 								<p class="form-control-static">{{student.admission_number}}</p>
-							</div>
-						</div>
-						<!-- kcpe marks and school house -->
-						<div class="row">
-							<div class="col-xs-1 nopad-right">
-								<label class="">KCPE Marks:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.kcpe_marks}}</p>
-							</div>
-							<div class="col-xs-1 nopad-right">
-								<label>House:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.school_house}}</p>
 							</div>
 						</div>
 						<!-- class, term and year -->
@@ -868,28 +485,180 @@ function getChartPath()
 							</div>
 						</div>
 					</div>
-					<!-- stream position, out of, stream pos last term, out of -->
-					<div class="row">
-						<div class="col-xs-1 nopad-right">
-							<label>Stream Position:</label>
-						</div>
-						<div class="col-xs-3 lesspad">
-							<p class="form-control-static inline">{{streamRankPosition}}</p> / <p class="form-control-static inline">{{streamRankOutOf}}</p>
-						</div>
 
-						<div class="col-xs-2 nopad-right">
-							<label>Stream Pos Last Term:</label>
-						</div>
-						<div class="col-xs-2 lesspad">
-							<p class="form-control-static inline">{{overallLastTerm.rank||'-'}}</p>  / <p class="form-control-static inline">{{overallLastTerm.position_out_of||'--'}}</p>
-						</div>
+					<table class="display dataTable" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th rowspan="3" class="center">Subject</th>
+								<th class="center double-border" colspan="{{examTypes.length*3}}">Marks</th>
+								<th rowspan="2" colspan="2" class="center double-border">Overall</th>
+								<th class="center double-border" rowspan="3" width="300">Remarks</th>
+								<th class="center" rowspan="3">Teacher<br>Int.</th>
+							</tr>
+							<tr>
+								<th class="center double-border" colspan="3" ng-repeat="item in examTypes">{{item.exam_type}}</th>
+							</tr>
+							<tr>
+								<th class="center double-border" ng-repeat-start="item in examTypes">Mark</th>
+								<th class="center">Out Of</th>
+								<th class="center" ng-repeat-end="">Grade</th>
+								<th class="center double-border">Avg</th>
+								<th class="center">Grade</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in reportData.subjects track by $index">
+								<td ng-class="{'text-muted indent' : item.parent_subject_name!==null, 'strong': item.parent_subject_name===null}">{{item.subject_name}}</td>
+								<td class="center double-border" ng-class="{'strong': item.parent_subject_name===null}" ng-repeat-start="examType in examTypes">{{item.marks[examType.exam_type].mark}}</td>
+								<td class="center" ng-class="{'strong': item.parent_subject_name===null}">{{item.marks[examType.exam_type].grade_weight}}</td>
+								<td class="center" ng-class="{'text-muted' : item.parent_subject_name!==null, 'strong': item.parent_subject_name===null}" ng-repeat-end="">{{item.marks[examType.exam_type].grade}}</td>
+								<td class="center strong double-border"><span ng-hide="item.parent_subject_name!==null">{{item.overall_mark}}%</span></td>
+								<td class="center strong"><span ng-hide="item.parent_subject_name!==null">{{item.overall_grade}}</span></td>
+								<td class="double-border">
+									<span ng-show="isPrinting">{{item.remarks}}</span>
+									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" ng-change="updateReport()" />
+								</td>
+								<td>{{item.initials}}</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th class="center">Total</th>
+								<th class="center double-border" ng-repeat-start="examType in examTypes">{{totals[examType.exam_type].total_mark}}</th>
+								<th class="center">{{totals[examType.exam_type].total_grade_weight}}</th>
+								<th class="center" ng-repeat-end=""></th>
+								<th class="center double-border getpercentage">{{overall.percentage}}%</th>
+								<th class="center">{{overall.grade}}</th>
+								<th colspan="2" class="center double-border"></th>
+							</tr>
+						</tfoot>
+					</table>
 
-						<!-- <div class="col-xs-2 nopad-right">
-							<label></label>
+					<img  class="col-sm-12"  style="width:440px;height:220px;" id="url"   src="{{chart_path}}"  />
+
+
+
+					<div id="graphresult"></div>
+					<div class="progress-report-remarks">
+						<h3>Remarks</h3>
+						<table width="100%">
+							<tr ng-show="isAdmin || isClassTeacher">
+								<td width="75%">
+									<label>Class Teacher Comments:</label>
+									<textarea ng-show="!isPrinting" name="teacher-comments" rows="3" class="form-control" ng-model="comments.teacher_comments" ng-change="updateReport()"></textarea>
+									<p ng-show="isPrinting" class="form-control-static">{{comments.teacher_comments}}</p>
+								</td>
+								<td>
+									<p class="form-control-static">{{comments.teacher_name}}</p>
+									<label>Sign:</label>
+								</td>
+							</tr>
+							<tr ng-show="isAdmin">
+								<td>
+									<label>Head Teacher Comments:</label>
+									<textarea ng-show="!isPrinting" name="principle-comments" rows="3" class="form-control" ng-model="comments.principle_comments" ng-change="updateReport()"></textarea>
+									<p ng-show="isPrinting" class="form-control-static">{{comments.principle_comments}}</p>
+								</td>
+								<td>
+									<p class="form-control-static" ng-show="isPrinting">{{comments.head_teacher_name}}</p>
+									<input ng-show="!isPrinting" type="text" name="head_teacher_name" class="form-control" ng-model="comments.head_teacher_name" ng-change="updateReport()" />
+
+									<label>Sign:</label>
+								</td>
+							</tr>
+						</table>
+						<table width="100%">
+							<tr>
+								<td>
+									<label>Closing Date:</label>
+									<p class="form-control-static">{{currentTermEndDate|date}}</p>
+								</td>
+								<td>
+									<label>Next Term Begins:</label>
+									<p class="form-control-static">{{nextTermStartDate|date}}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</script>
+
+				<script type="text/ng-template" id="Standard-v.3">
+					<div ng-show="savedReport" class="alert alert-warning">
+						You are viewing a previously saved report card. If this student's exam marks were updated, click 'Re-Create' to generate a new report card.
+						<button type="button" class="btn btn-sm btn-info" ng-click="recreateReport()">Re-Create</button>
+						<div ng-show="differences.length>0">
+							The following changes have been found:
+							<ul>
+								<li ng-repeat="diff in differences">
+									<strong>{{diff.subject_name}} {{diff.exam_type}} {{diff.change}}</strong>
+								</li>
+							</ul>
 						</div>
-						<div class="col-xs-2 lesspad">
-							<p class="form-control-static inline"></p><p class="form-control-static inline"></p>
-						</div> -->
+					</div>
+					<div ng-show="recreated" class="alert alert-success">
+						Report card has been re-created.
+						<button type="button" class="btn btn-sm btn-info" ng-click="revertReport()">Revert</button>
+					</div>
+					<div class="progress-report-student">
+						<!-- name and adm number -->
+						<div class="row">
+							<div class="col-xs-1 nopad-right">
+								<label class="">Name:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.student_name}}</p>
+							</div>
+							<div class="col-xs-1 nopad-right">
+								<label>Adm No:</label>
+							</div>
+							<div class="col-xs-5 lesspad">
+								<p class="form-control-static">{{student.admission_number}}</p>
+							</div>
+						</div>
+						<!-- class, term and year -->
+						<div class="row">
+							<div class="col-xs-1 nopad-right">
+								<label>Class:</label>
+							</div>
+							<div class="col-xs-3 lesspad">
+								<p class="form-control-static">{{report.class_name}}</p>
+							</div>
+							<div class="col-xs-1 nopad-right">
+								<label>Term:</label>
+							</div>
+							<div class="col-xs-3 lesspad">
+								<p class="form-control-static">{{report.term}}</p>
+							</div>
+							<div class="col-xs-1 nopad-right">
+								<label>Year:</label>
+							</div>
+							<div class="col-xs-3 lesspad">
+								<p class="form-control-static">{{report.year}}</p>
+							</div>
+						</div>
+						<!-- position, out of, pos last term, out of -->
+						<div class="row">
+							<div class="col-xs-1 nopad-right">
+								<label>Position:</label>
+							</div>
+							<div class="col-xs-3 lesspad">
+								<p class="form-control-static inline">{{overall.rank}}</p> / <p class="form-control-static inline">{{overall.position_out_of}}</p>
+							</div>
+
+							<div class="col-xs-2 nopad-right">
+								<label>Pos Last Term:</label>
+							</div>
+							<div class="col-xs-2 lesspad">
+								<p class="form-control-static inline">{{overallLastTerm.rank||'-'}}</p>  / <p class="form-control-static inline">{{overallLastTerm.position_out_of||'--'}}</p>
+							</div>
+
+							<div class="col-xs-2 nopad-right">
+								<label>Last Term Marks:</label>
+							</div>
+							<div class="col-xs-2 lesspad">
+								<p class="form-control-static inline">{{overallLastTerm.total_mark||'-'}}</p> / <p class="form-control-static inline">{{overallLastTerm.total_grade_weight||'-'}}</p>
+							</div>
+						</div>
 					</div>
 
 					<table class="display dataTable" cellspacing="0" width="100%">
@@ -922,7 +691,7 @@ function getChartPath()
 								<td class="center strong"><span ng-hide="item.parent_subject_name!==null">{{item.overall_grade}}</span></td>
 								<td class="double-border">
 									<span ng-show="isPrinting">{{item.remarks}}</span>
-									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" readonly style="background-color:#ffffff;" />
+									<input ng-show="!isPrinting" type="text" name="remarks" class="form-control" ng-model="item.remarks" ng-change="updateReport()" />
 								</td>
 								<td>{{item.initials}}</td>
 							</tr>
@@ -979,18 +748,6 @@ function getChartPath()
 									<label>Sign:</label>
 								</td>
 							</tr>
-							<tr ng-show="isAdmin">
-								<td>
-									<label>Parent/Guardian Comments:</label>
-									<textarea ng-show="isPrinting" name="principle-comments" rows="2" class="form-control"></textarea>
-								</td>
-								<td>
-									<p class="form-control-static" ng-show="isPrinting">Parent/ Guardian Name <div>( ______________________ )</div></p>
-									<input ng-show="isPrinting" type="text" name="head_teacher_name" class="form-control" />
-
-									<label>Sign:</label>
-								</td>
-							</tr>
 						</table>
 						<table width="100%">
 							<tr>
@@ -1005,7 +762,6 @@ function getChartPath()
 							</tr>
 						</table>
 					</div>
-					<div id="motto" style="text-align:center;font: italic bold 15px/30px Georgia, serif">{{motto}}</div>
 				</script>
 
 				<script type="text/ng-template" id="Kindergarten">
@@ -1023,21 +779,6 @@ function getChartPath()
 							</div>
 							<div class="col-xs-5 lesspad">
 								<p class="form-control-static">{{report.class_name}}</p>
-							</div>
-						</div>
-						<!-- kcpe marks and school house -->
-						<div class="row">
-							<div class="col-xs-1 nopad-right">
-								<label class="">KCPE Marks:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.kcpe_marks}}</p>
-							</div>
-							<div class="col-xs-1 nopad-right">
-								<label>House:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.school_house}}</p>
 							</div>
 						</div>
 						<!-- class, term and year -->
@@ -1076,7 +817,7 @@ function getChartPath()
 								<td style="vertical-align:top" ng-class="{'strong uppercase': item.parent_subject_name===null, 'indent' : item.parent_subject_name!==null}">{{item.subject_name}}</td>
 								<td>
 									<span ng-show="isPrinting">{{item.remarks}}</span>
-									<textarea ng-show="!isPrinting && !item.has_children" rows="2" name="remarks" class="form-control" ng-model="item.remarks" readonly style="background-color:#ffffff;"></textarea>
+									<textarea ng-show="!isPrinting && !item.has_children" rows="2" name="remarks" class="form-control" ng-model="item.remarks" ng-change="updateReport()"></textarea>
 								</td>
 							</tr>
 						</tbody>
@@ -1116,7 +857,7 @@ function getChartPath()
 							</tr>
 						</table>
 					</div>
-					<div id="motto" style="text-align:center;font: italic bold 15px/30px Georgia, serif">{{motto}}</div>
+
 
 				</script>
 
@@ -1135,21 +876,6 @@ function getChartPath()
 							</div>
 							<div class="col-xs-5 lesspad">
 								<p class="form-control-static">{{report.class_name}}</p>
-							</div>
-						</div>
-						<!-- kcpe marks and school house -->
-						<div class="row">
-							<div class="col-xs-1 nopad-right">
-								<label class="">KCPE Marks:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.kcpe_marks}}</p>
-							</div>
-							<div class="col-xs-1 nopad-right">
-								<label>House:</label>
-							</div>
-							<div class="col-xs-5 lesspad">
-								<p class="form-control-static">{{student.school_house}}</p>
 							</div>
 						</div>
 						<!-- class, term and year -->
@@ -1265,12 +991,11 @@ function getChartPath()
 							</tr>
 						</table>
 					</div>
-					<div id="motto" style="text-align:center;font: italic bold 15px/30px Georgia, serif">{{motto}}</div>
+
 
 
 
 				</script>
-
 
 
         <div class="main-chart-container" id="line1Chart" ng-model="graphPoints" name="graphPoints" ng-class="{'chartLoading': efficiencyLoading}">

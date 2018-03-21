@@ -1,18 +1,14 @@
 angular.module('eduwebApp').service('apiService', [ '$rootScope', 'ajaxService', function($rootScope, ajaxService) {
 
 	var domain = window.location.host;
-	var path = ( domain.indexOf('dev.eduweb.co.ke') > -1 ? 'http://devapi.eduweb.co.ke' : (domain.indexOf('eduweb.co.ke') > -1	? 'http://api.eduweb.co.ke': 'http://api.eduweb.localhost'));
-	path = 'http://localhost/api_eduweb';
+	// var path = ( domain.indexOf('dev.eduweb.co.ke') > -1 ? 'http://devapi.eduweb.co.ke' : (domain.indexOf('eduweb.co.ke') > -1	? 'http://api.eduweb.co.ke': 'http://api.eduweb.localhost'));
+	var path = 'http://localhost:8010/api_primary';
+	console.log(path);
 
 	/*********** class categories ***********/
 	this.getClassCats = function (param, successFunction, errorFunction, params) {
 		if( param === undefined ) ajaxService.AjaxGet(path + "/getClassCats", successFunction, errorFunction, params);
 		else ajaxService.AjaxGet(path + "/getClassCats/" + param, successFunction, errorFunction, params);
-	};
-
-	this.getStreamPosition = function (param, successFunction, errorFunction, params) {
-		if( param === undefined ) ajaxService.AjaxGet(path + "/getStreamPosition", successFunction, errorFunction, params);
-		else ajaxService.AjaxGet(path + "/getStreamPosition/" + param, successFunction, errorFunction, params);
 	};
 
 	this.getClassCatsSummary = function (request, successFunction, errorFunction, params) {
@@ -441,10 +437,6 @@ angular.module('eduwebApp').service('apiService', [ '$rootScope', 'ajaxService',
 		ajaxService.AjaxGet(path + "/getAllStudentExamMarks/" + param, successFunction, errorFunction, params);
 	};
 
-	this.getStreamExamMarks = function (param, successFunction, errorFunction, params) {
-		ajaxService.AjaxGet(path + "/getStreamExamMarks/" + param, successFunction, errorFunction, params);
-	};
-
 	this.postStudent = function (request, successFunction, errorFunction, params) {
 		ajaxService.AjaxPost2(request, path + "/addStudent", successFunction, errorFunction, params);
 	};
@@ -462,6 +454,7 @@ angular.module('eduwebApp').service('apiService', [ '$rootScope', 'ajaxService',
 	};
 
 	this.getMISLogin = function (param, successFunction, errorFunction, params) {
+		console.log(path);
 		ajaxService.AjaxGet(path + "/getMISLogin/" + param, successFunction, errorFunction, params);
 	};
 
