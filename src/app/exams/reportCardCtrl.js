@@ -4,7 +4,7 @@ angular.module('eduwebApp').
 controller('reportCardCtrl', ['$scope', '$rootScope', '$uibModalInstance', 'apiService', 'dialogs', 'data','$timeout','$window','$parse',
 function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $timeout, $window, $parse){
 	// console.log(data);
-	console.log($scope);
+	console.log("School = " + window.location.host.split('.')[0]);
 	$rootScope.isPrinting = false;
 	$scope.student = data.student || undefined;
 	$scope.reportCardType = ($scope.student !== undefined ? $scope.student.report_card_type : undefined);
@@ -31,6 +31,7 @@ $scope.entity_id = data.entity_id;
 	$scope.isAdmin = ( $rootScope.currentUser.user_type == 'SYS_ADMIN' ? true : false );
 
 	$scope.chart_path = "";
+	$scope.motto = "";
 
 	var initializeController = function()
 	{
@@ -302,7 +303,7 @@ $scope.entity_id = data.entity_id;
 		{
 			getExamMarksforReportCard();
 			getStudentReportCard();
-			//var params = $scope.student.student_id + '/' + $scope.report.class_id + '/' + $scope.report.term_id
+			//var params = $scope.student.student_id + '/' + $scope.report.class_id + '/' + $scope.report.term_id;
 			//apiService.getStudentReportCard(params,loadReportCard, apiError);
 		}
 
@@ -310,6 +311,7 @@ $scope.entity_id = data.entity_id;
 
 	var getStudentReportCard = function()
 	{
+		var params = $scope.student.student_id + '/' + $scope.report.class_id + '/' + $scope.report.term_id;
 		apiService.getStudentReportCard(params, loadExamMarks, apiError);
 	}
 
@@ -373,7 +375,7 @@ $scope.entity_id = data.entity_id;
 				/* look for saved report card data, if it was not passed in  */
 				if( $scope.savedReportData === undefined )
 				{
-					var params = $scope.student.student_id + '/' + $scope.report.class_id + '/' + $scope.report.term_id
+					var params = $scope.student.student_id + '/' + $scope.report.class_id + '/' + $scope.report.term_id;
 					apiService.getStudentReportCard(params,loadReportCard, apiError);
 				}
 				else
@@ -451,7 +453,7 @@ $scope.entity_id = data.entity_id;
 				/* look for saved report card data, if it was not passed in  */
 				if( $scope.savedReportData === undefined )
 				{
-					var params = $scope.student.student_id + '/' + $scope.report.class_id + '/' + $scope.report.term_id
+					var params = $scope.student.student_id + '/' + $scope.report.class_id + '/' + $scope.report.term_id;
 					apiService.getStudentReportCard(params,loadReportCard, apiError);
 				}
 				else
@@ -475,9 +477,25 @@ $scope.entity_id = data.entity_id;
 		$scope.graphPoints = data.graphPoints;
 		$scope.currentClassPosition = data.currentClassPosition[0];
 
-		console.log("Subject Overall -> ");
-		console.log($scope.overallSubjectMarks);
+		// console.log("This percentage is overall for all exams -> ");
+		// console.log($scope.overall.percentage);
 
+
+			var school = window.location.host.split('.')[0];
+			if (school == "karemeno" && $scope.motto == ""){
+
+					var motto = "LIVE JESUS IN OUR HEARTS.......... FOREVER";
+					var h4Element = document.createElement('h4');
+					document.getElementById('motto').appendChild(h4Element);
+					$scope.motto = "LIVE JESUS IN OUR HEARTS.......... FOREVER";
+
+
+			}else{
+				var motto = "";
+				var h4Element = document.createElement('h4');
+				document.getElementById('motto').appendChild(h4Element);
+				$scope.motto = "";
+			}
 
 
 
@@ -570,8 +588,8 @@ $scope.entity_id = data.entity_id;
 					item.overall_grade = overall.grade;
 					item.position = overall.rank;
 					item.comment = overall.comment;
-					console.log("Comments ::>");
-					console.log(item.comment);
+					console.log("Endterm percentage :: >>");
+					console.log(overall.percentage);
 
 					total_marks += parseInt(overall.total_mark);
 					total_grade_weight += parseInt(overall.total_grade_weight);
@@ -910,7 +928,8 @@ $scope.entity_id = data.entity_id;
 			nextTermStartDate: $scope.nextTermStartDate,
 			currentTermEndDate: $scope.currentTermEndDate,
 			report_card_type: $scope.reportCardType,
-			chart_path: $scope.chart_path
+			chart_path: $scope.chart_path,
+			motto: $scope.motto
 		}
 
 		var domain = window.location.host;
