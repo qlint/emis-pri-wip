@@ -285,7 +285,8 @@ FROM(
 		$subjectOverall = $sth2->fetchAll(PDO::FETCH_OBJ);
 
 		// get overall position
-		$sth3 = $db->prepare("SELECT total_mark, total_grade_weight, (SELECT position
+		$sth3 = $db->prepare("SELECT total_mark, total_grade_weight, rank, percentage, (SELECT grade FROM app.grading WHERE percentage between min_mark and max_mark) AS grade, position_out_of FROM (
+														SELECT total_mark, total_grade_weight, (SELECT position
 																FROM (
 																	SELECT avg, student_id, rank() over(order by avg desc)  as position
 																	FROM (
@@ -465,7 +466,8 @@ FROM(
 																			) GROUP BY exam_marks.student_id
 														) a WINDOW w AS (ORDER BY coalesce(total_mark,0) desc)
 													) q WHERE student_id = :studentId
-											)v"
+											)v
+										)outermost"
 				/*"SELECT total_mark/num_exam_types as total_mark, total_grade_weight/num_exam_types as total_grade_weight, rank, percentage,
 									(select grade from app.grading where percentage >= min_mark and  percentage <= max_mark) as grade,
 									position_out_of
