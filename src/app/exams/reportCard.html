@@ -225,6 +225,7 @@ function getChartPath()
 
 				<div ng-include="reportCardType"></div>
 
+				<style type="text/css"> @import url("components/css/customSettingReportCard.css"); </style>
 				<script type="text/ng-template" id="Standard">
 					<div ng-show="savedReport" class="alert alert-warning">
 						You are viewing a previously saved report card. If this student's exam marks were updated, click 'Re-Create' to generate a new report card.
@@ -416,7 +417,7 @@ function getChartPath()
 							<img  class="col-md-6"  style="width:450px;height:225px;" id="url"   src="{{chart_path}}"  />
 						</div>
 						<div class="col-md-6">
-							<table class="display dataTable" cellspacing="0" width="100%">
+							<table id="avaragesTable" class="display dataTable" cellspacing="0" width="100%">
 							  <tr>
 							    <th colspan="4" style="text-align:center;">FORM {{report.class_name}}</th>
 							  </tr>
@@ -498,6 +499,7 @@ function getChartPath()
 							</tr>
 						</table>
 					</div>
+					<div id="motto" style="text-align:center;font: italic bold 15px/30px Georgia, serif;visibility: visible !important;">{{motto}}</div>
 				</script>
 
 				<script type="text/ng-template" id="Standard-v.2">
@@ -750,6 +752,7 @@ function getChartPath()
 							</tr>
 						</table>
 					</div>
+					<div id="motto" style="text-align:center;font: italic bold 15px/30px Georgia, serif">{{motto}}</div>
 				</script>
 
 				<script type="text/ng-template" id="Standard-v.3">
@@ -1002,6 +1005,7 @@ function getChartPath()
 							</tr>
 						</table>
 					</div>
+					<div id="motto" style="text-align:center;font: italic bold 15px/30px Georgia, serif">{{motto}}</div>
 				</script>
 
 				<script type="text/ng-template" id="Kindergarten">
@@ -1112,7 +1116,7 @@ function getChartPath()
 							</tr>
 						</table>
 					</div>
-
+					<div id="motto" style="text-align:center;font: italic bold 15px/30px Georgia, serif">{{motto}}</div>
 
 				</script>
 
@@ -1261,11 +1265,12 @@ function getChartPath()
 							</tr>
 						</table>
 					</div>
-
+					<div id="motto" style="text-align:center;font: italic bold 15px/30px Georgia, serif">{{motto}}</div>
 
 
 
 				</script>
+
 
 
         <div class="main-chart-container" id="line1Chart" ng-model="graphPoints" name="graphPoints" ng-class="{'chartLoading': efficiencyLoading}">
