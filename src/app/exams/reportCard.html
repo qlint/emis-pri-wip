@@ -1,3 +1,4 @@
+
 <script type="text/javascript">
 
 var chartPath = "";
@@ -202,7 +203,7 @@ function getChartPath()
 
 			<div ng-show="showReportCard">
 
-				<div class="receipt-header-letterhead row" ng-if="useLetterhead">
+				<!-- <div class="receipt-header-letterhead row" ng-if="useLetterhead">
 					<img class="center col-sm-3" src="assets/schools/{{currentUser.settings['Letterhead']}}" />
 					<h2 class="receipt-title col-sm-6">Progress Report</h2>
 					<img class="col-sm-3" id="testdiv" src="assets/students/{{student.student_image}}" title="{{student.student_name}} Image" alt="{{student.student_name}} Image" style="float:right;max-width:150px;" />
@@ -221,7 +222,7 @@ function getChartPath()
 						</div>
 						<h2 class="report-card-title">Progress Report</h2>
 					</div>
-				</div>
+				</div> -->
 
 				<div ng-include="reportCardType"></div>
 
@@ -241,6 +242,26 @@ function getChartPath()
 					<div ng-show="recreated" class="alert alert-success">
 						Report card has been re-created.
 						<button type="button" class="btn btn-sm btn-info" ng-click="revertReport()">Revert</button>
+					</div>
+					<div class="receipt-header-letterhead row" ng-if="useLetterhead">
+						<img class="center col-sm-3" src="assets/schools/{{currentUser.settings['Letterhead']}}" />
+						<h2 class="receipt-title col-sm-6">Progress Report</h2>
+						<img class="col-sm-3" id="testdiv" src="assets/students/{{student.student_image}}" title="{{student.student_name}} Image" alt="{{student.student_name}} Image" style="float:right;max-width:150px;" />
+					</div>
+
+					<div class="row progress-report-header"  ng-if="!useLetterhead">
+						<div class="col-xs-2">
+							<img src="assets/schools/{{currentUser.settings.logo}}" title="{{currentUser.settings['School Name']}}" class="brand" />
+						</div>
+						<div class="col-xs-8">
+							<h1 class="school-name">{{currentUser.settings['School Name']}}</h1>
+							<div class="school-address">
+								<p>{{currentUser.settings['Address 1']}}, {{currentUser.settings['Address 2']}}</p>
+								<p>Contact: {{currentUser.settings['Phone Number 2']}}, {{currentUser.settings['Phone Number']}}</p>
+								<p>Email: {{currentUser.settings['Email Address']}}</p>
+							</div>
+							<h2 class="report-card-title">Progress Report</h2>
+						</div>
 					</div>
 					<div class="progress-report-student">
 						<!-- name and adm number -->
@@ -425,6 +446,26 @@ function getChartPath()
 						<button type="button" class="btn btn-sm btn-info" ng-click="revertReport()">Revert</button>
 					</div>
 					<div class="progress-report-student">
+						<div class="receipt-header-letterhead row" ng-if="useLetterhead">
+							<img class="center col-sm-3" src="assets/schools/{{currentUser.settings['Letterhead']}}" />
+							<h2 class="receipt-title col-sm-6">Progress Report</h2>
+							<img class="col-sm-3" id="testdiv" src="assets/students/{{student.student_image}}" title="{{student.student_name}} Image" alt="{{student.student_name}} Image" style="float:right;max-width:150px;" />
+						</div>
+
+						<div class="row progress-report-header"  ng-if="!useLetterhead">
+							<div class="col-xs-2">
+								<img src="assets/schools/{{currentUser.settings.logo}}" title="{{currentUser.settings['School Name']}}" class="brand" />
+							</div>
+							<div class="col-xs-8">
+								<h1 class="school-name">{{currentUser.settings['School Name']}}</h1>
+								<div class="school-address">
+									<p>{{currentUser.settings['Address 1']}}, {{currentUser.settings['Address 2']}}</p>
+									<p>Contact: {{currentUser.settings['Phone Number 2']}}, {{currentUser.settings['Phone Number']}}</p>
+									<p>Email: {{currentUser.settings['Email Address']}}</p>
+								</div>
+								<h2 class="report-card-title">Progress Report</h2>
+							</div>
+						</div>
 						<!-- name and adm number -->
 						<div class="row">
 							<div class="col-xs-1 nopad-right">
@@ -600,6 +641,26 @@ function getChartPath()
 						<button type="button" class="btn btn-sm btn-info" ng-click="revertReport()">Revert</button>
 					</div>
 					<div class="progress-report-student">
+						<div class="receipt-header-letterhead row" ng-if="useLetterhead">
+							<img class="center col-sm-3" src="assets/schools/{{currentUser.settings['Letterhead']}}" />
+							<h2 class="receipt-title col-sm-6">Progress Report</h2>
+							<!-- <img class="col-sm-3" id="testdiv" src="assets/students/{{student.student_image}}" title="{{student.student_name}} Image" alt="{{student.student_name}} Image" style="float:right;max-width:150px;" /> -->
+						</div>
+
+						<div class="row progress-report-header"  ng-if="!useLetterhead">
+							<div class="col-xs-2">
+								<img src="assets/schools/{{currentUser.settings.logo}}" title="{{currentUser.settings['School Name']}}" class="brand" />
+							</div>
+							<div class="col-xs-8">
+								<h1 class="school-name">{{currentUser.settings['School Name']}}</h1>
+								<div class="school-address">
+									<p>{{currentUser.settings['Address 1']}}, {{currentUser.settings['Address 2']}}</p>
+									<p>Contact: {{currentUser.settings['Phone Number 2']}}, {{currentUser.settings['Phone Number']}}</p>
+									<p>Email: {{currentUser.settings['Email Address']}}</p>
+								</div>
+								<h2 class="report-card-title">Progress Report</h2>
+							</div>
+						</div>
 						<!-- name and adm number -->
 						<div class="row">
 							<div class="col-xs-1 nopad-right">
@@ -765,6 +826,26 @@ function getChartPath()
 				</script>
 
 				<script type="text/ng-template" id="Kindergarten">
+					<div class="receipt-header-letterhead row" ng-if="useLetterhead">
+						<img class="center col-sm-3" src="assets/schools/{{currentUser.settings['Letterhead']}}" />
+						<h2 class="receipt-title col-sm-6">Progress Report</h2>
+						<img class="col-sm-3" id="testdiv" src="assets/students/{{student.student_image}}" title="{{student.student_name}} Image" alt="{{student.student_name}} Image" style="float:right;max-width:150px;" />
+					</div>
+
+					<div class="row progress-report-header"  ng-if="!useLetterhead">
+						<div class="col-xs-2">
+							<img src="assets/schools/{{currentUser.settings.logo}}" title="{{currentUser.settings['School Name']}}" class="brand" />
+						</div>
+						<div class="col-xs-8">
+							<h1 class="school-name">{{currentUser.settings['School Name']}}</h1>
+							<div class="school-address">
+								<p>{{currentUser.settings['Address 1']}}, {{currentUser.settings['Address 2']}}</p>
+								<p>Contact: {{currentUser.settings['Phone Number 2']}}, {{currentUser.settings['Phone Number']}}</p>
+								<p>Email: {{currentUser.settings['Email Address']}}</p>
+							</div>
+							<h2 class="report-card-title">Progress Report</h2>
+						</div>
+					</div>
 					<div class="progress-report-student">
 						<!-- name and adm number -->
 						<div class="row">
@@ -862,6 +943,26 @@ function getChartPath()
 				</script>
 
 				<script type="text/ng-template" id="Playgroup">
+					<div class="receipt-header-letterhead row" ng-if="useLetterhead">
+						<img class="center col-sm-3" src="assets/schools/{{currentUser.settings['Letterhead']}}" />
+						<h2 class="receipt-title col-sm-6">Progress Report</h2>
+						<img class="col-sm-3" id="testdiv" src="assets/students/{{student.student_image}}" title="{{student.student_name}} Image" alt="{{student.student_name}} Image" style="float:right;max-width:150px;" />
+					</div>
+
+					<div class="row progress-report-header"  ng-if="!useLetterhead">
+						<div class="col-xs-2">
+							<img src="assets/schools/{{currentUser.settings.logo}}" title="{{currentUser.settings['School Name']}}" class="brand" />
+						</div>
+						<div class="col-xs-8">
+							<h1 class="school-name">{{currentUser.settings['School Name']}}</h1>
+							<div class="school-address">
+								<p>{{currentUser.settings['Address 1']}}, {{currentUser.settings['Address 2']}}</p>
+								<p>Contact: {{currentUser.settings['Phone Number 2']}}, {{currentUser.settings['Phone Number']}}</p>
+								<p>Email: {{currentUser.settings['Email Address']}}</p>
+							</div>
+							<h2 class="report-card-title">Progress Report</h2>
+						</div>
+					</div>
 					<div class="progress-report-student">
 						<!-- name and adm number -->
 						<div class="row">
