@@ -434,7 +434,7 @@ $app->get('/getExamMarksforReportCard/:student_id/:class/:term(/:teacherId)', fu
 																LEFT JOIN app.class_subjects cs USING (class_subject_id)
 																LEFT JOIN app.subjects s USING(subject_id)
 																WHERE em.student_id= :studentId
-																AND em.term_id = (SELECT term_id FROM app.terms t WHERE now() >= t.start_date AND t.end_date > now())
+																AND em.term_id = (SELECT term_id FROM app.terms t WHERE CURRENT_DATE >= t.start_date AND t.end_date >= CURRENT_DATE)
 																GROUP BY exam_type,et.sort_order
 																ORDER BY et.sort_order ASC
 															) foo LIMIT 4");
