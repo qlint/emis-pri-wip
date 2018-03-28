@@ -26,7 +26,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 
 	$scope.isTeacher = ( $rootScope.currentUser.user_type == 'TEACHER' ? true : false );
 	$scope.isAdmin = ( $rootScope.currentUser.user_type == 'SYS_ADMIN' ? true : false );
-	
+
 	$scope.chart_path = "";
 
 	var initializeController = function()
@@ -340,13 +340,19 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 
 	var buildReportBody = function(data)
 	{
+		var school = window.location.host.split('.')[0];
+		console.log("School = " + school);
 
 		$scope.examMarks = data.details;
-		$scope.overallSubjectMarks = data.subjectOverall;
+		// $scope.overallSubjectMarks = data.subjectOverall;
 		$scope.overall = data.overall;
 		$scope.overallLastTerm = data.overallLastTerm;
 		$scope.graphPoints = data.graphPoints;
-
+		if (school == "lasalle"){
+			$scope.overallSubjectMarks = data.subjectOverallByLastExam;
+		}else{
+			$scope.overallSubjectMarks = data.subjectOverall;
+		}
 
 
 		var performanceLabels = [];
@@ -374,13 +380,13 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 		    }]
 		};
 
-		
+
 
 		if($scope.chart_path == "")
 		{
 			if ($scope.zoomed) $scope.ctx = document.getElementById("zoomedLine1").getContext("2d");
 			else $scope.ctx = document.getElementById("line1").getContext("2d");
-			
+
 			initChart1($scope.ctx, lineChartData);
 			$timeout(callAtTimeout, 2000);
 			$scope.efficiencyLoading = false;
@@ -488,11 +494,11 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 		}
 
 	}
-	
+
 	function callAtTimeout() {
-	
+
 	$scope.chart_path = getChartPath();
-	
+
 }
 
 	var groupExamMarks = function(data)
@@ -760,7 +766,7 @@ function($scope, $rootScope, $uibModalInstance, apiService, $dialogs, data, $tim
 		var newWindowRef = window.open('http://' + domain + '/#/exams/report_card/print');
 		newWindowRef.printCriteria = criteria;
 	}
-	
+
 
 	$scope.deleteReportCard = function()
 	{
