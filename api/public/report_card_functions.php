@@ -171,7 +171,7 @@ $app->get('/getExamMarksforReportCard/:student_id/:class/:term(/:teacherId)', fu
 						ON exam_marks.class_sub_exam_id = class_subject_exams.class_sub_exam_id
 						WHERE class_subjects.class_id = :classId
 						AND term_id = :termId
-						AND student_id = :studentId 
+						AND student_id = :studentId
 						AND mark IS NOT NULL
 						";
 		if( $teacherId !== null )
@@ -225,6 +225,29 @@ $app->get('/getExamMarksforReportCard/:student_id/:class/:term(/:teacherId)', fu
 							 ORDER BY sort_order  ");
 		$sth2->execute(  array(':studentId' => $studentId, ':classId' => $classId, ':termId' => $termId) );
 		$subjectOverall = $sth2->fetchAll(PDO::FETCH_OBJ);
+
+		// get overall marks per subjects by the last exam type done by the student, only use parent subjects
+		$sth2ByLastExam = $db->prepare("SELECT  subject_name, total_mark, total_grade_weight, round(total_mark::float/total_grade_weight::float*100) as percentage,
+																			(select grade from app.grading where (total_mark::float/total_grade_weight::float)*100 between min_mark and max_mark) as grade, sort_order
+																		FROM (
+																			SELECT class_id,class_subjects.subject_id,subject_name,exam_marks.student_id,
+																				coalesce(sum(case when subjects.parent_subject_id is null then mark end),0) as total_mark,
+																				coalesce(sum(case when subjects.parent_subject_id is null then grade_weight end),0) as total_grade_weight,subjects.sort_order
+																			FROM app.exam_marks
+																			INNER JOIN app.class_subject_exams
+																			INNER JOIN app.exam_types ON class_subject_exams.exam_type_id = exam_types.exam_type_id
+																			INNER JOIN app.class_subjects
+																			INNER JOIN app.subjects ON class_subjects.subject_id = subjects.subject_id AND subjects.active is true
+																						ON class_subject_exams.class_subject_id = class_subjects.class_subject_id AND class_subjects.active is true
+																						ON exam_marks.class_sub_exam_id = class_subject_exams.class_sub_exam_id
+																			WHERE class_subjects.class_id = :classId
+																			AND term_id = :termId AND subjects.parent_subject_id is null AND subjects.use_for_grading is true AND student_id = :studentId AND mark IS NOT NULL
+																			AND exam_types.exam_type_id=(select distinct exam_type_id from app.class_subject_exams cse inner join app.exam_marks em on cse.class_sub_exam_id=em.class_sub_exam_id where em.student_id=:studentId order by exam_type_id DESC LIMIT 1)
+																			GROUP BY class_subjects.class_id, subjects.subject_name, exam_marks.student_id, class_subjects.subject_id, subjects.sort_order, use_for_grading
+																		) q
+																		ORDER BY sort_order");
+		$sth2ByLastExam->execute(  array(':studentId' => $studentId, ':classId' => $classId, ':termId' => $termId) );
+		$subjectOverallByLastExam = $sth2ByLastExam->fetchAll(PDO::FETCH_OBJ);
 
 		// get overall position
 		$sth3 = $db->prepare("SELECT total_mark/num_exam_types as total_mark, total_grade_weight/num_exam_types as total_grade_weight, rank, percentage,
@@ -310,7 +333,7 @@ $app->get('/getExamMarksforReportCard/:student_id/:class/:term(/:teacherId)', fu
 										AND mark IS NOT NULL
 
 
-										GROUP BY class_subject_exams.exam_type_id )  as inner_foo   order by exam_type_id desc LIMIT 1) 
+										GROUP BY class_subject_exams.exam_type_id )  as inner_foo   order by exam_type_id desc LIMIT 1)
 
 										GROUP BY exam_marks.student_id
 									) a
@@ -421,6 +444,7 @@ $app->get('/getExamMarksforReportCard/:student_id/:class/:term(/:teacherId)', fu
 		$results =  new stdClass();
 		$results->details = $details;
 		$results->subjectOverall = $subjectOverall;
+		$results->subjectOverallByLastExam = $subjectOverallByLastExam;
 		$results->overall = $overall;
 		$results->overallLastTerm = $overallLastTerm;
 		$results->graphPoints = $graphPoints;
